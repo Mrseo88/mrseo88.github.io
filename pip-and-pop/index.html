@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pip & Pop — Two lights, one finger</title>
+<meta name="description" content="Pip & Pop: a one-finger endless arcade game. Hold to open, release to close. Guide two lights through an endless rush.">
+<meta property="og:title" content="Pip & Pop">
+<meta property="og:description" content="Two lights, one finger. Hold to open, release to close.">
+<meta property="og:image" content="https://mrseo88.github.io/pip-and-pop/img/og.jpg">
+<meta name="theme-color" content="#fff6ea">
+<link rel="icon" href="img/icon.png">
+<style>
+  @font-face { font-family: "Fredoka"; font-style: normal; font-weight: 300 700; font-display: swap; src: url(../fonts/fredoka-latin.woff2) format("woff2"); }
+  :root {
+    --bg0: #fff6ea; --bg1: #ffe0d2; --text: #2d2350; --dim: #6b6385;
+    --orange: #ff6b3d; --orange2: #ff9a3d; --rim: #b8401c;
+    --pink: #ff7eb6; --mint: #46d9a8; --violet: #a68cff; --sky: #52c2ff; --lime: #b4e65a; --yellow: #ffd23f;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body {
+    margin: 0; color: var(--text); background: var(--bg0);
+    background-image: radial-gradient(1200px 700px at 80% -10%, var(--bg1), transparent 70%),
+                      radial-gradient(900px 600px at -10% 60%, #ffeadf, transparent 70%);
+    background-attachment: fixed;
+    font: 400 17px/1.6 "Fredoka", ui-rounded, system-ui, sans-serif;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 24px; }
+  a { color: inherit; }
+
+  header.top { display: flex; align-items: center; padding-block: 20px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; text-decoration: none; font-size: 18px; }
+  .brand img { width: 38px; height: 38px; border-radius: 10px; box-shadow: 0 4px 12px rgba(184,64,28,.18); }
+
+  .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: center; padding-block: 32px 64px; }
+  h1 {
+    font-size: clamp(64px, 12vw, 120px); line-height: .9; margin: 0 0 20px; font-weight: 700;
+    background: linear-gradient(180deg, var(--orange2), var(--orange) 70%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 6px 14px rgba(255,107,61,.25));
+  }
+  .rule { width: 200px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, var(--orange), transparent); margin: 0 0 20px; }
+  .tag { font-size: clamp(22px, 3vw, 30px); font-weight: 600; margin: 0 0 4px; }
+  .sub { color: var(--dim); font-size: 19px; margin: 0 0 32px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 999px;
+    background: var(--text); color: #fff; text-decoration: none; font-weight: 600;
+    box-shadow: 0 8px 20px rgba(45,35,80,.25); transition: transform .15s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn svg { width: 22px; height: 22px; flex: none; }
+  .soon { font-size: 15px; color: var(--dim); background: rgba(255,255,255,.55); padding: 10px 18px; border-radius: 999px; }
+
+  .toy {
+    position: relative; width: 100%; max-width: 380px; aspect-ratio: 1; justify-self: center;
+    background: linear-gradient(180deg, #fff9f2, #ffe6da); border-radius: 64px;
+    box-shadow: 0 30px 60px rgba(184,64,28,.16), inset 0 0 0 1px rgba(255,255,255,.7);
+    overflow: hidden;
+  }
+  .toy canvas { width: 100%; height: 100%; display: block; cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
+  .hint { text-align: center; color: var(--dim); font-size: 14px; margin: 12px 0 0; }
+
+  section { padding-block: 48px; }
+  h2 { font-size: clamp(30px, 4.4vw, 42px); margin: 0 0 24px; line-height: 1.1; font-weight: 700; }
+  h2 em { font-style: normal; color: var(--orange); }
+
+  .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card { background: rgba(255,255,255,.7); border-radius: 28px; padding: 24px; box-shadow: 0 12px 30px rgba(184,64,28,.08); }
+  .card .dot { width: 48px; height: 48px; border-radius: 16px; display: grid; place-items: center; font-weight: 700; font-size: 22px; color: #fff; }
+  .card h3 { margin: 14px 0 4px; font-size: 21px; font-weight: 600; }
+  .card p { margin: 0; color: var(--dim); font-size: 16px; }
+
+  .shots-scroll { overflow-x: auto; padding: 8px 4px 20px; scroll-snap-type: x mandatory; }
+  .shots { display: grid; grid-template-columns: repeat(4, minmax(170px, 1fr)); gap: 20px; }
+  .shots img {
+    width: 100%; height: auto; aspect-ratio: 1080 / 1920; border-radius: 26px; display: block; scroll-snap-align: start;
+    box-shadow: 0 16px 34px rgba(184,64,28,.16); background: var(--bg1);
+  }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .pills li { padding: 10px 18px; border-radius: 999px; font-weight: 500; background: rgba(255,255,255,.7); display: flex; align-items: center; gap: 10px; }
+  .pills i { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+
+  footer { margin-top: 32px; padding-block: 24px 40px; border-top: 1px solid rgba(45,35,80,.12); font-size: 15px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--dim); }
+  footer a { color: var(--text); }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; padding-top: 8px; gap: 24px; }
+    .toy-box { order: -1; }
+    .toy { max-width: 280px; border-radius: 48px; }
+    .how { grid-template-columns: 1fr; }
+    .shots { grid-template-columns: repeat(4, 62%); }
+  }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../"><img src="img/icon.png" alt="">Pip &amp; Pop</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1>pip &amp; pop</h1>
+        <div class="rule"></div>
+        <p class="tag">Two lights, one finger.</p>
+        <p class="sub">Hold to open, release to close.</p>
+        <div class="cta">
+          <a class="btn" href="https://play.google.com/store/apps/details?id=com.pipandpop.game" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 2.6c-.3.3-.5.8-.5 1.4v16c0 .6.2 1.1.5 1.4l9.2-9.4L4 2.6Zm10.6 10.8 2.6 2.6-11 6.3 8.4-8.9Zm4-4.2 2.7 1.5c.9.5.9 1.9 0 2.4l-2.8 1.6-2.8-2.9 2.9-2.6ZM6.2 1.7l11 6.3-2.6 2.6-8.4-8.9Z"/></svg>
+            Get it on Google Play
+          </a>
+          <span class="soon">iPhone: coming soon</span>
+        </div>
+      </div>
+      <div class="toy-box">
+        <div class="toy"><canvas id="toy" aria-label="Interactive demo: hold to open the lights"></canvas></div>
+        <p class="hint">hold here to open, let go to close</p>
+      </div>
+    </div>
+
+    <section>
+      <h2>How to <em>play</em></h2>
+      <div class="how">
+        <div class="card"><div class="dot" style="background:var(--orange)">1</div><h3>Hold to open</h3><p>Press anywhere and the two lights drift apart.</p></div>
+        <div class="card"><div class="dot" style="background:var(--mint)">2</div><h3>Release to close</h3><p>Let go and they glide back together.</p></div>
+        <div class="card"><div class="dot" style="background:var(--violet)">3</div><h3>Open or closed?</h3><p>Pillars pass between the lights, gates and windows need you closed. Answer at the right moment.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>It gets <em>faster</em>. And trickier.</h2>
+      <div class="shots-scroll">
+        <div class="shots">
+          <img src="img/1-hold.jpg" alt="Hold to open" loading="lazy" width="506" height="900">
+          <img src="img/2-faster.jpg" alt="It gets faster" loading="lazy" width="506" height="900">
+          <img src="img/3-menu.jpg" alt="Menu" loading="lazy" width="506" height="900">
+          <img src="img/4-over.jpg" alt="Game over" loading="lazy" width="506" height="900">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Why you'll keep <em>playing</em></h2>
+      <ul class="pills">
+        <li><i style="background:var(--orange)"></i>Hold and release, nothing else</li>
+        <li><i style="background:var(--pink)"></i>Runs last seconds, not minutes</li>
+        <li><i style="background:var(--mint)"></i>Every mistake is clear: too open or too closed</li>
+        <li><i style="background:var(--violet)"></i>Close calls give bonus points</li>
+        <li><i style="background:var(--sky)"></i>Always fair: every course is possible</li>
+        <li><i style="background:var(--lime)"></i>No account, no internet needed</li>
+        <li><i style="background:var(--yellow)"></i>No energy timers</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 Mrcosy · <a href="../">More games</a></span>
+    <a href="privacy/">Privacy policy</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  // demo: tieni premuto per aprire le due luci, rilascia per chiuderle;
+  // pilastri (passano in mezzo) e cancelli (varco al centro) scendono a turno
+  const cv = document.getElementById('toy');
+  const ctx = cv.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const COLORS = [
+    ['#ff7eb6', '#b8467b'], ['#46d9a8', '#1d8f6a'], ['#a68cff', '#6447c9'],
+    ['#52c2ff', '#2479b8'], ['#b4e65a', '#6f9a26'], ['#ffd23f', '#c99a00'],
+  ];
+  let S = 0, dpr = 1;
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    S = cv.clientWidth;
+    cv.width = cv.height = Math.round(S * dpr);
+  }
+  resize();
+  addEventListener('resize', resize);
+
+  let holding = false, touched = false, open = 0;
+  const down = e => { e.preventDefault(); holding = touched = true; };
+  const up = () => { holding = false; };
+  cv.addEventListener('pointerdown', down);
+  addEventListener('pointerup', up);
+  addEventListener('pointercancel', up);
+
+  const obs = [];
+  let spawnT = 1.5, n = 0;
+  function spawn() {
+    obs.push({ y: -0.15, kind: n % 2 ? 'gate' : 'pillar', col: COLORS[n % COLORS.length] });
+    n++;
+  }
+  // due ostacoli già in pagina: la demo parte subito piena
+  spawn(); obs[0].y = 0.5; spawn(); obs[1].y = 0.02;
+
+  function pill(x, y, w, h, col) {
+    const r = Math.min(w, h) / 2;
+    ctx.fillStyle = col[0]; ctx.strokeStyle = col[1]; ctx.lineWidth = r * 0.18;
+    ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.fill(); ctx.stroke();
+  }
+  function face(x, y, k) {
+    ctx.fillStyle = '#fff';
+    [-1, 1].forEach(s => { ctx.beginPath(); ctx.arc(x + s * k * 0.035, y, k * 0.016, 0, Math.PI * 2); ctx.fill(); });
+    ctx.fillStyle = '#2a1830';
+    [-1, 1].forEach(s => { ctx.beginPath(); ctx.arc(x + s * k * 0.035, y + k * 0.004, k * 0.008, 0, Math.PI * 2); ctx.fill(); });
+    ctx.strokeStyle = '#2a1830'; ctx.lineWidth = k * 0.006;
+    ctx.beginPath(); ctx.arc(x, y + k * 0.012, k * 0.012, 0.2, Math.PI - 0.2); ctx.stroke();
+  }
+
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    const k = S * dpr;
+    // finché nessuno tocca, la demo gioca da sola: apre per i pilastri, chiude per i cancelli
+    if (!touched) {
+      const next = obs.find(o => o.y < 0.82 && o.y > 0.35);
+      holding = !!next && next.kind === 'pillar';
+    }
+    open += ((holding ? 1 : 0) - open) * Math.min(1, dt * 9);
+    if (!reduce) {
+      spawnT -= dt;
+      if (spawnT <= 0) { spawn(); spawnT = 1.5; }
+      obs.forEach(o => { o.y += dt * 0.32; });
+      while (obs.length && obs[0].y > 1.2) obs.shift();
+    } else if (!obs.length) { obs.push({ y: 0.3, kind: 'gate', col: COLORS[1] }); }
+
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    // linea centrale tenue
+    ctx.fillStyle = 'rgba(45,35,80,.06)';
+    ctx.fillRect(k / 2 - 1, 0, 2, k);
+
+    obs.forEach(o => {
+      const y = o.y * k, h = k * 0.085;
+      if (o.kind === 'pillar') {
+        const w = k * 0.16;
+        pill(k / 2 - w / 2, y - h / 2, w, h, o.col);
+        face(k / 2, y, k);
+      } else {
+        const gap = k * 0.22;
+        pill(-k * 0.1, y - h / 2, k * 0.6 - gap / 2, h, o.col);
+        pill(k / 2 + gap / 2, y - h / 2, k * 0.6, h, o.col);
+      }
+    });
+
+    // le due luci
+    const ly = k * 0.74, half = k * (0.04 + open * 0.2);
+    [-1, 1].forEach(s => {
+      const x = k / 2 + s * half;
+      const g = ctx.createRadialGradient(x, ly, 0, x, ly, k * 0.12);
+      g.addColorStop(0, 'rgba(255,107,61,.28)'); g.addColorStop(1, 'rgba(255,107,61,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, ly, k * 0.12, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = 'rgba(255,150,120,.55)';
+      ctx.fillRect(x - k * 0.006, ly, k * 0.012, k * 0.3);
+      ctx.fillStyle = '#ff6b3d'; ctx.strokeStyle = '#b8401c'; ctx.lineWidth = k * 0.008;
+      ctx.beginPath(); ctx.arc(x, ly, k * 0.04, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.7)';
+      ctx.beginPath(); ctx.arc(x - k * 0.012, ly - k * 0.012, k * 0.011, 0, Math.PI * 2); ctx.fill();
+    });
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

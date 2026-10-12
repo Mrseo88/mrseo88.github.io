@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dondo Dondo — Tap. Swap. Climb.</title>
+<meta name="description" content="Dondo Dondo: a one-tap endless arcade game. Two balls on a string, tap to swap the pivot and climb.">
+<meta property="og:title" content="Dondo Dondo">
+<meta property="og:description" content="Tap. Swap. Climb. One tap, one more try.">
+<meta property="og:image" content="https://mrseo88.github.io/dondo-dondo/img/og.png">
+<meta name="theme-color" content="#f4efe3">
+<link rel="icon" href="img/icon.png">
+<style>
+  @font-face { font-family: "Space Mono"; font-weight: 400; font-display: swap; src: url(../fonts/SpaceMono-Regular.woff2) format("woff2"); }
+  @font-face { font-family: "Space Mono"; font-weight: 700; font-display: swap; src: url(../fonts/SpaceMono-Bold.woff2) format("woff2"); }
+  :root {
+    --paper: #f4efe3; --desk: #e8e1d1; --ink: #211f1b; --ink-soft: rgba(33,31,27,.6);
+    --red: #e03a2a; --blue: #2442a6; --green: #1d8a5a; --violet: #7446b8;
+    --grid: rgba(84,128,170,.16);
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body {
+    margin: 0; color: var(--ink); background-color: var(--paper);
+    font: 400 16px/1.6 "Space Mono", ui-monospace, Menlo, monospace;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 32px 32px;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  }
+  /* margine rosso del quaderno */
+  body::before {
+    content: ""; position: fixed; top: 0; bottom: 0; left: 28px; width: 1px;
+    background: rgba(224,58,42,.45); pointer-events: none;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 48px 24px; }
+  a { color: inherit; }
+
+  header.top { display: flex; justify-content: space-between; align-items: center; padding-block: 20px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; }
+  .brand img { width: 36px; height: 36px; border-radius: 9px; }
+
+  .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: center; padding-block: 40px 64px; }
+  h1 { font-size: clamp(48px, 10vw, 96px); line-height: .95; margin: 0 0 20px; font-weight: 700; }
+  .tag { font-size: clamp(18px, 2.4vw, 24px); margin: 0 0 8px; }
+  .slogan { color: var(--red); font-weight: 700; margin: 0 0 32px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 10px;
+    background: var(--ink); color: var(--paper); text-decoration: none; font-weight: 700;
+    box-shadow: 4px 4px 0 rgba(33,31,27,.25); transition: transform .12s, box-shadow .12s;
+  }
+  .btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 rgba(33,31,27,.25); }
+  .btn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 rgba(33,31,27,.25); }
+  .btn svg { width: 22px; height: 22px; flex: none; }
+  .soon { font-size: 13px; color: var(--ink-soft); border: 2px dashed rgba(33,31,27,.3); padding: 10px 14px; border-radius: 10px; }
+
+  .toy { position: relative; aspect-ratio: 1; width: 100%; max-width: 420px; justify-self: center; }
+  .toy canvas { width: 100%; height: 100%; display: block; cursor: pointer; touch-action: manipulation; }
+  .toy p { position: absolute; left: 0; right: 0; bottom: -8px; margin: 0; text-align: center; font-size: 13px; color: var(--ink-soft); }
+
+  section { padding-block: 48px; }
+  h2 { font-size: clamp(26px, 4vw, 36px); margin: 0 0 24px; line-height: 1.15; }
+  h2 .mark { background: linear-gradient(transparent 60%, rgba(224,58,42,.25) 60%); }
+
+  .how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card {
+    background: var(--paper); border: 2px solid var(--ink); border-radius: 12px; padding: 20px;
+    box-shadow: 4px 4px 0 rgba(33,31,27,.18);
+  }
+  .card .n { font-weight: 700; font-size: 32px; line-height: 1; }
+  .card h3 { margin: 12px 0 6px; font-size: 18px; }
+  .card p { margin: 0; font-size: 14px; color: var(--ink-soft); }
+  .card:nth-child(1) .n { color: var(--red); }
+  .card:nth-child(2) .n { color: var(--blue); }
+  .card:nth-child(3) .n { color: var(--green); }
+
+  .shots-scroll { overflow-x: auto; padding-bottom: 12px; scroll-snap-type: x mandatory; }
+  .shots { display: grid; grid-template-columns: repeat(4, minmax(170px, 1fr)); gap: 20px; }
+  .shots img {
+    width: 100%; height: auto; aspect-ratio: 1080 / 2400; border-radius: 18px; border: 3px solid var(--ink);
+    box-shadow: 5px 5px 0 rgba(33,31,27,.18); display: block; scroll-snap-align: start; background: var(--paper);
+  }
+  .shots img:nth-child(odd) { transform: rotate(-1.2deg); }
+  .shots img:nth-child(even) { transform: rotate(1.2deg) translateY(12px); }
+
+  .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 0; padding: 0; list-style: none; }
+  .legend li { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; }
+  .legend i { flex: none; width: 34px; height: 12px; border-radius: 4px; margin-top: 6px; }
+
+  ul.feat { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 32px; }
+  ul.feat li { padding-left: 26px; position: relative; }
+  ul.feat li::before { content: ""; position: absolute; left: 0; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--red); }
+  ul.feat li:nth-child(even)::before { background: var(--ink); }
+
+  footer { border-top: 2px solid var(--ink); margin-top: 32px; padding-block: 24px 40px; font-size: 13px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--ink-soft); }
+  footer a { color: var(--ink); }
+
+  [hidden] { display: none !important; }
+
+  @media (max-width: 760px) {
+    .wrap { padding-inline: 44px 18px; }
+    body::before { left: 24px; }
+    .hero { grid-template-columns: 1fr; padding-top: 16px; gap: 8px; }
+    .toy { max-width: 260px; order: -1; }
+    .how { grid-template-columns: 1fr; }
+    .shots { grid-template-columns: repeat(4, 62%); }
+  }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../"><img src="img/icon.png" alt="">Dondo Dondo</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1>DONDO<br>DONDO</h1>
+        <p class="tag">Tap. Swap. Climb.</p>
+        <p class="slogan">ONE TAP. ONE MORE TRY.</p>
+        <div class="cta">
+          <a class="btn" href="https://play.google.com/store/apps/details?id=com.dondodondo.game" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 2.6c-.3.3-.5.8-.5 1.4v16c0 .6.2 1.1.5 1.4l9.2-9.4L4 2.6Zm10.6 10.8 2.6 2.6-11 6.3 8.4-8.9Zm4-4.2 2.7 1.5c.9.5.9 1.9 0 2.4l-2.8 1.6-2.8-2.9 2.9-2.6ZM6.2 1.7l11 6.3-2.6 2.6-8.4-8.9Z"/></svg>
+            <span>Get it on Google Play</span>
+          </a>
+          <span class="soon">iPhone: coming soon</span>
+        </div>
+      </div>
+      <div class="toy">
+        <canvas id="toy" aria-label="Interactive demo: tap to swap the pivot"></canvas>
+        <p>tap here to swap the pivot</p>
+      </div>
+    </div>
+
+    <section>
+      <h2><span class="mark">How to play</span></h2>
+      <div class="how">
+        <div class="card"><div class="n">01</div><h3>Two balls, one string</h3><p>One stays still, the other swings around it.</p></div>
+        <div class="card"><div class="n">02</div><h3>Tap to swap</h3><p>The swinging ball becomes the pivot. Tap at the top and you climb straight up.</p></div>
+        <div class="card"><div class="n">03</div><h3>Outrun the tide</h3><p>Dodge the ink obstacles and keep climbing before the water catches you.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>A notebook page full of ink</h2>
+      <div class="shots-scroll">
+        <div class="shots">
+          <img src="img/1-start.jpg" alt="Start screen" loading="lazy" width="405" height="900">
+          <img src="img/2-play.jpg" alt="Gameplay" loading="lazy" width="405" height="900">
+          <img src="img/3-play-it.jpg" alt="Gameplay" loading="lazy" width="405" height="900">
+          <img src="img/4-over.jpg" alt="Game over screen" loading="lazy" width="405" height="900">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>The color tells you what it does</h2>
+      <ul class="legend">
+        <li><i style="background:var(--ink)"></i><span>Black: stands still</span></li>
+        <li><i style="background:var(--green)"></i><span>Green with arrows: moves</span></li>
+        <li><i style="background:var(--violet)"></i><span>Purple: spins</span></li>
+        <li><i style="background:var(--red)"></i><span>Red mark: the tide is rising, hit it!</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Why you'll play one more</h2>
+      <ul class="feat">
+        <li>One-tap controls you'll learn in seconds</li>
+        <li>Runs of 10 to 60 seconds</li>
+        <li>The dotted circle shows where you're going: every miss is on you</li>
+        <li>Your best height is drawn into the level</li>
+        <li>Perfect taps make you spin faster</li>
+        <li>Works offline, no account needed</li>
+        <li>Light ads: never during a run</li>
+        <li>Play in English or Italian</li>
+              </ul>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 Mrcosy · <a href="../">More games</a></span>
+    <a href="privacy/">Privacy policy</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  // --- giocattolo: perno e sfera che si scambiano al tocco --------------------
+  const cv = document.getElementById('toy');
+  const ctx = cv.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let S = 0, dpr = 1;
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    S = cv.clientWidth;
+    cv.width = cv.height = Math.round(S * dpr);
+  }
+  resize();
+  addEventListener('resize', resize);
+
+  // coordinate in unità di "pagina" (0..1); la camera segue il perno
+  const R = 0.2;
+  let px = 0.5, py = 0.5;          // perno
+  let ang = Math.PI * 0.5, dir = -1;
+  let speed = 2.4;
+  let trail = [];
+  let flash = 0;
+
+  function swap() {
+    const bx = px + Math.cos(ang) * R, by = py + Math.sin(ang) * R;
+    ang = Math.atan2(py - by, px - bx);
+    px = bx; py = by; dir = -dir;
+    // tocco vicino alla cima: perfetto, gira più veloce
+    const top = Math.abs(((ang + Math.PI * 2.5) % (Math.PI * 2)) - Math.PI);
+    speed = Math.min(4.2, top > 2.6 ? speed + 0.25 : 2.4);
+    flash = 1;
+    trail = [];
+  }
+  cv.addEventListener('pointerdown', e => { e.preventDefault(); swap(); });
+
+  let camX = 0.5, camY = 0.5, last = performance.now();
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (!reduce) ang += dir * speed * dt;
+    camX += (px - camX) * Math.min(1, dt * 3);
+    camY += (py - camY) * Math.min(1, dt * 3);
+    flash = Math.max(0, flash - dt * 3);
+    const bx = px + Math.cos(ang) * R, by = py + Math.sin(ang) * R;
+    trail.push([bx, by]); if (trail.length > 10) trail.shift();
+
+    const k = S * dpr;
+    const X = x => (x - camX + 0.5) * k, Y = y => (y - camY + 0.5) * k;
+    ctx.clearRect(0, 0, cv.width, cv.height);
+
+    // cerchio tratteggiato (dove andrai)
+    ctx.setLineDash([k * 0.018, k * 0.022]);
+    ctx.strokeStyle = 'rgba(33,31,27,.35)';
+    ctx.lineWidth = k * 0.008;
+    ctx.beginPath(); ctx.arc(X(px), Y(py), R * k, 0, Math.PI * 2); ctx.stroke();
+    ctx.setLineDash([]);
+    // segno rosso in cima: il punto perfetto
+    ctx.strokeStyle = '#e03a2a'; ctx.lineWidth = k * 0.016; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.arc(X(px), Y(py), R * k, -Math.PI / 2 - 0.22, -Math.PI / 2 + 0.22); ctx.stroke();
+
+    // scia
+    trail.forEach((p, i) => {
+      ctx.fillStyle = 'rgba(224,58,42,' + (0.04 + i * 0.025) + ')';
+      ctx.beginPath(); ctx.arc(X(p[0]), Y(p[1]), k * 0.05, 0, Math.PI * 2); ctx.fill();
+    });
+    // filo
+    ctx.strokeStyle = '#211f1b'; ctx.lineWidth = k * 0.014;
+    ctx.beginPath(); ctx.moveTo(X(px), Y(py)); ctx.lineTo(X(bx), Y(by)); ctx.stroke();
+    // perno
+    ctx.fillStyle = '#211f1b';
+    ctx.beginPath(); ctx.arc(X(px), Y(py), k * 0.06 * (1 + flash * 0.25), 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#f4efe3';
+    ctx.beginPath(); ctx.arc(X(px), Y(py), k * 0.022, 0, Math.PI * 2); ctx.fill();
+    // sfera rossa
+    ctx.fillStyle = '#e03a2a';
+    ctx.beginPath(); ctx.arc(X(bx), Y(by), k * 0.062, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.35)';
+    ctx.beginPath(); ctx.arc(X(bx) - k * 0.018, Y(by) - k * 0.018, k * 0.02, 0, Math.PI * 2); ctx.fill();
+
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
