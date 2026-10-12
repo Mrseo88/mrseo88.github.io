@@ -40,12 +40,6 @@
   header.top { display: flex; justify-content: space-between; align-items: center; padding-block: 20px; }
   .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; }
   .brand img { width: 36px; height: 36px; border-radius: 9px; }
-  .lang { display: flex; border: 2px solid var(--ink); border-radius: 8px; overflow: hidden; }
-  .lang button {
-    font: 700 13px "Space Mono", monospace; padding: 6px 12px; border: 0; cursor: pointer;
-    background: transparent; color: var(--ink);
-  }
-  .lang button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 
   .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: center; padding-block: 40px 64px; }
   h1 { font-size: clamp(48px, 10vw, 96px); line-height: .95; margin: 0 0 20px; font-weight: 700; }
@@ -120,43 +114,39 @@
 <div class="wrap">
   <header class="top">
     <a class="brand" href="./"><img src="img/icon.png" alt="">Dondo Dondo</a>
-    <div class="lang" role="group" aria-label="Language">
-      <button type="button" data-l="en" aria-pressed="true">EN</button>
-      <button type="button" data-l="it" aria-pressed="false">IT</button>
-    </div>
   </header>
 
   <main>
     <div class="hero">
       <div>
         <h1>DONDO<br>DONDO</h1>
-        <p class="tag" data-t="tag">Tap. Swap. Climb.</p>
-        <p class="slogan" data-t="slogan">ONE TAP. ONE MORE TRY.</p>
+        <p class="tag">Tap. Swap. Climb.</p>
+        <p class="slogan">ONE TAP. ONE MORE TRY.</p>
         <div class="cta">
           <a class="btn" href="https://play.google.com/store/apps/details?id=com.dondodondo.game" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 2.6c-.3.3-.5.8-.5 1.4v16c0 .6.2 1.1.5 1.4l9.2-9.4L4 2.6Zm10.6 10.8 2.6 2.6-11 6.3 8.4-8.9Zm4-4.2 2.7 1.5c.9.5.9 1.9 0 2.4l-2.8 1.6-2.8-2.9 2.9-2.6ZM6.2 1.7l11 6.3-2.6 2.6-8.4-8.9Z"/></svg>
-            <span data-t="play">Get it on Google Play</span>
+            <span>Get it on Google Play</span>
           </a>
-          <span class="soon" data-t="ios">iPhone: coming soon</span>
+          <span class="soon">iPhone: coming soon</span>
         </div>
       </div>
       <div class="toy">
         <canvas id="toy" aria-label="Interactive demo: tap to swap the pivot"></canvas>
-        <p data-t="try">tap here to swap the pivot</p>
+        <p>tap here to swap the pivot</p>
       </div>
     </div>
 
     <section>
-      <h2><span class="mark" data-t="howT">How to play</span></h2>
+      <h2><span class="mark">How to play</span></h2>
       <div class="how">
-        <div class="card"><div class="n">01</div><h3 data-t="h1">Two balls, one string</h3><p data-t="p1">One stays still, the other swings around it.</p></div>
-        <div class="card"><div class="n">02</div><h3 data-t="h2">Tap to swap</h3><p data-t="p2">The swinging ball becomes the pivot. Tap at the top and you climb straight up.</p></div>
-        <div class="card"><div class="n">03</div><h3 data-t="h3">Outrun the tide</h3><p data-t="p3">Dodge the ink obstacles and keep climbing before the water catches you.</p></div>
+        <div class="card"><div class="n">01</div><h3>Two balls, one string</h3><p>One stays still, the other swings around it.</p></div>
+        <div class="card"><div class="n">02</div><h3>Tap to swap</h3><p>The swinging ball becomes the pivot. Tap at the top and you climb straight up.</p></div>
+        <div class="card"><div class="n">03</div><h3>Outrun the tide</h3><p>Dodge the ink obstacles and keep climbing before the water catches you.</p></div>
       </div>
     </section>
 
     <section>
-      <h2 data-t="shotsT">A notebook page full of ink</h2>
+      <h2>A notebook page full of ink</h2>
       <div class="shots-scroll">
         <div class="shots">
           <img src="img/1-start.jpg" alt="Start screen" loading="lazy" width="405" height="900">
@@ -168,74 +158,39 @@
     </section>
 
     <section>
-      <h2 data-t="colT">The color tells you what it does</h2>
+      <h2>The color tells you what it does</h2>
       <ul class="legend">
-        <li><i style="background:var(--ink)"></i><span data-t="c1">Black: stands still</span></li>
-        <li><i style="background:var(--green)"></i><span data-t="c2">Green with arrows: moves</span></li>
-        <li><i style="background:var(--violet)"></i><span data-t="c3">Purple: spins</span></li>
-        <li><i style="background:var(--red)"></i><span data-t="c4">Red mark: the tide is rising, hit it!</span></li>
+        <li><i style="background:var(--ink)"></i><span>Black: stands still</span></li>
+        <li><i style="background:var(--green)"></i><span>Green with arrows: moves</span></li>
+        <li><i style="background:var(--violet)"></i><span>Purple: spins</span></li>
+        <li><i style="background:var(--red)"></i><span>Red mark: the tide is rising, hit it!</span></li>
       </ul>
     </section>
 
     <section>
-      <h2 data-t="featT">Why you'll play one more</h2>
+      <h2>Why you'll play one more</h2>
       <ul class="feat">
-        <li data-t="f1">One-tap controls you'll learn in seconds</li>
-        <li data-t="f2">Runs of 10 to 60 seconds</li>
-        <li data-t="f3">The dotted circle shows where you're going: every miss is on you</li>
-        <li data-t="f4">Your best height is drawn into the level</li>
-        <li data-t="f5">Perfect taps make you spin faster</li>
-        <li data-t="f6">Works offline, no account needed</li>
-        <li data-t="f7">Light ads: never during a run</li>
-        <li data-t="f8">English and Italian</li>
-      </ul>
+        <li>One-tap controls you'll learn in seconds</li>
+        <li>Runs of 10 to 60 seconds</li>
+        <li>The dotted circle shows where you're going: every miss is on you</li>
+        <li>Your best height is drawn into the level</li>
+        <li>Perfect taps make you spin faster</li>
+        <li>Works offline, no account needed</li>
+        <li>Light ads: never during a run</li>
+        <li>Play in English or Italian</li>
+              </ul>
     </section>
   </main>
 
   <footer>
     <span>© 2026 Dondo Dondo</span>
-    <a href="https://sites.google.com/view/dondodondoprivacypolicy" data-t="privacy">Privacy policy</a>
+    <a href="https://sites.google.com/view/dondodondoprivacypolicy">Privacy policy</a>
   </footer>
 </div>
 
 <script>
 (function () {
   'use strict';
-  // --- testi EN / IT ---------------------------------------------------------
-  const IT = {
-    tag: 'Tocca. Scambia. Sali.',
-    slogan: 'UN TOCCO. ANCORA UNA PARTITA.',
-    play: 'Disponibile su Google Play',
-    ios: 'iPhone: in arrivo',
-    try: 'tocca qui per cambiare perno',
-    howT: 'Come si gioca',
-    h1: 'Due sfere, un filo', p1: "Una sta ferma, l'altra le gira attorno.",
-    h2: 'Tocca e si scambiano', p2: 'La sfera che gira diventa il perno. Tocca quando è in alto e sali dritto.',
-    h3: 'Scappa dalla marea', p3: "Evita gli ostacoli d'inchiostro e continua a salire prima che l'acqua ti raggiunga.",
-    shotsT: "Una pagina di quaderno piena d'inchiostro",
-    colT: 'Il colore ti dice cosa fa',
-    c1: 'Nero: sta fermo', c2: 'Verde con frecce: si muove', c3: 'Viola: gira', c4: 'Segno rosso: la marea sale, toccalo!',
-    featT: 'Perché ne giocherai ancora una',
-    f1: 'Un solo tocco: lo impari in pochi secondi', f2: 'Partite da 10 a 60 secondi',
-    f3: 'Il cerchio tratteggiato mostra dove vai: ogni errore è tuo', f4: 'Il tuo record è disegnato nel livello',
-    f5: 'I tocchi perfetti ti fanno girare più veloce', f6: 'Funziona offline, senza account',
-    f7: 'Pubblicità leggera: mai durante la partita', f8: 'Italiano e inglese',
-    privacy: 'Informativa privacy',
-  };
-  const EN = {};
-  document.querySelectorAll('[data-t]').forEach(el => { EN[el.dataset.t] = el.textContent; });
-  function setLang(l) {
-    const T = l === 'it' ? IT : EN;
-    document.documentElement.lang = l;
-    document.querySelectorAll('[data-t]').forEach(el => { if (T[el.dataset.t]) el.textContent = T[el.dataset.t]; });
-    document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', b.dataset.l === l));
-    try { localStorage.setItem('lang', l); } catch (e) {}
-  }
-  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.l)));
-  let saved = null;
-  try { saved = localStorage.getItem('lang'); } catch (e) {}
-  setLang(saved || ((navigator.language || '').toLowerCase().startsWith('it') ? 'it' : 'en'));
-
   // --- giocattolo: perno e sfera che si scambiano al tocco --------------------
   const cv = document.getElementById('toy');
   const ctx = cv.getContext('2d');
