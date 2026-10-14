@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MrcosyFusco Games</title>
-<meta name="description" content="One-finger arcade games for iPhone and Android: Dondo Dondo and Pip & Pop.">
+<meta name="description" content="One-finger arcade games for iPhone and Android: Longshade, Dondo Dondo and Pip & Pop.">
 <meta name="theme-color" content="#f7f3ec">
 <link rel="icon" href="dondo-dondo/img/icon.png">
 <style>
@@ -24,7 +24,7 @@
   h1 { font-size: clamp(40px, 7vw, 64px); line-height: 1; margin: 0 0 10px; font-weight: 700; }
   header p { margin: 0; color: var(--dim); font-size: 20px; }
 
-  .games { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-bottom: 48px; }
+  .games { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-bottom: 48px; }
   .game {
     display: flex; flex-direction: column; border-radius: 28px; overflow: hidden; text-decoration: none; color: inherit;
     box-shadow: 0 16px 40px rgba(36,33,29,.10); transition: transform .18s, box-shadow .18s;
@@ -50,10 +50,16 @@
   .pip h2 { font-weight: 700; }
   .pip p { color: #6b6385; }
   .pip .go { color: #ff6b3d; }
+  .longshade { background: linear-gradient(180deg, #140b2a, #3a1a48); color: #fff2d6; }
+  .longshade h2 { font-weight: 700; }
+  .longshade p { color: #b3a6d6; }
+  .longshade .go { color: #ffd166; }
+  .longshade .icon { image-rendering: pixelated; }
 
   footer { border-top: 1px solid rgba(36,33,29,.12); padding-block: 24px 40px; color: var(--dim); font-size: 15px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
   footer a { color: var(--text); }
 
+  @media (max-width: 980px) { .games { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 760px) {
     header { padding-block: 32px 24px; }
     .games { grid-template-columns: 1fr; }
@@ -69,6 +75,17 @@
   </header>
 
   <main class="games">
+    <a class="game longshade" href="longshade/">
+      <img class="cover" src="longshade/img/og.png" alt="Longshade" width="1024" height="500">
+      <div class="body">
+        <img class="icon" src="longshade/img/icon.png" alt="">
+        <div>
+          <h2>Longshade</h2>
+          <p>A moth circles you. Tap to become your shadow and leap across islands floating in the night.</p>
+          <span class="go">Discover &rarr;</span>
+        </div>
+      </div>
+    </a>
     <a class="game dondo" href="dondo-dondo/">
       <img class="cover" src="dondo-dondo/img/og.png" alt="Dondo Dondo" width="1024" height="500">
       <div class="body">
@@ -95,7 +112,7 @@
 
   <footer>
     <span>© 2026 MrcosyFusco Games</span>
-    <span>Privacy: <a href="dondo-dondo/privacy/">Dondo Dondo</a> · <a href="pip-and-pop/privacy/">Pip &amp; Pop</a></span>
+    <span>Privacy: <a href="longshade/privacy/">Longshade</a> · <a href="dondo-dondo/privacy/">Dondo Dondo</a> · <a href="pip-and-pop/privacy/">Pip &amp; Pop</a></span>
   </footer>
 </div>
 </body>

@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Longshade — Tap to become your shadow</title>
+<meta name="description" content="Longshade: a one-tap 16-bit arcade game. A moth circles you and casts your shadow across floating ruins. Tap, and you become the shadow.">
+<meta property="og:title" content="Longshade">
+<meta property="og:description" content="A moth circles you. Tap, and you become your shadow. How far can you go before dawn?">
+<meta property="og:image" content="https://mrseo88.github.io/longshade/img/og.png">
+<meta name="theme-color" content="#0c0718">
+<link rel="icon" href="img/icon.png">
+<style>
+  @font-face { font-family: "Space Mono"; font-weight: 400; font-display: swap; src: url(../fonts/SpaceMono-Regular.woff2) format("woff2"); }
+  @font-face { font-family: "Space Mono"; font-weight: 700; font-display: swap; src: url(../fonts/SpaceMono-Bold.woff2) format("woff2"); }
+  @font-face { font-family: "Fredoka"; font-style: normal; font-weight: 300 700; font-display: swap; src: url(../fonts/fredoka-latin.woff2) format("woff2"); }
+  /* The night of the game: violet sky, one warm light (the moth), cold crystals for danger. */
+  :root {
+    --night: #0c0718; --night-2: #1d1033; --dusk: #3a1a48; --stone: #3b2d5c; --stone-hi: #6a578f;
+    --moon: #fff2d6; --dim: #b3a6d6; --gold: #ffd166; --amber: #eca96a; --violet: #c69bff; --crystal: #5cc6d8;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin: 0; color: var(--moon); background-color: var(--night);
+    font: 400 17px/1.6 "Fredoka", ui-rounded, system-ui, sans-serif;
+    background-image:
+      radial-gradient(1px 1px at 12% 18%, #fff6dc 60%, transparent 61%),
+      radial-gradient(1px 1px at 72% 9%, #8a7cb8 60%, transparent 61%),
+      radial-gradient(1.5px 1.5px at 44% 31%, #fff6dc 60%, transparent 61%),
+      radial-gradient(1px 1px at 88% 42%, #fff6dc 60%, transparent 61%),
+      radial-gradient(1px 1px at 27% 57%, #8a7cb8 60%, transparent 61%),
+      radial-gradient(1.5px 1.5px at 63% 71%, #fff6dc 60%, transparent 61%),
+      radial-gradient(1px 1px at 8% 83%, #8a7cb8 60%, transparent 61%),
+      linear-gradient(180deg, var(--night) 0%, var(--night-2) 45%, var(--dusk) 100%);
+    min-height: 100vh;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 24px; }
+  a { color: inherit; }
+  img.pixel { image-rendering: pixelated; }
+
+  header.top { display: flex; justify-content: space-between; align-items: center; padding-block: 20px; }
+  .brand { display: flex; align-items: center; gap: 10px; font: 700 15px/1 "Space Mono", ui-monospace, monospace; text-decoration: none; }
+  .brand img { width: 36px; height: 36px; border-radius: 9px; }
+  .home { font: 400 14px/1 "Space Mono", ui-monospace, monospace; color: var(--dim); text-decoration: none; }
+
+  .hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; padding-block: 32px 64px; }
+  .hero h1 { margin: 0 0 18px; line-height: 0; }
+  .hero h1 img { width: min(100%, 450px); height: auto; }
+  .tag { font-size: clamp(20px, 2.6vw, 26px); margin: 0 0 6px; font-weight: 600; }
+  .lede { color: var(--dim); margin: 0 0 28px; max-width: 34ch; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; text-decoration: none;
+    font: 700 15px/1 "Space Mono", ui-monospace, monospace; color: #1a0e05; background: var(--gold);
+    border: 2px solid #1a0e05; box-shadow: 4px 4px 0 var(--stone), 0 0 32px rgba(255,209,102,.35);
+    transition: transform .12s, box-shadow .12s;
+  }
+  .btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--stone), 0 0 40px rgba(255,209,102,.45); }
+  .btn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--stone); }
+  .btn:focus-visible { outline: 3px solid var(--violet); outline-offset: 3px; }
+  .btn svg { width: 20px; height: 20px; flex: none; }
+  .soon { font: 400 13px/1.3 "Space Mono", ui-monospace, monospace; color: var(--dim); border: 2px dashed rgba(179,166,214,.4); padding: 10px 14px; }
+
+  .phone { justify-self: center; width: min(100%, 300px); position: relative; }
+  .phone::before { /* the moth's glow behind the device */
+    content: ""; position: absolute; inset: -18% -30% auto -30%; height: 70%;
+    background: radial-gradient(closest-side, rgba(255,207,122,.28), transparent); pointer-events: none;
+  }
+  .phone img { position: relative; width: 100%; height: auto; border: 4px solid #07040c; border-radius: 26px; box-shadow: 0 0 0 2px var(--stone), 0 24px 60px rgba(0,0,0,.55); display: block; }
+
+  section { padding-block: 48px; }
+  h2 { font: 700 clamp(24px, 3.6vw, 34px)/1.15 "Space Mono", ui-monospace, monospace; margin: 0 0 24px; text-wrap: balance; }
+  h2 .glow { color: var(--gold); text-shadow: 0 0 18px rgba(255,209,102,.35); }
+
+  .how { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .card { background: rgba(12,7,24,.72); border: 2px solid var(--stone); box-shadow: 4px 4px 0 #07040c; padding: 18px; min-width: 0; }
+  .card .n { font: 700 28px/1 "Space Mono", ui-monospace, monospace; color: var(--gold); }
+  .card h3 { margin: 12px 0 6px; font-size: 18px; line-height: 1.25; }
+  .card p { margin: 0; font-size: 15px; color: var(--dim); }
+  .card .black { color: var(--moon); font-weight: 600; }
+  .card .red { color: #ff6b7a; font-weight: 600; }
+
+  .shots-scroll { overflow-x: auto; padding-bottom: 14px; scroll-snap-type: x mandatory; }
+  .shots { display: grid; grid-template-columns: repeat(5, minmax(150px, 1fr)); gap: 18px; }
+  .shots img { width: 100%; height: auto; aspect-ratio: 9 / 16; border: 3px solid #07040c; border-radius: 16px; box-shadow: 0 0 0 2px var(--stone), 0 14px 30px rgba(0,0,0,.45); display: block; scroll-snap-align: start; background: var(--night); }
+
+  ul.feat { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 32px; }
+  ul.feat li { padding-left: 24px; position: relative; }
+  ul.feat li::before { content: ""; position: absolute; left: 0; top: 8px; width: 10px; height: 10px; background: var(--gold); box-shadow: 0 0 10px rgba(255,209,102,.6); }
+  ul.feat li:nth-child(3n)::before { background: var(--violet); box-shadow: 0 0 10px rgba(198,155,255,.6); }
+
+  footer { border-top: 2px solid var(--stone); margin-top: 32px; padding-block: 24px 40px; font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--dim); }
+  footer a { color: var(--moon); }
+
+  @media (max-width: 860px) { .how { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; padding-top: 8px; gap: 28px; }
+    .phone { width: min(70%, 240px); }
+    .shots { grid-template-columns: repeat(5, 62%); }
+  }
+  @media (max-width: 480px) { .how { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="./"><img class="pixel" src="img/icon.png" alt="">Longshade</a>
+    <a class="home" href="../">&larr; More games</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1><img class="pixel" src="img/logo.png" alt="Longshade" width="450" height="228"></h1>
+        <p class="tag">Tap to become your shadow.</p>
+        <p class="lede">A moth circles you and casts your shadow across ruins floating in the night. Tap, and you reappear wherever its tip has fallen.</p>
+        <div class="cta">
+          <a class="btn" href="play/">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z"/></svg>
+            <span>Play in your browser</span>
+          </a>
+          <span class="soon">Android &amp; iPhone: coming soon</span>
+        </div>
+      </div>
+      <div class="phone">
+        <img src="img/1-long-shadow.jpg" alt="Longshade gameplay: the sleepwalker at the edge of an island, his shadow standing on the next one" width="405" height="720">
+      </div>
+    </div>
+
+    <section>
+      <h2><span class="glow">How to play</span></h2>
+      <div class="how">
+        <div class="card"><div class="n">01</div><h3>A moth circles you</h3><p>Its light casts your shadow across the islands.</p></div>
+        <div class="card"><div class="n">02</div><h3>Tap anywhere</h3><p>You jump to the tip of your shadow.</p></div>
+        <div class="card"><div class="n">03</div><h3>Read the shadow</h3><p><span class="black">Black:</span> safe landing. <span class="red">Red:</span> the void, a wall or crystals.</p></div>
+        <div class="card"><div class="n">04</div><h3>Don't wait too long</h3><p>Islands crumble beneath you. A low moth makes a long, fast shadow.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>An endless night, from Dusk to Eclipse</h2>
+      <div class="shots-scroll">
+        <div class="shots">
+          <img src="img/1-long-shadow.jpg" alt="A long shadow reaching the next island" loading="lazy" width="405" height="720">
+          <img src="img/2-nightfall.jpg" alt="Nightfall: crystals guard the islands" loading="lazy" width="405" height="720">
+          <img src="img/3-midnight.jpg" alt="Midnight" loading="lazy" width="405" height="720">
+          <img src="img/4-how-to-play.jpg" alt="How to play screen" loading="lazy" width="405" height="720">
+          <img src="img/5-game-over.jpg" alt="Game over screen with a new best score" loading="lazy" width="405" height="720">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Why you'll play one more</h2>
+      <ul class="feat">
+        <li>One tap, learned in seconds</li>
+        <li>Skip islands for LONG SHADOW bonuses</li>
+        <li>Land next to an edge for a CLOSE CALL</li>
+        <li>Every fall shows where your shadow went</li>
+        <li>Five phases of the night, each harder than the last</li>
+        <li>Every level is checked: every jump can be made</li>
+        <li>Hand-made 16-bit pixel art</li>
+        <li>Works offline, no account needed</li>
+        <li>Android: light ads, never during a run</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 MrcosyFusco Games · <a href="../">More games</a></span>
+    <a href="privacy/">Privacy policy</a>
+  </footer>
+</div>
+</body>
+</html>
