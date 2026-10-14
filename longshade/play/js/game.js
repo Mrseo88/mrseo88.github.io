@@ -940,7 +940,7 @@ function render() {
   }
 
   // UI
-  if (state === 'play' || state === 'paused') {
+  if ((state === 'play' || state === 'paused') && !window.__noHud) { // __noHud: clean frames for trailers
     drawText(ctx, g.score, W / 2, 8, PAL.ui, 5, 'center');
     if (store.best > 0) drawText(ctx, 'BEST ' + store.best, 5, 5, PAL.uiDim, 2);
     if (!g.started && store.runs <= 3) {

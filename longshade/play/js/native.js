@@ -37,22 +37,24 @@ export function exitApp() {
 }
 
 // ---------------------------------------------------------------------------
-// AdMob (Android only): one interstitial at most every 5 game overs, never during play.
+// AdMob (Android and iOS): one interstitial at most every 5 game overs, never during play.
+// The app IDs live in AndroidManifest.xml and Info.plist; these are the interstitial units.
 const ADMOB = {
-  interstitial: 'ca-app-pub-1025817158182846/4284322294',
-  testInterstitial: 'ca-app-pub-3940256099942544/1033173712', // Google's public test unit
-};
+  android: { interstitial: 'ca-app-pub-1025817158182846/4284322294', test: 'ca-app-pub-3940256099942544/1033173712' },
+  ios: { interstitial: 'ca-app-pub-1025817158182846/1488347577', test: 'ca-app-pub-3940256099942544/4411468910' },
+}; // the `test` units are Google's public test ads
 let adLoaded = false, adClose = null, privacyRequired = false;
 
 function platform() { try { return cap().getPlatform(); } catch (e) { return 'web'; } }
-function admob() { return platform() === 'android' ? plugin('AdMob') : null; }
+function admob() { return ADMOB[platform()] ? plugin('AdMob') : null; }
 
 function loadInterstitial() {
   const ad = admob();
   if (!ad) return;
   adLoaded = false;
-  ad.prepareInterstitial({ adId: ADS_TEST ? ADMOB.testInterstitial : ADMOB.interstitial, isTesting: ADS_TEST })
-    .then(() => { adLoaded = true; })
+  const ids = ADMOB[platform()];
+  ad.prepareInterstitial({ adId: ADS_TEST ? ids.test : ids.interstitial, isTesting: ADS_TEST })
+    .then(() => { adLoaded = true; console.log('[ads] interstitial ready'); })
     .catch(() => setTimeout(loadInterstitial, 60000));
 }
 
@@ -81,6 +83,13 @@ export async function initAds() {
       console.warn('AdMob consent unavailable:', e && e.message);
       canRequestAds = ADS_TEST;
     }
+    // iOS: Apple's App Tracking Transparency prompt, after the consent form (Google's recommended order).
+    if (platform() === 'ios') {
+      try {
+        const att = await ad.trackingAuthorizationStatus();
+        if (att.status === 'notDetermined') await ad.requestTrackingAuthorization();
+      } catch (e) { /* ads still work, without the advertising identifier */ }
+    }
     if (!canRequestAds) return;
     ad.addListener('interstitialAdDismissed', closed);
     ad.addListener('interstitialAdFailedToShow', closed);
@@ -98,7 +107,7 @@ export function showInterstitial(onClose) {
   return true;
 }
 
-// EEA/UK users must be able to change their consent: the title screen shows a PRIVACY button.
+// EEA/UK users must be able to change their consent: the title screen shows a PRIVACY button (Android and iOS).
 export function privacyOptionsRequired() { return privacyRequired; }
 export function openPrivacyOptions() {
   const ad = admob();
