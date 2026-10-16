@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ECHO Lightrunner — Every tap lights the way</title>
+<meta name="description" content="ECHO Lightrunner: a one-tap arcade game in total darkness. Every tap turns you and sends out a pulse of light. Hit the corners, chain perfects, chase new colors.">
+<meta property="og:title" content="ECHO Lightrunner">
+<meta property="og:description" content="One tap. Total dark. Every tap turns you and lights the way.">
+<meta property="og:image" content="https://mrseo88.github.io/echo/img/og.png">
+<meta name="theme-color" content="#05060b">
+<link rel="icon" href="img/icon.png">
+<style>
+  @font-face { font-family: "Tilt Neon"; font-weight: 400; font-display: swap; src: url(../fonts/tilt-neon.woff) format("woff"); }
+  @font-face { font-family: "Exo 2"; font-weight: 100 900; font-display: swap; src: url(../fonts/exo2.woff2) format("woff2"); }
+  /* The game's darkness: one ice-white light, five zone colours, amber for perfects and records. */
+  :root {
+    --void: #05060b; --deep: #0b0e1c; --edge: #232b47; --light: #e2efff; --dim: #9aa6c7; --amber: #ffbd59;
+    --c1: #5fd8ff; --c2: #ff4fc3; --c3: #9d7bff; --c4: #7dff8a; --c5: #ff9a3d;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin: 0; color: var(--light); background-color: var(--void);
+    font: 400 17px/1.6 "Exo 2", system-ui, sans-serif;
+    background-image:
+      radial-gradient(ellipse 60% 40% at 78% 8%, rgba(157,123,255,.16), transparent 70%),
+      radial-gradient(ellipse 50% 35% at 10% 40%, rgba(95,216,255,.10), transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 85%, rgba(255,79,195,.08), transparent 70%);
+    min-height: 100vh;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 24px; }
+  a { color: inherit; }
+
+  header.top { display: flex; justify-content: space-between; align-items: center; padding-block: 20px; }
+  .brand { display: flex; align-items: center; gap: 10px; font: 400 18px/1 "Tilt Neon", sans-serif; letter-spacing: .06em; text-decoration: none; }
+  .brand img { width: 36px; height: 36px; border-radius: 9px; }
+  .home { font: 600 14px/1 "Exo 2", sans-serif; letter-spacing: .04em; color: var(--dim); text-decoration: none; }
+
+  .hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; padding-block: 32px 64px; }
+  .logo { margin: 0 0 22px; }
+  .logo .word { display: block; font: 400 clamp(84px, 13vw, 132px)/.95 "Tilt Neon", sans-serif; letter-spacing: .05em;
+    background: linear-gradient(90deg, var(--c1), var(--c3), var(--c2)); -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 22px rgba(157,123,255,.45)); }
+  .logo .kind { display: block; margin-top: 10px; font: 800 clamp(15px, 2vw, 19px)/1 "Exo 2", sans-serif; letter-spacing: .62em; text-transform: uppercase;
+    text-shadow: 0 0 14px rgba(157,123,255,.7); }
+  .tag { font-size: clamp(20px, 2.6vw, 26px); margin: 0 0 6px; font-weight: 700; }
+  .tag em { font-style: normal; color: var(--amber); }
+  .lede { color: var(--dim); margin: 0 0 28px; max-width: 36ch; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; text-decoration: none; border-radius: 999px;
+    font: 700 15px/1 "Exo 2", sans-serif; letter-spacing: .03em; color: var(--void); background: var(--light);
+    box-shadow: 0 0 0 1px rgba(226,239,255,.6), 0 0 28px rgba(95,216,255,.45);
+    transition: transform .12s, box-shadow .12s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(226,239,255,.8), 0 0 40px rgba(95,216,255,.6); }
+  .btn:active { transform: translateY(1px); }
+  .btn:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+  .btn svg { width: 20px; height: 20px; flex: none; }
+  .btn-ghost { background: transparent; color: var(--light); box-shadow: 0 0 0 1px var(--edge), 0 0 0 rgba(0,0,0,0); }
+  .btn-ghost:hover { box-shadow: 0 0 0 1px var(--c3), 0 0 24px rgba(157,123,255,.35); }
+  .btn-soon { cursor: default; background: transparent; color: var(--dim); box-shadow: 0 0 0 1px var(--edge); }
+  .btn-soon:hover { transform: none; box-shadow: 0 0 0 1px var(--edge); }
+  .btn-soon small { font-weight: 600; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+
+  .phone { justify-self: center; width: min(100%, 300px); position: relative; }
+  .phone::before { /* echo rings behind the device */
+    content: ""; position: absolute; left: 50%; top: 46%; width: 150%; aspect-ratio: 1; transform: translate(-50%,-50%); border-radius: 50%; pointer-events: none;
+    background:
+      radial-gradient(closest-side, rgba(95,216,255,.20), transparent 60%),
+      radial-gradient(closest-side, transparent 64%, rgba(95,216,255,.35) 65%, transparent 66.5%),
+      radial-gradient(closest-side, transparent 78%, rgba(157,123,255,.30) 79%, transparent 80.5%),
+      radial-gradient(closest-side, transparent 92%, rgba(255,79,195,.25) 93%, transparent 94.5%);
+  }
+  .phone img { position: relative; width: 100%; height: auto; border: 3px solid #000; border-radius: 26px; box-shadow: 0 0 0 1px var(--edge), 0 24px 60px rgba(0,0,0,.6), 0 0 40px rgba(95,216,255,.18); display: block; }
+
+  section { padding-block: 48px; }
+  h2 { font: 400 clamp(28px, 4vw, 40px)/1.1 "Tilt Neon", sans-serif; letter-spacing: .02em; margin: 0 0 24px; text-wrap: balance; }
+  h2 .glow { color: var(--c1); text-shadow: 0 0 18px rgba(95,216,255,.45); }
+
+  .how { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .card { background: rgba(11,14,28,.78); border: 1px solid var(--edge); border-radius: 18px; padding: 18px; min-width: 0; }
+  .card .n { font: 400 30px/1 "Tilt Neon", sans-serif; }
+  .card:nth-child(1) .n { color: var(--c1); } .card:nth-child(2) .n { color: var(--c3); }
+  .card:nth-child(3) .n { color: var(--amber); } .card:nth-child(4) .n { color: var(--c2); }
+  .card h3 { margin: 12px 0 6px; font-size: 18px; line-height: 1.25; font-weight: 700; }
+  .card p { margin: 0; font-size: 15px; color: var(--dim); }
+  .card .hi { color: var(--amber); font-weight: 700; }
+
+  .shots-scroll { overflow-x: auto; padding-bottom: 14px; scroll-snap-type: x mandatory; }
+  .shots { display: grid; grid-template-columns: repeat(5, minmax(150px, 1fr)); gap: 18px; }
+  .shots img { width: 100%; height: auto; aspect-ratio: 9 / 16; border: 2px solid #000; border-radius: 16px; box-shadow: 0 0 0 1px var(--edge), 0 14px 30px rgba(0,0,0,.5); display: block; scroll-snap-align: start; background: var(--void); }
+
+  .zones { display: flex; gap: 8px; margin: -8px 0 22px; }
+  .zones span { width: 28px; height: 6px; border-radius: 3px; box-shadow: 0 0 10px currentColor; }
+
+  ul.feat { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 32px; }
+  ul.feat li { padding-left: 24px; position: relative; }
+  ul.feat li::before { content: ""; position: absolute; left: 0; top: 8px; width: 10px; height: 10px; border-radius: 50%; background: var(--c1); box-shadow: 0 0 10px rgba(95,216,255,.7); }
+  ul.feat li:nth-child(3n+2)::before { background: var(--c3); box-shadow: 0 0 10px rgba(157,123,255,.7); }
+  ul.feat li:nth-child(3n)::before { background: var(--amber); box-shadow: 0 0 10px rgba(255,189,89,.7); }
+
+  footer { border-top: 1px solid var(--edge); margin-top: 32px; padding-block: 24px 40px; font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--dim); }
+  footer a { color: var(--light); }
+
+  @media (max-width: 860px) { .how { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; padding-top: 8px; gap: 36px; }
+    .phone { width: min(70%, 240px); }
+    .shots { grid-template-columns: repeat(5, 62%); }
+  }
+  @media (max-width: 480px) { .how { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="./"><img src="img/icon.png" alt="">ECHO</a>
+    <a class="home" href="../">&larr; More games</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1 class="logo"><span class="word">ECHO</span><span class="kind">Lightrunner</span></h1>
+        <p class="tag">One tap. Total dark. Every tap <em>lights the way.</em></p>
+        <p class="lede">You are a dot of light in a zig-zag corridor. Each tap turns you and sends out a pulse that shows the walls for a moment. You need the light to see, but every time you ask for it, you have to turn.</p>
+        <div class="cta">
+          <a class="btn" href="play/">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z"/></svg>
+            <span>Play in your browser</span>
+          </a>
+          <span class="btn btn-soon" aria-label="App Store: coming soon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1ZM13.9 5c.7-.9 1.2-2 1.1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3-1.5Z"/></svg>
+            <span>App Store</span><small>Soon</small>
+          </span>
+          <span class="btn btn-soon" aria-label="Google Play: coming soon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 2.6c-.3.3-.5.8-.5 1.4v16c0 .6.2 1.1.5 1.4l9.2-9.4L4 2.6Zm10.6 10.8 2.6 2.6-11 6.3 8.4-8.9Zm4-4.2 2.7 1.5c.9.5.9 1.9 0 2.4l-2.8 1.6-2.8-2.9 2.9-2.6ZM6.2 1.7l11 6.3-2.6 2.6-8.4-8.9Z"/></svg>
+            <span>Google Play</span><small>Soon</small>
+          </span>
+        </div>
+      </div>
+      <div class="phone">
+        <img src="img/2-corners.jpg" alt="ECHO Lightrunner gameplay: the light hits a corner for a Perfect, combo ×10" width="405" height="720">
+      </div>
+    </div>
+
+    <section>
+      <h2><span class="glow">How to play</span></h2>
+      <div class="how">
+        <div class="card"><div class="n">01</div><h3>Tap to turn</h3><p>Every tap switches your direction in the corridor.</p></div>
+        <div class="card"><div class="n">02</div><h3>Every tap is light</h3><p>A pulse shows the walls for a moment, then the dark closes in.</p></div>
+        <div class="card"><div class="n">03</div><h3>Hit the corner</h3><p>Tap right on the turn for a <span class="hi">Perfect</span>. Chain them and your light grows.</p></div>
+        <div class="card"><div class="n">04</div><h3>Don't touch the walls</h3><p>The corridor gets faster and narrower. One touch and it's lights out.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>A new color every 20 points</h2>
+      <div class="zones" aria-hidden="true"><span style="background:var(--c1);color:var(--c1)"></span><span style="background:var(--c2);color:var(--c2)"></span><span style="background:var(--c3);color:var(--c3)"></span><span style="background:var(--c4);color:var(--c4)"></span><span style="background:var(--c5);color:var(--c5)"></span></div>
+      <div class="shots-scroll">
+        <div class="shots">
+          <img src="img/1-one-tap.jpg" alt="Start screen: ECHO Lightrunner, tap to start" loading="lazy" width="405" height="720">
+          <img src="img/2-corners.jpg" alt="A Perfect on the corner with a combo of 10" loading="lazy" width="405" height="720">
+          <img src="img/3-lights-up.jpg" alt="The magenta zone: a pulse of light shows the walls" loading="lazy" width="405" height="720">
+          <img src="img/4-new-colors.jpg" alt="The violet zone at 47 points" loading="lazy" width="405" height="720">
+          <img src="img/5-beat-your-best.jpg" alt="Game over screen with a new best score" loading="lazy" width="405" height="720">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Why you'll play one more</h2>
+      <ul class="feat">
+        <li>One tap, learned in seconds</li>
+        <li>PERFECT corners build combos and a bigger light</li>
+        <li>Every Perfect plays a higher note</li>
+        <li>Five color zones that keep getting faster</li>
+        <li>Your best run waits on the path as an amber ring</li>
+        <li>Instant restart after every fall</li>
+        <li>Works offline, no account needed</li>
+        <li>Light ads, never during a run</li>
+        <li>Free in your browser, no ads at all</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 MrcosyFusco Games · <a href="../">More games</a></span>
+    <a href="privacy/">Privacy policy</a>
+  </footer>
+</div>
+</body>
+</html>

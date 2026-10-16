@@ -4,13 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MrcosyFusco Games</title>
-<meta name="description" content="One-finger arcade games for iPhone and Android: Longshade, Dondo Dondo and Pip & Pop.">
+<meta name="description" content="One-finger arcade games for iPhone and Android: ECHO Lightrunner, Longshade, Dondo Dondo and Pip & Pop.">
 <meta name="theme-color" content="#f7f3ec">
 <link rel="icon" href="dondo-dondo/img/icon.png">
 <style>
   @font-face { font-family: "Space Mono"; font-weight: 700; font-display: swap; src: url(fonts/SpaceMono-Bold.woff2) format("woff2"); }
   @font-face { font-family: "Space Mono"; font-weight: 400; font-display: swap; src: url(fonts/SpaceMono-Regular.woff2) format("woff2"); }
   @font-face { font-family: "Fredoka"; font-style: normal; font-weight: 300 700; font-display: swap; src: url(fonts/fredoka-latin.woff2) format("woff2"); }
+  @font-face { font-family: "Tilt Neon"; font-weight: 400; font-display: swap; src: url(fonts/tilt-neon.woff) format("woff"); }
   :root { --bg: #f7f3ec; --text: #24211d; --dim: #6d675e; }
   * { box-sizing: border-box; }
   html { color-scheme: light; }
@@ -24,7 +25,7 @@
   h1 { font-size: clamp(40px, 7vw, 64px); line-height: 1; margin: 0 0 10px; font-weight: 700; }
   header p { margin: 0; color: var(--dim); font-size: 20px; }
 
-  .games { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-bottom: 48px; }
+  .games { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; padding-bottom: 48px; }
   .game {
     display: flex; flex-direction: column; border-radius: 28px; overflow: hidden; text-decoration: none; color: inherit;
     box-shadow: 0 16px 40px rgba(36,33,29,.10); transition: transform .18s, box-shadow .18s;
@@ -55,6 +56,10 @@
   .longshade p { color: #b3a6d6; }
   .longshade .go { color: #ffd166; }
   .longshade .icon { image-rendering: pixelated; }
+  .echo { background: radial-gradient(ellipse 80% 60% at 70% 0%, rgba(157,123,255,.22), transparent 70%), #05060b; color: #e2efff; }
+  .echo h2 { font: 400 28px/1.1 "Tilt Neon", "Fredoka", sans-serif; letter-spacing: .03em; background: linear-gradient(90deg, #5fd8ff, #9d7bff, #ff4fc3); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .echo p { color: #9aa6c7; }
+  .echo .go { color: #5fd8ff; text-shadow: 0 0 12px rgba(95,216,255,.5); }
 
   footer { border-top: 1px solid rgba(36,33,29,.12); padding-block: 24px 40px; color: var(--dim); font-size: 15px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
   footer a { color: var(--text); }
@@ -75,6 +80,17 @@
   </header>
 
   <main class="games">
+    <a class="game echo" href="echo/">
+      <img class="cover" src="echo/img/og.png" alt="ECHO Lightrunner" width="1024" height="500">
+      <div class="body">
+        <img class="icon" src="echo/img/icon.png" alt="">
+        <div>
+          <h2>ECHO Lightrunner</h2>
+          <p>Every tap turns you and lights the way. Hit the corners in total darkness.</p>
+          <span class="go">Discover &rarr;</span>
+        </div>
+      </div>
+    </a>
     <a class="game longshade" href="longshade/">
       <img class="cover" src="longshade/img/og.png" alt="Longshade" width="1024" height="500">
       <div class="body">
@@ -112,7 +128,7 @@
 
   <footer>
     <span>© 2026 MrcosyFusco Games</span>
-    <span>Privacy: <a href="longshade/privacy/">Longshade</a> · <a href="dondo-dondo/privacy/">Dondo Dondo</a> · <a href="pip-and-pop/privacy/">Pip &amp; Pop</a></span>
+    <span>Privacy: <a href="echo/privacy/">ECHO</a> · <a href="longshade/privacy/">Longshade</a> · <a href="dondo-dondo/privacy/">Dondo Dondo</a> · <a href="pip-and-pop/privacy/">Pip &amp; Pop</a></span>
   </footer>
 </div>
 </body>
