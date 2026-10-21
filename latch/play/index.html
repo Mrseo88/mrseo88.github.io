@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0f0a2b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>LATCH 16-BIT</title>
+<link rel="icon" href="../img/icon.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+  html, body {
+    margin: 0; padding: 0; height: 100%; overflow: hidden;
+    background: #0f0a2b; color: #f3ecff;
+    overscroll-behavior: none;
+    -webkit-user-select: none; user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  canvas {
+    display: block; position: fixed; inset: 0;
+    width: 100vw; height: 100vh; height: 100dvh;
+    touch-action: none; cursor: pointer;
+    image-rendering: pixelated;
+  }
+</style>
+</head>
+<body>
+<canvas id="game" aria-label="LATCH: tap to let go, tap to latch"></canvas>
+<script>window.LATCH_THEME = 'pixel';</script>
+<script src="theme-pixel.js"></script>
+<script src="core.js"></script>
+</body>
+</html>
