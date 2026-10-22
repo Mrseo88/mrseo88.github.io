@@ -61,6 +61,9 @@
   .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--pink); }
   .btn:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
   .btn svg { width: 20px; height: 20px; flex: none; }
+  .btn-ghost { background: rgba(18,10,38,.6); color: var(--light); border-color: var(--light); box-shadow: 4px 4px 0 var(--sky3); }
+  .btn-ghost:hover { box-shadow: 6px 6px 0 var(--sky3); }
+  .btn-ghost:active { box-shadow: 2px 2px 0 var(--sky3); }
   .btn-soon { cursor: default; background: transparent; color: var(--dim); border-color: var(--dim); box-shadow: none; }
   .btn-soon:hover { transform: none; box-shadow: none; }
   .btn-soon small { font: 400 9px/1 "Press Start 2P", monospace; color: var(--gold); }
@@ -128,11 +131,11 @@
         <p class="tag">One tap. Infinite rage. <em>Let go, fly, latch on.</em></p>
         <p class="lede">You are a spark orbiting a node. Tap to let go and fly straight, tap again to latch onto the nearest node. Your new orbit is exactly as tight as your timing: hug the core for a PERFECT, but tight orbits spin faster, and every node burns out under you.</p>
         <div class="cta">
-          <span class="btn btn-soon" aria-label="Google Play: coming soon">
+          <a class="btn" href="https://play.google.com/store/apps/details?id=com.costantinofusco.latch" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 2.6c-.3.3-.5.8-.5 1.4v16c0 .6.2 1.1.5 1.4l9.2-9.4L4 2.6Zm10.6 10.8 2.6 2.6-11 6.3 8.4-8.9Zm4-4.2 2.7 1.5c.9.5.9 1.9 0 2.4l-2.8 1.6-2.8-2.9 2.9-2.6ZM6.2 1.7l11 6.3-2.6 2.6-8.4-8.9Z"/></svg>
-            <span>Google Play</span><small>Soon</small>
-          </span>
-          <a class="btn" href="play/">
+            <span>Get it on Google Play</span>
+          </a>
+          <a class="btn btn-ghost" href="play/">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z"/></svg>
             <span>Play in your browser</span>
           </a>
