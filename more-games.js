@@ -6,6 +6,8 @@
 'use strict';
 
 const GAMES = [
+  { id: 'tonfo', name: 'TONFO: Raft Brawl', cover: 'tonfo/img/og.jpg', icon: 'tonfo/img/icon.png',
+    text: 'Hold to charge, release to dash. Knock them into the water, and don\'t fall in.' },
   { id: 'latch', name: 'LATCH', cover: 'latch/img/og.jpg', icon: 'latch/img/icon.png',
     text: 'Tap to let go, tap to latch. Hug the core for PERFECT combos.' },
   { id: 'echo', name: 'ECHO Lightrunner', cover: 'echo/img/og.png', icon: 'echo/img/icon.png',
@@ -23,6 +25,7 @@ const CSS = `
 @font-face { font-family: "MG Space Mono"; font-weight: 700; font-display: swap; src: url(/fonts/SpaceMono-Bold.woff2) format("woff2"); }
 @font-face { font-family: "MG Space Mono"; font-weight: 400; font-display: swap; src: url(/fonts/SpaceMono-Regular.woff2) format("woff2"); }
 @font-face { font-family: "MG Tilt Neon"; font-weight: 400; font-display: swap; src: url(/fonts/tilt-neon.woff) format("woff"); }
+@font-face { font-family: "MG Lilita"; font-weight: 400; font-display: swap; src: url(/tonfo/fonts/lilita-one.woff2) format("woff2"); }
 @font-face { font-family: "MG Press Start"; font-weight: 400; font-display: swap; src: url(/latch/play/fonts/press-start-2p-latin-400-normal.woff2) format("woff2"); }
 
 .more-games { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
@@ -60,6 +63,13 @@ const CSS = `
 }
 .mg-dondo-dondo p { color: rgba(33,31,27,.7); }
 .mg-dondo-dondo .mg-go { color: #e03a2a; font-weight: 700; }
+.mg-tonfo { background: linear-gradient(180deg, #1f80ab, #0b3556); color: #fff8ec; border: 3px solid #24173a; box-shadow: 0 5px 0 #24173a, 0 14px 34px rgba(0,0,0,.18); }
+.mg-tonfo:hover { box-shadow: 0 7px 0 #24173a, 0 20px 44px rgba(0,0,0,.26); }
+.mg-tonfo h3 { font: 400 21px/1.1 "MG Lilita", "MG Fredoka", sans-serif; color: #ffd27a;
+  text-shadow: 0 2px 0 #24173a, 0 -2px 0 #24173a, 2px 0 0 #24173a, -2px 0 0 #24173a, 0 4px 0 rgba(8,18,36,.45); }
+.mg-tonfo p { color: #bfd9e6; }
+.mg-tonfo .mg-go { color: #ffd166; }
+.mg-tonfo .mg-icon { border: 2px solid #24173a; }
 .mg-pip-and-pop { background: linear-gradient(180deg, #fff6ea, #ffe0d2); color: #2d2350; }
 .mg-pip-and-pop p { color: #6b6385; }
 .mg-pip-and-pop .mg-go { color: #ff6b3d; }

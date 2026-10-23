@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MrcosyFusco Games</title>
-<meta name="description" content="One-finger arcade games for iPhone and Android: LATCH, ECHO Lightrunner, Longshade, Dondo Dondo and Pip & Pop.">
+<meta name="description" content="One-finger arcade games for iPhone and Android: TONFO: Raft Brawl, LATCH, ECHO Lightrunner, Longshade, Dondo Dondo and Pip & Pop.">
 <meta name="theme-color" content="#f7f3ec">
 <link rel="icon" href="dondo-dondo/img/icon.png">
 <style>
@@ -13,6 +13,7 @@
   @font-face { font-family: "Fredoka"; font-style: normal; font-weight: 300 700; font-display: swap; src: url(fonts/fredoka-latin.woff2) format("woff2"); }
   @font-face { font-family: "Tilt Neon"; font-weight: 400; font-display: swap; src: url(fonts/tilt-neon.woff) format("woff"); }
   @font-face { font-family: "Press Start 2P"; font-weight: 400; font-display: swap; src: url(latch/play/fonts/press-start-2p-latin-400-normal.woff2) format("woff2"); }
+  @font-face { font-family: "Lilita One"; font-weight: 400; font-display: swap; src: url(tonfo/fonts/lilita-one.woff2) format("woff2"); }
   :root { --bg: #f7f3ec; --text: #24211d; --dim: #6d675e; }
   * { box-sizing: border-box; }
   html { color-scheme: light; }
@@ -69,6 +70,14 @@
   .latch .go { color: #33e0ff; }
   .latch .icon { image-rendering: pixelated; }
 
+  .tonfo { background: linear-gradient(180deg, #1f80ab, #0b3556); color: #fff8ec; border: 3px solid #24173a; box-shadow: 0 6px 0 #24173a, 0 16px 40px rgba(36,33,29,.12); }
+  .tonfo:hover { box-shadow: 0 8px 0 #24173a, 0 22px 50px rgba(36,33,29,.18); }
+  .tonfo h2 { font: 400 28px/1.1 "Lilita One", "Fredoka", sans-serif; color: #ffd27a; margin-bottom: 6px;
+    text-shadow: 0 2px 0 #24173a, 0 -2px 0 #24173a, 2px 0 0 #24173a, -2px 0 0 #24173a, 0 4px 0 rgba(8,18,36,.45); }
+  .tonfo p { color: #bfd9e6; }
+  .tonfo .go { color: #ffd166; }
+  .tonfo .icon { border: 2px solid #24173a; }
+
   footer { border-top: 1px solid rgba(36,33,29,.12); padding-block: 24px 40px; color: var(--dim); font-size: 15px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
   footer a { color: var(--text); }
 
@@ -88,6 +97,17 @@
   </header>
 
   <main class="games">
+    <a class="game tonfo" href="tonfo/">
+      <img class="cover" src="tonfo/img/og.jpg" alt="TONFO: Raft Brawl" width="1024" height="500">
+      <div class="body">
+        <img class="icon" src="tonfo/img/icon.png" alt="">
+        <div>
+          <h2>TONFO: Raft Brawl</h2>
+          <p>Hold to charge, release to dash. Knock silly blobs off the raft and into the water, and don't fall in.</p>
+          <span class="go">Discover &rarr;</span>
+        </div>
+      </div>
+    </a>
     <a class="game latch" href="latch/">
       <img class="cover" src="latch/img/og.jpg" alt="LATCH" width="1024" height="500">
       <div class="body">
@@ -147,7 +167,7 @@
 
   <footer>
     <span>© 2026 MrcosyFusco Games</span>
-    <span>Privacy: <a href="latch/privacy/">LATCH</a> · <a href="echo/privacy/">ECHO</a> · <a href="longshade/privacy/">Longshade</a> · <a href="dondo-dondo/privacy/">Dondo Dondo</a> · <a href="pip-and-pop/privacy/">Pip &amp; Pop</a></span>
+    <span>Privacy: <a href="tonfo/privacy/">TONFO</a> · <a href="latch/privacy/">LATCH</a> · <a href="echo/privacy/">ECHO</a> · <a href="longshade/privacy/">Longshade</a> · <a href="dondo-dondo/privacy/">Dondo Dondo</a> · <a href="pip-and-pop/privacy/">Pip &amp; Pop</a></span>
   </footer>
 </div>
 </body>

@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TONFO: Raft Brawl — Knock them in. Don't fall in.</title>
+<meta name="description" content="TONFO: Raft Brawl is a one-touch arcade brawler on a wooden raft. Hold to charge, release to dash and knock silly blobs into the water. Waves, a boss every five waves, a hungry shark, power-ups, missions and hats.">
+<meta property="og:title" content="TONFO: Raft Brawl">
+<meta property="og:description" content="Hold, charge, dash! Knock silly blobs off the raft and into the water.">
+<meta property="og:image" content="https://mrseo88.github.io/tonfo/img/og.jpg">
+<meta name="theme-color" content="#1a6f97">
+<link rel="icon" href="img/icon.png">
+<style>
+  @font-face { font-family: "Lilita One"; font-weight: 400; font-display: swap; src: url(fonts/lilita-one.woff2) format("woff2"); }
+  @font-face { font-family: "Fredoka"; font-weight: 300 700; font-display: swap; src: url(../fonts/fredoka-latin.woff2) format("woff2"); }
+  /* The game's palette: deep water, wooden raft, rope, ink outlines, coral wrestler, gold, foam. */
+  :root {
+    --water0: #1f80ab; --water1: #135a80; --water2: #0b3556; --ink: #24173a;
+    --wood: #f1dfbf; --wood2: #e4bb82; --rope: #b5834a; --rope2: #8f6236;
+    --coral: #ff6f59; --red: #e8384f; --gold: #ffd166; --gold2: #ffb238; --foam: #bfeaff;
+    --light: #fff8ec; --dim: #bfd9e6; --purple: #7a6cf0; --mint: #4fc3a1;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin: 0; color: var(--light); background: var(--water2);
+    font: 500 17px/1.6 "Fredoka", ui-rounded, system-ui, sans-serif;
+    background-image: linear-gradient(180deg, var(--water0) 0, var(--water1) 45%, var(--water2) 100%);
+    background-attachment: fixed; min-height: 100vh;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  }
+  body::before { /* lazy ripples on the water */
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1; opacity: .5;
+    background-image:
+      radial-gradient(40px 6px at 12% 14%, rgba(233,251,255,.35) 40%, transparent 70%),
+      radial-gradient(56px 7px at 82% 22%, rgba(233,251,255,.3) 40%, transparent 70%),
+      radial-gradient(36px 5px at 46% 41%, rgba(233,251,255,.25) 40%, transparent 70%),
+      radial-gradient(60px 7px at 90% 63%, rgba(233,251,255,.28) 40%, transparent 70%),
+      radial-gradient(44px 6px at 8% 78%, rgba(233,251,255,.3) 40%, transparent 70%),
+      radial-gradient(50px 6px at 58% 91%, rgba(233,251,255,.25) 40%, transparent 70%);
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 24px; }
+  a { color: inherit; }
+  .lilita { font-family: "Lilita One", "Fredoka", sans-serif; font-weight: 400; }
+  /* thick "sticker" outline used by every big title in the game */
+  .ink { text-shadow: 0 3px 0 var(--ink), 0 -3px 0 var(--ink), 3px 0 0 var(--ink), -3px 0 0 var(--ink),
+    2px 2px 0 var(--ink), -2px 2px 0 var(--ink), 2px -2px 0 var(--ink), -2px -2px 0 var(--ink), 0 7px 0 rgba(8,18,36,.45); }
+
+  header.top { display: flex; justify-content: space-between; align-items: center; padding-block: 20px; }
+  .brand { display: flex; align-items: center; gap: 10px; font: 400 22px/1 "Lilita One", sans-serif; text-decoration: none; color: var(--gold); }
+  .brand img { width: 38px; height: 38px; border-radius: 10px; border: 2px solid var(--ink); }
+  .home { font: 600 15px/1 "Fredoka", sans-serif; color: var(--dim); text-decoration: none; }
+
+  .hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; padding-block: 28px 64px; }
+  .logo { margin: 0 0 6px; font: 400 clamp(72px, 13vw, 132px)/0.95 "Lilita One", sans-serif; color: #ffd27a; letter-spacing: .01em;
+    text-shadow: 0 6px 0 var(--ink), 0 -6px 0 var(--ink), 6px 0 0 var(--ink), -6px 0 0 var(--ink),
+      4px 4px 0 var(--ink), -4px 4px 0 var(--ink), 4px -4px 0 var(--ink), -4px -4px 0 var(--ink), 0 14px 0 rgba(8,18,36,.45); }
+  .sub { margin: 0 0 22px; font: 400 clamp(24px, 3.4vw, 34px)/1.1 "Lilita One", sans-serif; color: var(--light); }
+  .tag { font-size: clamp(20px, 2.6vw, 25px); margin: 0 0 8px; font-weight: 700; }
+  .tag em { font-style: normal; color: var(--gold); }
+  .lede { color: var(--dim); margin: 0 0 28px; max-width: 40ch; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px; text-decoration: none; border-radius: 999px;
+    font: 400 18px/1 "Lilita One", sans-serif; letter-spacing: .02em; color: #fff;
+    background: linear-gradient(180deg, #ff8a6e, var(--red)); border: 3px solid var(--ink);
+    box-shadow: inset 0 3px 0 rgba(255,255,255,.3), 0 5px 0 var(--ink); transition: transform .1s, box-shadow .1s;
+    text-shadow: 0 2px 0 rgba(36,23,58,.6);
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: inset 0 3px 0 rgba(255,255,255,.3), 0 7px 0 var(--ink); }
+  .btn:active { transform: translateY(3px); box-shadow: inset 0 3px 0 rgba(255,255,255,.3), 0 2px 0 var(--ink); }
+  .btn:focus-visible { outline: 3px solid var(--foam); outline-offset: 3px; }
+  .btn svg { width: 20px; height: 20px; flex: none; }
+  .btn-blue { background: linear-gradient(180deg, #6fa8d6, #3a6f9e); }
+  .btn-soon { cursor: default; background: rgba(6,20,40,.45); color: var(--dim); border-color: rgba(191,217,230,.5); box-shadow: none; text-shadow: none; }
+  .btn-soon:hover { transform: none; box-shadow: none; }
+  .btn-soon small { font: 600 12px/1 "Fredoka", sans-serif; color: var(--gold); letter-spacing: .04em; text-transform: uppercase; }
+
+  .phone { justify-self: center; width: min(100%, 300px); position: relative; }
+  .phone::before { /* the raft under the device */
+    content: ""; position: absolute; left: 50%; top: 50%; width: 132%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
+    background: repeating-linear-gradient(90deg, #ecc993 0 34px, #e4bb82 34px 36px, #f0d2a2 36px 70px, #e1b67c 70px 72px);
+    border: 14px solid var(--rope); box-shadow: 0 0 0 4px var(--ink), 0 0 0 16px rgba(233,251,255,.18), 0 26px 50px rgba(3,20,38,.5);
+    pointer-events: none;
+  }
+  .phone img { position: relative; width: 100%; height: auto; display: block; border: 4px solid var(--ink); border-radius: 26px; box-shadow: 0 8px 0 var(--ink), 0 26px 60px rgba(3,20,38,.6); }
+
+  section { padding-block: 48px; }
+  h2 { font: 400 clamp(28px, 4vw, 40px)/1.1 "Lilita One", sans-serif; margin: 0 0 28px; color: var(--gold); text-wrap: balance; }
+
+  .how { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .card { /* a little wooden plank */
+    background: repeating-linear-gradient(90deg, var(--wood) 0 46px, #e8cfa4 46px 48px); color: var(--ink);
+    border: 3px solid var(--ink); border-radius: 18px; box-shadow: 0 6px 0 var(--ink); padding: 18px; min-width: 0;
+  }
+  .card .n { font: 400 26px/1 "Lilita One", sans-serif; display: inline-block; padding: 6px 12px; border-radius: 999px; border: 3px solid var(--ink); color: #fff; }
+  .card:nth-child(1) .n { background: var(--coral); } .card:nth-child(2) .n { background: var(--gold2); }
+  .card:nth-child(3) .n { background: var(--purple); } .card:nth-child(4) .n { background: #1a6f97; }
+  .card h3 { margin: 14px 0 6px; font: 400 21px/1.2 "Lilita One", sans-serif; }
+  .card p { margin: 0; font-size: 15px; color: #5a4636; }
+  .card .hi { color: #c0392b; font-weight: 700; }
+
+  .shots-scroll { overflow-x: auto; padding-bottom: 16px; scroll-snap-type: x mandatory; }
+  .shots { display: grid; grid-template-columns: repeat(6, minmax(140px, 1fr)); gap: 16px; }
+  .shots img { width: 100%; height: auto; aspect-ratio: 9 / 16; display: block; scroll-snap-align: start; background: var(--water2);
+    border: 3px solid var(--ink); border-radius: 16px; box-shadow: 0 6px 0 var(--ink), 0 16px 30px rgba(3,20,38,.45); }
+
+  ul.feat { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px 32px; }
+  ul.feat li { padding-left: 30px; position: relative; }
+  ul.feat li::before { /* tiny blobs with eyes */
+    content: ""; position: absolute; left: 0; top: 5px; width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--ink);
+    background: radial-gradient(circle at 62% 38%, var(--ink) 0 2px, transparent 2.5px), radial-gradient(circle at 62% 66%, var(--ink) 0 2px, transparent 2.5px), var(--coral);
+  }
+  ul.feat li:nth-child(4n+2)::before { background-color: var(--purple); }
+  ul.feat li:nth-child(4n+3)::before { background-color: var(--gold2); }
+  ul.feat li:nth-child(4n)::before { background-color: var(--mint); }
+
+  footer { border-top: 2px solid rgba(191,234,255,.2); margin-top: 32px; padding-block: 24px 40px; font-size: 15px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--dim); }
+  footer a { color: var(--light); }
+
+  @media (max-width: 860px) { .how { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; padding-top: 8px; gap: 56px; }
+    .phone { width: min(64%, 240px); }
+    .shots { grid-template-columns: repeat(6, 62%); }
+  }
+  @media (max-width: 480px) { .how { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand ink" href="./"><img src="img/icon.png" alt="">TONFO</a>
+    <a class="home" href="../">&larr; More games</a>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1 class="logo">TONFO</h1>
+        <p class="sub ink">Raft Brawl</p>
+        <p class="tag">Knock them in. <em>Don't fall in.</em></p>
+        <p class="lede">A round little wrestler on a wooden raft, with water all around. The arrow spins around you: hold to plant your feet and charge, release to dash where it points. Send everyone flying into the water, wave after wave, without taking the plunge yourself.</p>
+        <div class="cta">
+          <span class="btn btn-soon" aria-label="Google Play, coming soon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 2.6c-.3.3-.5.8-.5 1.4v16c0 .6.2 1.1.5 1.4l9.2-9.4L4 2.6Zm10.6 10.8 2.6 2.6-11 6.3 8.4-8.9Zm4-4.2 2.7 1.5c.9.5.9 1.9 0 2.4l-2.8 1.6-2.8-2.9 2.9-2.6ZM6.2 1.7l11 6.3-2.6 2.6-8.4-8.9Z"/></svg>
+            <span>Google Play</span> <small>coming soon</small>
+          </span>
+          <a class="btn" href="play/">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5Z"/></svg>
+            <span>Play in your browser</span>
+          </a>
+        </div>
+      </div>
+      <div class="phone">
+        <img src="img/2-knock-them-off.jpg" alt="TONFO gameplay: a CAROM sends an enemy into the water, combo x3" width="405" height="720">
+      </div>
+    </div>
+
+    <section>
+      <h2 class="ink">How to play</h2>
+      <div class="how">
+        <div class="card"><div class="n">1</div><h3>Hold to charge</h3><p>The arrow stops and you plant your feet: you get heavier and harder to push around.</p></div>
+        <div class="card"><div class="n">2</div><h3>Release to dash</h3><p>You dash where the arrow points. Release when the ring turns gold for a <span class="hi">PERFECT</span> hit.</p></div>
+        <div class="card"><div class="n">3</div><h3>Knock them in</h3><p>Every enemy in the water scores. Chain dunks for combos, caroms and FEVER.</p></div>
+        <div class="card"><div class="n">4</div><h3>Don't fall in</h3><p>The dotted line shows where you'll stop. If it turns <span class="hi">red</span>, you're going swimming.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="ink">Waves, a king and a shark</h2>
+      <div class="shots-scroll">
+        <div class="shots">
+          <img src="img/1-hold-to-charge.jpg" alt="Hold to charge: the gold ring and the dotted line show a PERFECT dash" loading="lazy" width="405" height="720">
+          <img src="img/2-knock-them-off.jpg" alt="Knock them off the raft: a CAROM with combo x3" loading="lazy" width="405" height="720">
+          <img src="img/3-feed-the-shark.jpg" alt="Feed the shark: an enemy dunked near the fin is CHOMPED for triple points" loading="lazy" width="405" height="720">
+          <img src="img/4-king-pudding.jpg" alt="King Pudding jumps: get out of the red circle before the ground pound" loading="lazy" width="405" height="720">
+          <img src="img/5-ice-and-power-ups.jpg" alt="Ice wave: frozen enemies slide away, chili and bubble power-ups" loading="lazy" width="405" height="720">
+          <img src="img/6-missions-and-hats.jpg" alt="Main menu with missions, stars and the pirate hat" loading="lazy" width="405" height="720">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="ink">Why you'll play one more</h2>
+      <ul class="feat">
+        <li>One touch, learned in seconds</li>
+        <li>Real physics: caroms, OLÉ dodges, DOUBLE and TRIPLE dunks</li>
+        <li>King Pudding every five waves</li>
+        <li>Wind, ice and Mini Madness waves</li>
+        <li>A hungry shark worth triple points</li>
+        <li>Chili, Bubble and Freeze power-ups</li>
+        <li>Missions, stars and seven hats to unlock</li>
+        <li>Quick runs, instant restart</li>
+        <li>Phones and tablets, portrait and landscape</li>
+        <li>Works offline, no account needed</li>
+        <li>In the app: optional videos, never during a run</li>
+        <li>Free in your browser, no ads at all</li>
+      </ul>
+    </section>
+    <section>
+      <h2 class="ink">More games</h2>
+      <div class="more-games" data-current="tonfo"><a href="../">See all our games &rarr;</a></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 MrcosyFusco Games · <a href="../">More games</a></span>
+    <a href="privacy/">Privacy policy</a>
+  </footer>
+</div>
+<script src="../more-games.js" defer></script>
+</body>
+</html>
