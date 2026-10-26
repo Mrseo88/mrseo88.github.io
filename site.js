@@ -1,7 +1,6 @@
-/* Shared header and footer: same markup and links on every page, styled in each game's look.
+/* Shared header and footer, identical on every page of the site.
  * Usage, in <head>:  <script src="/site.js"></script>
- * then in <body>:    <site-header game="latch"></site-header> ... <site-footer game="latch"></site-footer>
- * `game` picks the game's look (fonts, colours) for both; without it they take the home page look.
+ * then in <body>:    <site-header></site-header> ... <site-footer game="latch"></site-footer>
  * The footer's privacy link follows the `game` attribute: a game page (or its privacy page)
  * links its own policy, the home page (no attribute) lists every game's policy.
  * GAMES is the single list of games: more-games.js reads it too. */
@@ -35,73 +34,67 @@ const SOCIAL = [
     icon: 'M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z' },
 ];
 
-// Same markup everywhere, but each game dresses it in its own look: the `game` attribute
-// (on both tags) picks the theme below, so header and footer match the page they sit on.
+// One playful look for every page: sticker style (thick ink outlines, solid drop shadows)
+// and a stripe made of each game's colour. Fixed colours, so it reads the same on any page theme.
+const INK = '#2d2350';
+const STRIPE = 'linear-gradient(90deg, #e8384f 0 16.66%, #ff9a3d 0 33.33%, #ffd23f 0 50%, #46d9a8 0 66.66%, #5fd8ff 0 83.33%, #9d7bff 0)';
 const CSS = `
 @font-face { font-family: "S Fredoka"; font-weight: 300 700; font-display: swap; src: url(/fonts/fredoka-latin.woff2) format("woff2"); }
 @font-face { font-family: "S Lilita"; font-weight: 400; font-display: swap; src: url(/tonfo/fonts/lilita-one.woff2) format("woff2"); }
-@font-face { font-family: "S Press Start"; font-weight: 400; font-display: swap; src: url(/latch/play/fonts/press-start-2p-latin-400-normal.woff2) format("woff2"); }
-@font-face { font-family: "S Space Grotesk"; font-weight: 500; font-display: swap; src: url(/latch/play/fonts/space-grotesk-latin-500-normal.woff2) format("woff2"); }
-@font-face { font-family: "S Space Grotesk"; font-weight: 700; font-display: swap; src: url(/latch/play/fonts/space-grotesk-latin-700-normal.woff2) format("woff2"); }
-@font-face { font-family: "S Tilt Neon"; font-weight: 400; font-display: swap; src: url(/fonts/tilt-neon.woff) format("woff"); }
-@font-face { font-family: "S Exo 2"; font-weight: 100 900; font-display: swap; src: url(/fonts/exo2.woff2) format("woff2"); }
-@font-face { font-family: "S Space Mono"; font-weight: 400; font-display: swap; src: url(/fonts/SpaceMono-Regular.woff2) format("woff2"); }
-@font-face { font-family: "S Space Mono"; font-weight: 700; font-display: swap; src: url(/fonts/SpaceMono-Bold.woff2) format("woff2"); }
 
-/* home (no game): the cream and ink of the home page */
 site-header, site-footer {
-  --s-text: #24211d; --s-dim: #6d675e; --s-line: 1px solid rgba(36,33,29,.12); --s-focus: #24211d;
-  --s-font: 400 15px/1.5 "S Fredoka", ui-rounded, system-ui, sans-serif; --s-nav-font: 600 15px/1 "S Fredoka", ui-rounded, sans-serif;
-  --s-brand-font: 700 22px/1 "S Fredoka", ui-rounded, sans-serif; --s-brand: #24211d; --s-brand-shadow: none;
-  display: block; color: var(--s-dim); font: var(--s-font); text-align: left; letter-spacing: normal; text-transform: none;
+  display: block; position: relative; padding-inline: 24px; text-align: left; letter-spacing: normal; text-transform: none;
+  font: 500 15px/1.5 "S Fredoka", ui-rounded, system-ui, sans-serif;
 }
-[game="tonfo"] {
-  --s-text: #fff8ec; --s-dim: #bfd9e6; --s-line: 2px solid rgba(191,234,255,.2); --s-focus: #bfeaff;
-  --s-font: 500 15px/1.5 "S Fredoka", ui-rounded, sans-serif; --s-nav-font: 600 15px/1 "S Fredoka", ui-rounded, sans-serif;
-  --s-brand-font: 400 24px/1 "S Lilita", sans-serif; --s-brand: #ffd166;
-  --s-brand-shadow: 0 2px 0 #24173a, 0 -2px 0 #24173a, 2px 0 0 #24173a, -2px 0 0 #24173a, 0 4px 0 rgba(8,18,36,.45);
-}
-[game="latch"] {
-  --s-text: #f1ecff; --s-dim: #b9addf; --s-line: 2px solid #3e2277; --s-focus: #33e0ff;
-  --s-font: 500 14px/1.5 "S Space Grotesk", system-ui, sans-serif; --s-nav-font: 700 14px/1 "S Space Grotesk", sans-serif;
-  --s-brand-font: 400 14px/1.2 "S Press Start", ui-monospace, monospace; --s-brand: #ffcc33; --s-brand-shadow: 2px 2px 0 #120a26;
-}
-[game="echo"] {
-  --s-text: #e2efff; --s-dim: #9aa6c7; --s-line: 1px solid #232b47; --s-focus: #5fd8ff;
-  --s-font: 400 14px/1.5 "S Exo 2", system-ui, sans-serif; --s-nav-font: 600 14px/1 "S Exo 2", sans-serif;
-  --s-brand-font: 400 20px/1 "S Tilt Neon", sans-serif; --s-brand: #5fd8ff; --s-brand-shadow: 0 0 12px rgba(95,216,255,.5);
-}
-[game="longshade"] {
-  --s-text: #fff2d6; --s-dim: #b3a6d6; --s-line: 2px solid #3b2d5c; --s-focus: #ffd166;
-  --s-font: 400 14px/1.5 "S Space Mono", ui-monospace, monospace; --s-nav-font: 400 14px/1 "S Space Mono", ui-monospace, monospace;
-  --s-brand-font: 700 16px/1 "S Space Mono", ui-monospace, monospace; --s-brand: #ffd166; --s-brand-shadow: none;
-}
-[game="dondo-dondo"] {
-  --s-text: #211f1b; --s-dim: rgba(33,31,27,.6); --s-line: 2px solid #211f1b; --s-focus: #e03a2a;
-  --s-font: 400 13px/1.5 "S Space Mono", ui-monospace, Menlo, monospace; --s-nav-font: 700 14px/1 "S Space Mono", ui-monospace, monospace;
-  --s-brand-font: 700 17px/1 "S Space Mono", ui-monospace, monospace; --s-brand: #211f1b; --s-brand-shadow: none;
-}
-[game="pip-and-pop"] {
-  --s-text: #2d2350; --s-dim: #6b6385; --s-line: 1px solid rgba(45,35,80,.12); --s-focus: #ff6b3d;
-  --s-font: 400 15px/1.5 "S Fredoka", ui-rounded, sans-serif; --s-nav-font: 600 15px/1 "S Fredoka", ui-rounded, sans-serif;
-  --s-brand-font: 600 20px/1 "S Fredoka", ui-rounded, sans-serif; --s-brand: #ff6b3d; --s-brand-shadow: none;
-}
+site-header .s-in, site-footer .s-in { max-width: 992px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; }
 
-site-header, site-footer { padding-inline: 24px; }
-site-header .s-in, site-footer .s-in { max-width: 992px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; }
-site-header .s-in { padding-block: 16px; }
-site-header .s-brand { font: var(--s-brand-font); color: var(--s-brand); text-shadow: var(--s-brand-shadow); text-decoration: none; }
-[game="echo"] .s-brand { letter-spacing: .06em; }
-site-header nav { display: flex; align-items: center; gap: 4px; }
-site-header .s-games { font: var(--s-nav-font); color: var(--s-dim); text-decoration: none; margin-right: 8px; }
-site-header .s-icon { display: inline-flex; width: 36px; height: 36px; align-items: center; justify-content: center; color: var(--s-dim); }
-site-header .s-games:hover, site-header .s-icon:hover { color: var(--s-text); }
+site-header { background: #fff6ea; color: ${INK}; border-bottom: 4px solid ${INK}; padding-bottom: 11px; }
+site-header::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 8px; background: ${STRIPE}; border-top: 3px solid ${INK}; }
+site-header .s-in { padding-block: 14px 16px; }
+
+site-header .s-brand { display: inline-flex; align-items: baseline; gap: 8px; text-decoration: none; font: 400 28px/1 "S Lilita", "S Fredoka", sans-serif; }
+site-header .s-brand b { font-weight: 400; display: inline-block; transition: transform .2s cubic-bezier(.3,1.8,.5,1);
+  text-shadow: 0 2px 0 ${INK}, 0 -2px 0 ${INK}, 2px 0 0 ${INK}, -2px 0 0 ${INK}, 2px 2px 0 ${INK}, -2px 2px 0 ${INK}, 2px -2px 0 ${INK}, -2px -2px 0 ${INK}, 0 5px 0 ${INK}; }
+site-header .s-word { display: inline-flex; }
+site-header .s-brand .s-games-word { color: ${INK}; font-size: 22px; }
+site-header .s-brand:hover b { transform: translateY(-5px) rotate(-6deg); }
+site-header .s-brand:hover b:nth-child(even) { transform: translateY(-3px) rotate(6deg); }
+site-header .s-brand b:nth-child(2) { transition-delay: .03s; } site-header .s-brand b:nth-child(3) { transition-delay: .06s; }
+site-header .s-brand b:nth-child(4) { transition-delay: .09s; } site-header .s-brand b:nth-child(5) { transition-delay: .12s; }
+site-header .s-brand b:nth-child(6) { transition-delay: .15s; }
+
+site-header nav { display: flex; align-items: center; gap: 10px; }
+site-header .s-games, site-header .s-icon {
+  display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
+  border: 3px solid ${INK}; box-shadow: 0 4px 0 ${INK}; transition: transform .15s cubic-bezier(.3,1.8,.5,1), box-shadow .15s;
+}
+site-header .s-games { height: 42px; padding: 0 16px; border-radius: 999px; background: #ffd23f; color: ${INK}; font: 400 17px/1 "S Lilita", "S Fredoka", sans-serif; letter-spacing: .02em; margin-right: 4px; }
+site-header .s-icon { width: 42px; height: 42px; border-radius: 50%; color: #fff; }
+site-header .s-tiktok { background: #111; } site-header .s-tiktok svg { filter: drop-shadow(-1.5px -1px 0 #25f4ee) drop-shadow(1.5px 1px 0 #fe2c55); }
+site-header .s-instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+site-header .s-youtube { background: #ff0033; }
+site-header .s-games:hover, site-header .s-icon:hover { transform: translateY(-3px) rotate(-4deg); box-shadow: 0 7px 0 ${INK}; }
+site-header .s-icon:nth-of-type(odd):hover { transform: translateY(-3px) rotate(4deg); }
+site-header .s-games:active, site-header .s-icon:active { transform: translateY(3px); box-shadow: 0 1px 0 ${INK}; }
 site-header svg { width: 19px; height: 19px; fill: currentColor; }
-site-footer { margin-top: 32px; }
-site-footer .s-in { border-top: var(--s-line); padding-block: 24px 40px; }
-site-footer a { color: var(--s-text); }
-site-header a:focus-visible, site-footer a:focus-visible { outline: 2px solid var(--s-focus); outline-offset: 2px; }
+
+site-footer { margin-top: 40px; background: ${INK}; color: #c9c0ea; border-top: 4px solid ${INK}; padding-top: 11px; }
+site-footer::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 8px; background: ${STRIPE}; border-bottom: 3px solid ${INK}; }
+site-footer .s-in { padding-block: 26px 34px; }
+site-footer .s-copy { font: 400 18px/1 "S Lilita", "S Fredoka", sans-serif; color: #fff6ea; letter-spacing: .02em; }
+site-footer a { color: #ffd23f; text-decoration-thickness: 2px; text-underline-offset: 3px; font-weight: 600; }
+site-footer a:hover { color: #fff6ea; }
+
+site-header a:focus-visible, site-footer a:focus-visible { outline: 3px solid #5fd8ff; outline-offset: 3px; }
+@media (max-width: 520px) {
+  site-header .s-brand { font-size: 24px; } site-header .s-brand .s-games-word { font-size: 19px; }
+  site-header .s-games { height: 38px; padding: 0 12px; font-size: 15px; } site-header .s-icon { width: 38px; height: 38px; }
+}
+@media (prefers-reduced-motion: reduce) { site-header *, site-footer * { transition: none !important; } }
 `;
+
+const COLORS = ['#e8384f', '#ff9a3d', '#ffd23f', '#46d9a8', '#5fd8ff', '#9d7bff'];
+const LETTERS = [...'Mrcosy'].map((c, i) => `<b style="color:${COLORS[i]}">${c}</b>`).join('');
 
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 const ext = (url, label) => `<a href="${url}" target="_blank" rel="noopener">${label}</a>`;
@@ -109,10 +102,10 @@ const ext = (url, label) => `<a href="${url}" target="_blank" rel="noopener">${l
 class SiteHeader extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `<div class="s-in">
-      <a class="s-brand" href="/">${BRAND}</a>
+      <a class="s-brand" href="/" aria-label="${BRAND}"><span class="s-word" aria-hidden="true">${LETTERS}</span><span class="s-games-word" aria-hidden="true">Games</span></a>
       <nav aria-label="${BRAND}">
         <a class="s-games" href="/">All games</a>
-        ${SOCIAL.map(s => `<a class="s-icon" href="${s.url}" target="_blank" rel="noopener" aria-label="${s.name}" title="${s.name}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${s.icon}"/></svg></a>`).join('')}
+        ${SOCIAL.map(s => `<a class="s-icon s-${s.name.toLowerCase()}" href="${s.url}" target="_blank" rel="noopener" aria-label="${s.name}" title="${s.name}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${s.icon}"/></svg></a>`).join('')}
       </nav>
     </div>`;
   }
@@ -125,7 +118,7 @@ class SiteFooter extends HTMLElement {
       ? `<a href="/${game.id}/privacy/">Privacy policy</a>`
       : `Privacy: ${GAMES.map(g => `<a href="/${g.id}/privacy/">${esc(g.short)}</a>`).join(' · ')}`;
     this.innerHTML = `<div class="s-in">
-      <span>© 2026 ${BRAND}</span>
+      <span class="s-copy">© 2026 ${BRAND}</span>
       <span>Follow: ${SOCIAL.map(s => ext(s.url, s.name)).join(' · ')}</span>
       <span>${privacy}</span>
     </div>`;
