@@ -37,10 +37,6 @@
   .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 48px 24px; }
   a { color: inherit; }
 
-  header.top { display: flex; justify-content: space-between; align-items: center; padding-block: 20px; }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; }
-  .brand img { width: 36px; height: 36px; border-radius: 9px; }
-
   .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: center; padding-block: 40px 64px; }
   h1 { font-size: clamp(48px, 10vw, 96px); line-height: .95; margin: 0 0 20px; font-weight: 700; }
   .tag { font-size: clamp(18px, 2.4vw, 24px); margin: 0 0 8px; }
@@ -94,9 +90,6 @@
   ul.feat li::before { content: ""; position: absolute; left: 0; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--red); }
   ul.feat li:nth-child(even)::before { background: var(--ink); }
 
-  footer { border-top: 2px solid var(--ink); margin-top: 32px; padding-block: 24px 40px; font-size: 13px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--ink-soft); }
-  footer a { color: var(--ink); }
-
   [hidden] { display: none !important; }
 
   @media (max-width: 760px) {
@@ -109,13 +102,11 @@
   }
   @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
 </style>
+<script src="/site.js"></script>
 </head>
 <body>
+<site-header></site-header>
 <div class="wrap">
-  <header class="top">
-    <a class="brand" href="../"><img src="img/icon.png" alt="">Dondo Dondo</a>
-  </header>
-
   <main>
     <div class="hero">
       <div>
@@ -185,13 +176,8 @@
       <div class="more-games" data-current="dondo-dondo"><a href="../">See all our games &rarr;</a></div>
     </section>
   </main>
-
-  <footer>
-    <span>© 2026 MrcosyFusco Games · <a href="../">More games</a></span>
-    <span>Follow: <a href="https://www.tiktok.com/@mrcosy.m" target="_blank" rel="noopener">TikTok</a> · <a href="https://www.instagram.com/mrcosygames/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.youtube.com/@mrcosy-games" target="_blank" rel="noopener">YouTube</a></span>
-    <a href="privacy/">Privacy policy</a>
-  </footer>
 </div>
+<site-footer game="dondo-dondo"></site-footer>
 
 <script>
 (function () {

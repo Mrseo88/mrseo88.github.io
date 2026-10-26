@@ -33,11 +33,6 @@
   .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 24px; }
   a { color: inherit; }
 
-  header.top { display: flex; justify-content: space-between; align-items: center; padding-block: 20px; }
-  .brand { display: flex; align-items: center; gap: 10px; font: 400 18px/1 "Tilt Neon", sans-serif; letter-spacing: .06em; text-decoration: none; }
-  .brand img { width: 36px; height: 36px; border-radius: 9px; }
-  .home { font: 600 14px/1 "Exo 2", sans-serif; letter-spacing: .04em; color: var(--dim); text-decoration: none; }
-
   .hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; padding-block: 32px 64px; }
   .logo { margin: 0 0 22px; }
   .logo .word { display: block; font: 400 clamp(84px, 13vw, 132px)/.95 "Tilt Neon", sans-serif; letter-spacing: .05em;
@@ -102,9 +97,6 @@
   ul.feat li:nth-child(3n+2)::before { background: var(--c3); box-shadow: 0 0 10px rgba(157,123,255,.7); }
   ul.feat li:nth-child(3n)::before { background: var(--amber); box-shadow: 0 0 10px rgba(255,189,89,.7); }
 
-  footer { border-top: 1px solid var(--edge); margin-top: 32px; padding-block: 24px 40px; font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--dim); }
-  footer a { color: var(--light); }
-
   @media (max-width: 860px) { .how { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 760px) {
     .hero { grid-template-columns: 1fr; padding-top: 8px; gap: 36px; }
@@ -114,14 +106,11 @@
   @media (max-width: 480px) { .how { grid-template-columns: 1fr; } }
   @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
 </style>
+<script src="/site.js"></script>
 </head>
 <body>
+<site-header></site-header>
 <div class="wrap">
-  <header class="top">
-    <a class="brand" href="./"><img src="img/icon.png" alt="">ECHO</a>
-    <a class="home" href="../">&larr; More games</a>
-  </header>
-
   <main>
     <div class="hero">
       <div>
@@ -191,13 +180,8 @@
       <div class="more-games" data-current="echo"><a href="../">See all our games &rarr;</a></div>
     </section>
   </main>
-
-  <footer>
-    <span>© 2026 MrcosyFusco Games · <a href="../">More games</a></span>
-    <span>Follow: <a href="https://www.tiktok.com/@mrcosy.m" target="_blank" rel="noopener">TikTok</a> · <a href="https://www.instagram.com/mrcosygames/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.youtube.com/@mrcosy-games" target="_blank" rel="noopener">YouTube</a></span>
-    <a href="privacy/">Privacy policy</a>
-  </footer>
 </div>
+<site-footer game="echo"></site-footer>
 <script src="../more-games.js" defer></script>
 </body>
 </html>

@@ -1,24 +1,12 @@
 /* "More games" strip at the bottom of every game page.
  * Usage: <div class="more-games" data-current="latch"></div> + <script src="../more-games.js" defer></script>
- * The list below is the single source: add a new game here and every page shows it.
+ * The games come from site.js: add a new game there and every page shows it.
  * Each card keeps its own game's look (same styles as the home page cards). */
 (() => {
 'use strict';
 
-const GAMES = [
-  { id: 'tonfo', name: 'TONFO: Raft Brawl', cover: 'tonfo/img/og.jpg', icon: 'tonfo/img/icon.png',
-    text: 'Hold to charge, release to dash. Knock them into the water, and don\'t fall in.' },
-  { id: 'latch', name: 'LATCH', cover: 'latch/img/og.jpg', icon: 'latch/img/icon.png',
-    text: 'Tap to let go, tap to latch. Hug the core for PERFECT combos.' },
-  { id: 'echo', name: 'ECHO Lightrunner', cover: 'echo/img/og.png', icon: 'echo/img/icon.png',
-    text: 'Every tap turns you and lights the way. Hit the corners in total darkness.' },
-  { id: 'longshade', name: 'Longshade', cover: 'longshade/img/og.png', icon: 'longshade/img/icon.png',
-    text: 'Tap to become your shadow and leap across islands floating in the night.' },
-  { id: 'dondo-dondo', name: 'Dondo Dondo', cover: 'dondo-dondo/img/og.png', icon: 'dondo-dondo/img/icon.png',
-    text: 'Tap to swap the pivot and climb before the tide catches you.' },
-  { id: 'pip-and-pop', name: 'Pip & Pop', cover: 'pip-and-pop/img/og.jpg', icon: 'pip-and-pop/img/icon.png',
-    text: 'Hold to open, release to close. Guide two lights through an endless rush.' },
-];
+// The list of games lives in site.js (loaded in <head>), shared with the footer.
+const GAMES = window.MRCOSY_GAMES || [];
 
 const CSS = `
 @font-face { font-family: "MG Fredoka"; font-weight: 300 700; font-display: swap; src: url(/fonts/fredoka-latin.woff2) format("woff2"); }

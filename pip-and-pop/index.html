@@ -30,10 +30,6 @@
   .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 24px; }
   a { color: inherit; }
 
-  header.top { display: flex; align-items: center; padding-block: 20px; }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; text-decoration: none; font-size: 18px; }
-  .brand img { width: 38px; height: 38px; border-radius: 10px; box-shadow: 0 4px 12px rgba(184,64,28,.18); }
-
   .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: center; padding-block: 32px 64px; }
   h1 {
     font-size: clamp(64px, 12vw, 120px); line-height: .9; margin: 0 0 20px; font-weight: 700;
@@ -84,9 +80,6 @@
   .pills li { padding: 10px 18px; border-radius: 999px; font-weight: 500; background: rgba(255,255,255,.7); display: flex; align-items: center; gap: 10px; }
   .pills i { width: 12px; height: 12px; border-radius: 50%; flex: none; }
 
-  footer { margin-top: 32px; padding-block: 24px 40px; border-top: 1px solid rgba(45,35,80,.12); font-size: 15px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--dim); }
-  footer a { color: var(--text); }
-
   @media (max-width: 760px) {
     .hero { grid-template-columns: 1fr; padding-top: 8px; gap: 24px; }
     .toy-box { order: -1; }
@@ -96,13 +89,11 @@
   }
   @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
 </style>
+<script src="/site.js"></script>
 </head>
 <body>
+<site-header></site-header>
 <div class="wrap">
-  <header class="top">
-    <a class="brand" href="../"><img src="img/icon.png" alt="">Pip &amp; Pop</a>
-  </header>
-
   <main>
     <div class="hero">
       <div>
@@ -162,13 +153,8 @@
       <div class="more-games" data-current="pip-and-pop"><a href="../">See all our games &rarr;</a></div>
     </section>
   </main>
-
-  <footer>
-    <span>© 2026 MrcosyFusco Games · <a href="../">More games</a></span>
-    <span>Follow: <a href="https://www.tiktok.com/@mrcosy.m" target="_blank" rel="noopener">TikTok</a> · <a href="https://www.instagram.com/mrcosygames/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.youtube.com/@mrcosy-games" target="_blank" rel="noopener">YouTube</a></span>
-    <a href="privacy/">Privacy policy</a>
-  </footer>
 </div>
+<site-footer game="pip-and-pop"></site-footer>
 
 <script>
 (function () {
