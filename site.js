@@ -1,6 +1,7 @@
-/* Shared header and footer, identical on every page of the site.
+/* Shared header and footer: same markup and links on every page, styled in each game's look.
  * Usage, in <head>:  <script src="/site.js"></script>
- * then in <body>:    <site-header></site-header> ... <site-footer game="latch"></site-footer>
+ * then in <body>:    <site-header game="latch"></site-header> ... <site-footer game="latch"></site-footer>
+ * `game` picks the game's look (fonts, colours) for both; without it they take the home page look.
  * The footer's privacy link follows the `game` attribute: a game page (or its privacy page)
  * links its own policy, the home page (no attribute) lists every game's policy.
  * GAMES is the single list of games: more-games.js reads it too. */
@@ -34,25 +35,72 @@ const SOCIAL = [
     icon: 'M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z' },
 ];
 
-// Fixed colours and font, so header and footer look the same on every game's theme.
+// Same markup everywhere, but each game dresses it in its own look: the `game` attribute
+// (on both tags) picks the theme below, so header and footer match the page they sit on.
 const CSS = `
-@font-face { font-family: "Site Fredoka"; font-weight: 300 700; font-display: swap; src: url(/fonts/fredoka-latin.woff2) format("woff2"); }
+@font-face { font-family: "S Fredoka"; font-weight: 300 700; font-display: swap; src: url(/fonts/fredoka-latin.woff2) format("woff2"); }
+@font-face { font-family: "S Lilita"; font-weight: 400; font-display: swap; src: url(/tonfo/fonts/lilita-one.woff2) format("woff2"); }
+@font-face { font-family: "S Press Start"; font-weight: 400; font-display: swap; src: url(/latch/play/fonts/press-start-2p-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "S Space Grotesk"; font-weight: 500; font-display: swap; src: url(/latch/play/fonts/space-grotesk-latin-500-normal.woff2) format("woff2"); }
+@font-face { font-family: "S Space Grotesk"; font-weight: 700; font-display: swap; src: url(/latch/play/fonts/space-grotesk-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "S Tilt Neon"; font-weight: 400; font-display: swap; src: url(/fonts/tilt-neon.woff) format("woff"); }
+@font-face { font-family: "S Exo 2"; font-weight: 100 900; font-display: swap; src: url(/fonts/exo2.woff2) format("woff2"); }
+@font-face { font-family: "S Space Mono"; font-weight: 400; font-display: swap; src: url(/fonts/SpaceMono-Regular.woff2) format("woff2"); }
+@font-face { font-family: "S Space Mono"; font-weight: 700; font-display: swap; src: url(/fonts/SpaceMono-Bold.woff2) format("woff2"); }
+
+/* home (no game): the cream and ink of the home page */
 site-header, site-footer {
-  display: block; background: #1d1b18; color: #f7f3ec; text-align: left;
-  font: 400 15px/1.5 "Site Fredoka", ui-rounded, system-ui, sans-serif; letter-spacing: normal; text-transform: none;
+  --s-text: #24211d; --s-dim: #6d675e; --s-line: 1px solid rgba(36,33,29,.12); --s-focus: #24211d;
+  --s-font: 400 15px/1.5 "S Fredoka", ui-rounded, system-ui, sans-serif; --s-nav-font: 600 15px/1 "S Fredoka", ui-rounded, sans-serif;
+  --s-brand-font: 700 22px/1 "S Fredoka", ui-rounded, sans-serif; --s-brand: #24211d; --s-brand-shadow: none;
+  display: block; color: var(--s-dim); font: var(--s-font); text-align: left; letter-spacing: normal; text-transform: none;
 }
-site-header .s-in, site-footer .s-in { box-sizing: border-box; max-width: 1040px; margin: 0 auto; padding-inline: 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; }
-site-header .s-in { min-height: 56px; padding-block: 8px; }
-site-header .s-brand { font-weight: 700; font-size: 20px; color: #f7f3ec; text-decoration: none; }
-site-header nav { display: flex; align-items: center; gap: 6px; }
-site-header .s-games { color: #f7f3ec; text-decoration: none; font-weight: 600; margin-right: 8px; }
-site-header .s-icon { display: inline-flex; width: 36px; height: 36px; align-items: center; justify-content: center; border-radius: 50%; color: #f7f3ec; }
-site-header .s-icon:hover { background: rgba(247,243,236,.12); }
+[game="tonfo"] {
+  --s-text: #fff8ec; --s-dim: #bfd9e6; --s-line: 2px solid rgba(191,234,255,.2); --s-focus: #bfeaff;
+  --s-font: 500 15px/1.5 "S Fredoka", ui-rounded, sans-serif; --s-nav-font: 600 15px/1 "S Fredoka", ui-rounded, sans-serif;
+  --s-brand-font: 400 24px/1 "S Lilita", sans-serif; --s-brand: #ffd166;
+  --s-brand-shadow: 0 2px 0 #24173a, 0 -2px 0 #24173a, 2px 0 0 #24173a, -2px 0 0 #24173a, 0 4px 0 rgba(8,18,36,.45);
+}
+[game="latch"] {
+  --s-text: #f1ecff; --s-dim: #b9addf; --s-line: 2px solid #3e2277; --s-focus: #33e0ff;
+  --s-font: 500 14px/1.5 "S Space Grotesk", system-ui, sans-serif; --s-nav-font: 700 14px/1 "S Space Grotesk", sans-serif;
+  --s-brand-font: 400 14px/1.2 "S Press Start", ui-monospace, monospace; --s-brand: #ffcc33; --s-brand-shadow: 2px 2px 0 #120a26;
+}
+[game="echo"] {
+  --s-text: #e2efff; --s-dim: #9aa6c7; --s-line: 1px solid #232b47; --s-focus: #5fd8ff;
+  --s-font: 400 14px/1.5 "S Exo 2", system-ui, sans-serif; --s-nav-font: 600 14px/1 "S Exo 2", sans-serif;
+  --s-brand-font: 400 20px/1 "S Tilt Neon", sans-serif; --s-brand: #5fd8ff; --s-brand-shadow: 0 0 12px rgba(95,216,255,.5);
+}
+[game="longshade"] {
+  --s-text: #fff2d6; --s-dim: #b3a6d6; --s-line: 2px solid #3b2d5c; --s-focus: #ffd166;
+  --s-font: 400 14px/1.5 "S Space Mono", ui-monospace, monospace; --s-nav-font: 400 14px/1 "S Space Mono", ui-monospace, monospace;
+  --s-brand-font: 700 16px/1 "S Space Mono", ui-monospace, monospace; --s-brand: #ffd166; --s-brand-shadow: none;
+}
+[game="dondo-dondo"] {
+  --s-text: #211f1b; --s-dim: rgba(33,31,27,.6); --s-line: 2px solid #211f1b; --s-focus: #e03a2a;
+  --s-font: 400 13px/1.5 "S Space Mono", ui-monospace, Menlo, monospace; --s-nav-font: 700 14px/1 "S Space Mono", ui-monospace, monospace;
+  --s-brand-font: 700 17px/1 "S Space Mono", ui-monospace, monospace; --s-brand: #211f1b; --s-brand-shadow: none;
+}
+[game="pip-and-pop"] {
+  --s-text: #2d2350; --s-dim: #6b6385; --s-line: 1px solid rgba(45,35,80,.12); --s-focus: #ff6b3d;
+  --s-font: 400 15px/1.5 "S Fredoka", ui-rounded, sans-serif; --s-nav-font: 600 15px/1 "S Fredoka", ui-rounded, sans-serif;
+  --s-brand-font: 600 20px/1 "S Fredoka", ui-rounded, sans-serif; --s-brand: #ff6b3d; --s-brand-shadow: none;
+}
+
+site-header, site-footer { padding-inline: 24px; }
+site-header .s-in, site-footer .s-in { max-width: 992px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; }
+site-header .s-in { padding-block: 16px; }
+site-header .s-brand { font: var(--s-brand-font); color: var(--s-brand); text-shadow: var(--s-brand-shadow); text-decoration: none; }
+[game="echo"] .s-brand { letter-spacing: .06em; }
+site-header nav { display: flex; align-items: center; gap: 4px; }
+site-header .s-games { font: var(--s-nav-font); color: var(--s-dim); text-decoration: none; margin-right: 8px; }
+site-header .s-icon { display: inline-flex; width: 36px; height: 36px; align-items: center; justify-content: center; color: var(--s-dim); }
+site-header .s-games:hover, site-header .s-icon:hover { color: var(--s-text); }
 site-header svg { width: 19px; height: 19px; fill: currentColor; }
-site-footer { margin-top: 48px; }
-site-footer .s-in { padding-block: 22px 28px; color: #b8b0a3; }
-site-footer a { color: #f7f3ec; }
-site-header a:focus-visible, site-footer a:focus-visible { outline: 2px solid #ffd166; outline-offset: 2px; }
+site-footer { margin-top: 32px; }
+site-footer .s-in { border-top: var(--s-line); padding-block: 24px 40px; }
+site-footer a { color: var(--s-text); }
+site-header a:focus-visible, site-footer a:focus-visible { outline: 2px solid var(--s-focus); outline-offset: 2px; }
 `;
 
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
