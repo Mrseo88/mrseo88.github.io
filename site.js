@@ -25,6 +25,12 @@ const GAMES = [
 ];
 window.MRCOSY_GAMES = GAMES;
 
+// Non-game apps: not listed among the games, but their privacy policy is
+// linked from the footer like a game's.
+const APPS = [
+  { id: 'fittape', short: 'FitTape' },
+];
+
 const SOCIAL = [
   { name: 'TikTok', url: 'https://www.tiktok.com/@mrcosy.m',
     icon: 'M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z' },
@@ -113,10 +119,11 @@ class SiteHeader extends HTMLElement {
 
 class SiteFooter extends HTMLElement {
   connectedCallback() {
-    const game = GAMES.find(g => g.id === this.getAttribute('game'));
+    const all = [...GAMES, ...APPS];
+    const game = all.find(g => g.id === this.getAttribute('game'));
     const privacy = game
       ? `<a href="/${game.id}/privacy/">Privacy policy</a>`
-      : `Privacy: ${GAMES.map(g => `<a href="/${g.id}/privacy/">${esc(g.short)}</a>`).join(' · ')}`;
+      : `Privacy: ${all.map(g => `<a href="/${g.id}/privacy/">${esc(g.short)}</a>`).join(' · ')}`;
     this.innerHTML = `<div class="s-in">
       <span class="s-copy">© 2026 ${BRAND}</span>
       <span>Follow: ${SOCIAL.map(s => ext(s.url, s.name)).join(' · ')}</span>

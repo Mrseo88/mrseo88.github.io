@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FitTape – Body measurements &amp; progress photos</title>
+<meta name="description" content="FitTape: track weight, body measurements and progress photos. Your data stays on your phone: no account, no cloud.">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:title" content="FitTape – Measure your progress">
+<meta property="og:description" content="Weight, body measurements and progress photos. Your data stays on your phone.">
+<meta property="og:image" content="https://mrseo88.github.io/fittape/img/og.png">
+<link rel="icon" href="img/icon.png">
+<style>
+  :root { --bg: #ffffff; --text: #0e1a22; --dim: #66717b; --accent: #5b5fef; --accent2: #8a8dff; --soft: #f4f5fa; --tape: #ffd43b; }
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom); }
+  .wrap { max-width: 1000px; margin: 0 auto; padding-inline: 20px; }
+  .hero { display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center; padding-block: 48px 32px; }
+  .hero img { width: 112px; height: 112px; border-radius: 26px; box-shadow: 0 16px 40px rgba(91,95,239,.20); }
+  h1 { font-size: clamp(36px, 6vw, 56px); line-height: 1; margin: 0 0 8px; letter-spacing: -.03em; }
+  .tag { margin: 0; color: var(--dim); font-size: 20px; }
+  .lead { max-width: 62ch; font-size: 19px; margin: 0 0 28px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 40px; }
+  .btn { display: inline-flex; align-items: center; height: 52px; padding: 0 22px; border-radius: 999px; background: var(--accent); color: #fff;
+    font-weight: 700; text-decoration: none; box-shadow: 0 10px 24px rgba(91,95,239,.30); }
+  .btn.ghost { background: var(--soft); color: var(--text); box-shadow: none; }
+  .soon { color: var(--dim); font-size: 15px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding-bottom: 32px; }
+  .card { background: #fff; border-radius: 24px; padding: 20px; box-shadow: 0 10px 28px rgba(91,95,239,.09); }
+  .card h2 { font-size: 18px; margin: 8px 0 4px; }
+  .card p { margin: 0; color: var(--dim); font-size: 15px; }
+  .ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: #eeefff; color: var(--accent); font-weight: 800; }
+  .privacy { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border-radius: 28px; padding: 24px; margin-bottom: 40px; }
+  .privacy h2 { margin: 0 0 8px; font-size: 22px; }
+  .privacy p { margin: 0 0 8px; max-width: 70ch; }
+  .privacy a { color: #fff; font-weight: 700; }
+  .it { border-top: 1px solid #e6e9ec; padding-block: 28px 8px; color: var(--dim); }
+  .it h2 { color: var(--text); font-size: 20px; margin: 0 0 6px; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } .hero { grid-template-columns: 1fr; padding-block: 32px 20px; } }
+</style>
+<script src="/site.js"></script>
+</head>
+<body>
+<site-header></site-header>
+<div class="wrap">
+  <section class="hero">
+    <img src="img/icon.png" alt="FitTape icon" width="112" height="112">
+    <div>
+      <h1>FitTape</h1>
+      <p class="tag">Measure your progress.</p>
+    </div>
+  </section>
+
+  <p class="lead">Track your weight, body measurements and progress photos, see the trend in clear charts and compare any two moments side by side. Your data stays on your phone: no account, no cloud.</p>
+
+  <div class="cta">
+    <a class="btn ghost" href="privacy/">Privacy policy</a>
+    <span class="soon">Coming soon to Google Play.</span>
+  </div>
+
+  <section class="grid" aria-label="Features">
+    <div class="card"><span class="ico">kg</span><h2>Weight &amp; 9 measurements</h2><p>Chest, waist, hips, arms, thighs and calves, right and left. Every field is optional; metric or imperial.</p></div>
+    <div class="card"><span class="ico">◐</span><h2>Progress photos</h2><p>Front, back and both sides for each entry, kept in the app's private storage, never in your gallery.</p></div>
+    <div class="card"><span class="ico">↗</span><h2>Charts &amp; comparisons</h2><p>Trends from 1 month to all time, and before/after comparisons with absolute and % changes and side-by-side photos.</p></div>
+    <div class="card"><span class="ico">✱</span><h2>PIN &amp; biometrics</h2><p>Lock the app with a PIN, fingerprint or Face ID.</p></div>
+    <div class="card"><span class="ico">⇅</span><h2>Encrypted backup</h2><p>Export everything to a single file, protected with AES-256, and restore it on a new phone.</p></div>
+    <div class="card"><span class="ico">◑</span><h2>Light &amp; dark</h2><p>Clean white design with a dark mode, in English and Italian.</p></div>
+  </section>
+
+  <section class="privacy">
+    <h2>Your body data never leaves your phone</h2>
+    <p>Measurements, photos and profile are stored only on your device and are never sent to us or shared with advertisers. FitTape is free thanks to clearly labelled, non-personalised ads from Google AdMob, which may collect technical device data to show and measure ads.</p>
+    <p><a href="privacy/">Read the privacy policy &rarr;</a></p>
+  </section>
+
+  <section class="it" lang="it">
+    <h2>In italiano</h2>
+    <p>FitTape ti aiuta a seguire peso, misure corporee e foto dei progressi, con grafici e confronti prima/dopo. I tuoi dati restano sul telefono: niente account, niente cloud. L'app è gratuita grazie ad annunci non personalizzati di Google AdMob. <a href="privacy/">Informativa sulla privacy</a>.</p>
+  </section>
+</div>
+<site-footer game="fittape"></site-footer>
+</body>
+</html>
