@@ -29,6 +29,7 @@ window.MRCOSY_GAMES = GAMES;
 // linked from the footer like a game's.
 const APPS = [
   { id: 'fittape', short: 'FitTape' },
+  { id: 'sof', short: 'SOF' },
 ];
 
 const SOCIAL = [

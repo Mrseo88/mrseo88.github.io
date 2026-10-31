@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SOF – Screenshot Organizer and Finder</title>
+<meta name="description" content="SOF reads the text in your screenshots and makes it searchable: find booking codes, IBANs, addresses and phone numbers in seconds. On-device OCR, no account.">
+<meta name="theme-color" content="#1e5eff">
+<meta property="og:title" content="SOF – Screenshot Organizer and Finder">
+<meta property="og:description" content="Find codes, IBANs and addresses in your screenshots. Offline OCR, no account.">
+<meta property="og:image" content="https://mrseo88.github.io/sof/img/og.png">
+<link rel="icon" href="img/icon.png">
+<style>
+  :root { --bg: #f4f7fb; --text: #141a2a; --dim: #5a6478; --accent: #1e5eff; --accent2: #0b3bcc; --coral: #ff7a59; --soft: #e8edf6; }
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom); }
+  .wrap { max-width: 1000px; margin: 0 auto; padding-inline: 20px; }
+  .hero { display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center; padding-block: 48px 28px; }
+  .hero img { width: 112px; height: 112px; border-radius: 26px; box-shadow: 0 16px 40px rgba(30,94,255,.28); }
+  h1 { font-size: clamp(36px, 6vw, 56px); line-height: 1; margin: 0 0 8px; letter-spacing: -.03em; }
+  .tag { margin: 0; color: var(--dim); font-size: 20px; }
+  .lead { max-width: 64ch; font-size: 19px; margin: 0 0 28px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 40px; }
+  .btn { display: inline-flex; align-items: center; height: 52px; padding: 0 22px; border-radius: 999px; background: var(--coral); color: #fff;
+    font-weight: 700; text-decoration: none; box-shadow: 0 10px 24px rgba(242,90,54,.30); }
+  .btn.ghost { background: #fff; color: var(--text); box-shadow: 0 6px 18px rgba(30,58,138,.10); }
+  .soon { color: var(--dim); font-size: 15px; }
+  .shots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+  .shots img { width: 100%; height: auto; border-radius: 20px; box-shadow: 0 14px 34px rgba(30,58,138,.18); display: block; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding-bottom: 32px; }
+  .card { background: #fff; border-radius: 24px; padding: 20px; box-shadow: 0 10px 28px rgba(30,58,138,.09); }
+  .card h2 { font-size: 18px; margin: 8px 0 4px; }
+  .card p { margin: 0; color: var(--dim); font-size: 15px; }
+  .ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: #dde7ff; color: var(--accent); font-weight: 800; }
+  .privacy { background: linear-gradient(135deg, #2f6bff, var(--accent), var(--accent2)); color: #fff; border-radius: 28px; padding: 24px; margin-bottom: 40px; }
+  .privacy h2 { margin: 0 0 8px; font-size: 22px; }
+  .privacy p { margin: 0 0 8px; max-width: 70ch; }
+  .privacy a { color: #fff; font-weight: 700; }
+  .it { border-top: 1px solid #dfe5ef; padding-block: 28px 8px; color: var(--dim); }
+  .it h2 { color: var(--text); font-size: 20px; margin: 0 0 6px; }
+  @media (max-width: 860px) { .shots { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } .hero { grid-template-columns: 1fr; padding-block: 32px 20px; } }
+</style>
+<script src="/site.js"></script>
+</head>
+<body>
+<site-header></site-header>
+<div class="wrap">
+  <section class="hero">
+    <img src="img/icon.png" alt="SOF icon" width="112" height="112">
+    <div>
+      <h1>SOF</h1>
+      <p class="tag">Screenshot Organizer and Finder</p>
+    </div>
+  </section>
+
+  <p class="lead">SOF reads the text in your screenshots and makes it searchable. Type a word, a booking reference or part of an IBAN and the right screenshot comes up straight away. Text recognition runs on your phone: no account, nothing uploaded.</p>
+
+  <div class="cta">
+    <a class="btn ghost" href="privacy/">Privacy policy</a>
+    <span class="soon">Coming soon to Google Play.</span>
+  </div>
+
+  <section class="shots" aria-label="Screenshots">
+    <img src="img/01_search.jpg" alt="Search a word, find the screenshot" width="540" height="960" loading="lazy">
+    <img src="img/02_detail.jpg" alt="IBANs, codes and emails ready to copy" width="540" height="960" loading="lazy">
+    <img src="img/03_home.jpg" alt="New screenshots are analysed automatically" width="540" height="960" loading="lazy">
+    <img src="img/04_categories.jpg" alt="Sorted into categories" width="540" height="960" loading="lazy">
+  </section>
+
+  <section class="grid" aria-label="Features">
+    <div class="card"><span class="ico">⌕</span><h2>Search inside screenshots</h2><p>Words, names, addresses, booking references, tracking numbers, prices, emails and links, with matches highlighted.</p></div>
+    <div class="card"><span class="ico">#</span><h2>Details ready to copy</h2><p>IBANs (with a validity check), phone numbers, emails, links, amounts and codes: copy, call or open them in one tap.</p></div>
+    <div class="card"><span class="ico">↻</span><h2>Automatic scanning</h2><p>New screenshots are found and analysed on their own, or you pick them with the Android photo picker.</p></div>
+    <div class="card"><span class="ico">▦</span><h2>Sorted for you</h2><p>Travel, payments, shopping, documents, chats, addresses, work and codes. Change any category yourself.</p></div>
+    <div class="card"><span class="ico">⇪</span><h2>Copy and share text</h2><p>Copy the whole text of a screenshot or just a part, or share it with another app.</p></div>
+    <div class="card"><span class="ico">◑</span><h2>Light &amp; dark</h2><p>Clean design with a dark mode, in English and Italian.</p></div>
+  </section>
+
+  <section class="privacy">
+    <h2>Your screenshots stay on your phone</h2>
+    <p>Images, recognised text and previews never leave your device and are never shared with advertisers. SOF is free thanks to clearly labelled native ads from Google AdMob, shown only with the consent required in your region.</p>
+    <p><a href="privacy/">Read the privacy policy &rarr;</a></p>
+  </section>
+
+  <section class="it" lang="it">
+    <h2>In italiano</h2>
+    <p>SOF legge il testo dei tuoi screenshot e lo rende ricercabile: ritrovi in pochi secondi codici di prenotazione, IBAN, indirizzi e numeri di telefono. Il riconoscimento del testo avviene sul telefono, senza account e senza caricare nulla online. L'app è gratuita grazie ad annunci nativi di Google AdMob. <a href="privacy/">Informativa sulla privacy</a>.</p>
+  </section>
+</div>
+<site-footer game="sof"></site-footer>
+</body>
+</html>

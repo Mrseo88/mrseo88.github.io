@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mrcosy Games</title>
-<meta name="description" content="One-finger arcade games for iPhone and Android: TONFO: Raft Brawl, LATCH, ECHO Lightrunner, Longshade, Dondo Dondo and Pip & Pop.">
+<meta name="description" content="One-finger arcade games for iPhone and Android: TONFO: Raft Brawl, LATCH, ECHO Lightrunner, Longshade, Dondo Dondo and Pip & Pop. Plus useful apps: SOF – Screenshot Organizer and Finder, and FitTape.">
 <meta name="theme-color" content="#f7f3ec">
 <link rel="icon" href="dondo-dondo/img/icon.png">
 <style>
@@ -77,6 +77,18 @@
   .tonfo p { color: #bfd9e6; }
   .tonfo .go { color: #ffd166; }
   .tonfo .icon { border: 2px solid #24173a; }
+
+  /* app (non giochi) */
+  .section-title { font-size: clamp(28px, 4vw, 36px); line-height: 1.1; margin: 8px 0 6px; font-weight: 700; }
+  .section-sub { margin: 0 0 24px; color: var(--dim); font-size: 18px; }
+  .sof { background: linear-gradient(180deg, #ffffff, #e8efff); color: #141a2a; }
+  .sof h2 { font-weight: 700; }
+  .sof p { color: #5a6478; }
+  .sof .go { color: #f25a36; }
+  .fittape { background: linear-gradient(180deg, #ffffff, #eeefff); color: #0e1a22; }
+  .fittape h2 { font-weight: 700; }
+  .fittape p { color: #66717b; }
+  .fittape .go { color: #5b5fef; }
 
   @media (max-width: 980px) { .games { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 760px) {
@@ -163,6 +175,35 @@
       </div>
     </a>
   </main>
+
+  <section aria-labelledby="apps-title">
+    <h2 class="section-title" id="apps-title">Apps</h2>
+    <p class="section-sub">Small, private tools. No account, your data stays on your phone.</p>
+    <div class="games">
+      <a class="game sof" href="sof/">
+        <img class="cover" src="sof/img/og.png" alt="SOF – Screenshot Organizer and Finder" width="1024" height="500">
+        <div class="body">
+          <img class="icon" src="sof/img/icon.png" alt="">
+          <div>
+            <h2>SOF – Screenshot Organizer and Finder</h2>
+            <p>Search the text in your screenshots and find booking codes, IBANs and addresses in seconds. On-device OCR.</p>
+            <span class="go">Discover &rarr;</span>
+          </div>
+        </div>
+      </a>
+      <a class="game fittape" href="fittape/">
+        <img class="cover" src="fittape/img/og.png" alt="FitTape" width="1024" height="500">
+        <div class="body">
+          <img class="icon" src="fittape/img/icon.png" alt="">
+          <div>
+            <h2>FitTape</h2>
+            <p>Track weight, body measurements and progress photos. Your data stays on your phone.</p>
+            <span class="go">Discover &rarr;</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
 </div>
 <site-footer></site-footer>
 </body>
