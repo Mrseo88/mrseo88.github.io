@@ -10,6 +10,8 @@
 const BRAND = 'Mrcosy Games';
 
 const GAMES = [
+  { id: 'il-manuale', name: 'The Game Manual', short: 'The Game Manual', cover: 'il-manuale/img/og.jpg', icon: 'il-manuale/img/icon.png',
+    text: 'The manual lies. Cut out its pictures, swap its words and rewrite the rules of a game that never existed.' },
   { id: 'tonfo', name: 'TONFO: Raft Brawl', short: 'TONFO', cover: 'tonfo/img/og.jpg', icon: 'tonfo/img/icon.png',
     text: 'Hold to charge, release to dash. Knock them into the water, and don\'t fall in.' },
   { id: 'latch', name: 'LATCH', short: 'LATCH', cover: 'latch/img/og.jpg', icon: 'latch/img/icon.png',

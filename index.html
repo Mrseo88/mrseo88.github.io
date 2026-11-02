@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mrcosy Games</title>
-<meta name="description" content="One-finger arcade games for iPhone and Android: TONFO: Raft Brawl, LATCH, ECHO Lightrunner, Longshade, Dondo Dondo and Pip & Pop. Plus useful apps: SOF – Screenshot Organizer and Finder, and FitTape.">
+<meta name="description" content="Games for iPhone and Android: The Game Manual (Il Manuale del Gioco), TONFO: Raft Brawl, LATCH, ECHO Lightrunner, Longshade, Dondo Dondo and Pip & Pop. Plus useful apps: SOF – Screenshot Organizer and Finder, and FitTape.">
 <meta name="theme-color" content="#f7f3ec">
 <link rel="icon" href="dondo-dondo/img/icon.png">
 <style>
@@ -78,6 +78,14 @@
   .tonfo .go { color: #ffd166; }
   .tonfo .icon { border: 2px solid #24173a; }
 
+  .manuale { background: linear-gradient(180deg, #1b4a68, #0c2638); color: #fff8ec; border: 3px solid #24173a; box-shadow: 0 6px 0 #24173a, 0 16px 40px rgba(36,33,29,.12); }
+  .manuale:hover { box-shadow: 0 8px 0 #24173a, 0 22px 50px rgba(36,33,29,.18); }
+  .manuale h2 { font: 400 28px/1.1 "Lilita One", "Fredoka", sans-serif; color: #ffd166; margin-bottom: 6px;
+    text-shadow: 0 2px 0 #24173a, 0 -2px 0 #24173a, 2px 0 0 #24173a, -2px 0 0 #24173a, 0 4px 0 rgba(8,18,36,.45); }
+  .manuale p { color: #bfd9e6; }
+  .manuale .go { color: #ff8a6e; }
+  .manuale .icon { border: 2px solid #24173a; }
+
   /* app (non giochi) */
   .section-title { font-size: clamp(28px, 4vw, 36px); line-height: 1.1; margin: 8px 0 6px; font-weight: 700; }
   .section-sub { margin: 0 0 24px; color: var(--dim); font-size: 18px; }
@@ -108,6 +116,17 @@
   </header>
 
   <main class="games">
+    <a class="game manuale" href="il-manuale/">
+      <img class="cover" src="il-manuale/img/og.jpg" alt="The Game Manual" width="1024" height="500">
+      <div class="body">
+        <img class="icon" src="il-manuale/img/icon.png" alt="">
+        <div>
+          <h2>The Game Manual</h2>
+          <p>The manual lies. Cut out its pictures, swap its words and rewrite the rules of a game that never existed.</p>
+          <span class="go">Discover &rarr;</span>
+        </div>
+      </div>
+    </a>
     <a class="game tonfo" href="tonfo/">
       <img class="cover" src="tonfo/img/og.jpg" alt="TONFO: Raft Brawl" width="1024" height="500">
       <div class="body">

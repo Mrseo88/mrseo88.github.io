@@ -58,6 +58,13 @@ const CSS = `
 .mg-tonfo p { color: #bfd9e6; }
 .mg-tonfo .mg-go { color: #ffd166; }
 .mg-tonfo .mg-icon { border: 2px solid #24173a; }
+.mg-il-manuale { background: linear-gradient(180deg, #1b4a68, #0c2638); color: #fff8ec; border: 3px solid #24173a; box-shadow: 0 5px 0 #24173a, 0 14px 34px rgba(0,0,0,.18); }
+.mg-il-manuale:hover { box-shadow: 0 7px 0 #24173a, 0 20px 44px rgba(0,0,0,.26); }
+.mg-il-manuale h3 { font: 400 21px/1.1 "MG Lilita", "MG Fredoka", sans-serif; color: #ffd166;
+  text-shadow: 0 2px 0 #24173a, 0 -2px 0 #24173a, 2px 0 0 #24173a, -2px 0 0 #24173a, 0 4px 0 rgba(8,18,36,.45); }
+.mg-il-manuale p { color: #bfd9e6; }
+.mg-il-manuale .mg-go { color: #ff8a6e; }
+.mg-il-manuale .mg-icon { border: 2px solid #24173a; }
 .mg-pip-and-pop { background: linear-gradient(180deg, #fff6ea, #ffe0d2); color: #2d2350; }
 .mg-pip-and-pop p { color: #6b6385; }
 .mg-pip-and-pop .mg-go { color: #ff6b3d; }
