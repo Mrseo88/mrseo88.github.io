@@ -10,6 +10,8 @@
 const BRAND = 'Mrcosy Games';
 
 const GAMES = [
+  { id: 'polpetta-up', name: 'Polpetta Up!', short: 'Polpetta Up!', cover: 'polpetta-up/img/og.jpg', icon: 'polpetta-up/img/icon.png',
+    text: 'Hold to stretch a noodle arm, let go to grab the next meatball. Climb before the ragù catches you.' },
   { id: 'il-manuale', name: 'The Game Manual', short: 'The Game Manual', cover: 'il-manuale/img/og.jpg', icon: 'il-manuale/img/icon.png',
     text: 'The manual lies. Cut out its pictures, swap its words and rewrite the rules of a game that never existed.' },
   { id: 'tonfo', name: 'TONFO: Raft Brawl', short: 'TONFO', cover: 'tonfo/img/og.jpg', icon: 'tonfo/img/icon.png',

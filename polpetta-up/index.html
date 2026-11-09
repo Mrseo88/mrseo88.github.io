@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Polpetta Up! — Stretch, grab, climb before the ragù catches you</title>
+<meta name="description" content="Polpetta Up! is a one-touch climbing game for Android: hold to stretch a noodle arm, let go to grab the next meatball and climb an endless tower before the Primordial Ragù catches you. English and Italian, no ads.">
+<meta property="og:title" content="Polpetta Up!">
+<meta property="og:description" content="Hold to stretch. Let go to grab. Climb before the ragù catches you.">
+<meta property="og:image" content="https://mrseo88.github.io/polpetta-up/img/og.jpg">
+<meta name="theme-color" content="#ff9e5e">
+<link rel="icon" href="img/icon.png">
+<style>
+  @font-face { font-family: "Lilita One"; font-weight: 400; font-display: swap; src: url(../tonfo/fonts/lilita-one.woff2) format("woff2"); }
+  @font-face { font-family: "Fredoka"; font-weight: 300 700; font-display: swap; src: url(../fonts/fredoka-latin.woff2) format("woff2"); }
+  /* The game's palette: Cosmic Kitchen orange, ragù red, golden tortellini, ink outlines. */
+  :root {
+    --top: #ff9e5e; --bottom: #ffd6a5; --ink: #1d1d2b; --sauce: #d62828; --sauce2: #9d0208;
+    --gold: #ffd23f; --cream: #fff8e7; --teal: #2a9d8f; --pink: #ff7eb6; --sky: #48cae4; --text: #3a2418;
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: light; }
+  body {
+    margin: 0; color: var(--text); background: var(--bottom);
+    font: 500 17px/1.6 "Fredoka", ui-rounded, system-ui, sans-serif;
+    background-image: linear-gradient(180deg, var(--top) 0, #ffb98a 40%, var(--bottom) 100%);
+    background-attachment: fixed; min-height: 100vh;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 24px; }
+  a { color: inherit; }
+  .ink { text-shadow: 0 3px 0 var(--ink), 0 -3px 0 var(--ink), 3px 0 0 var(--ink), -3px 0 0 var(--ink),
+    2px 2px 0 var(--ink), -2px 2px 0 var(--ink), 2px -2px 0 var(--ink), -2px -2px 0 var(--ink), 0 7px 0 rgba(29,29,43,.35); }
+
+  .hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; padding-block: 28px 64px; }
+  .logo { margin: 0; font: 400 clamp(60px, 11vw, 112px)/0.92 "Lilita One", sans-serif; color: var(--gold); letter-spacing: .01em; transform: rotate(-3deg);
+    text-shadow: 0 6px 0 var(--ink), 0 -6px 0 var(--ink), 6px 0 0 var(--ink), -6px 0 0 var(--ink),
+      4px 4px 0 var(--ink), -4px 4px 0 var(--ink), 4px -4px 0 var(--ink), -4px -4px 0 var(--ink), 0 14px 0 rgba(29,29,43,.35); }
+  .logo .up { display: inline-block; margin-top: 10px; padding: 0 18px 6px; font-size: .62em; color: #fff; background: var(--sauce);
+    border: 5px solid var(--ink); border-radius: 18px; transform: rotate(5deg); text-shadow: 3px 3px 0 var(--ink); box-shadow: 0 6px 0 var(--ink); }
+  .sub { margin: 26px 0 18px; font: 400 clamp(20px, 2.6vw, 26px)/1.1 "Lilita One", sans-serif; color: #fff; letter-spacing: .04em; }
+  .tag { font-size: clamp(20px, 2.6vw, 25px); margin: 0 0 8px; font-weight: 700; color: var(--ink); }
+  .tag em { font-style: normal; color: var(--sauce); }
+  .lede { margin: 0 0 28px; max-width: 44ch; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; padding: 13px 22px; text-decoration: none; border-radius: 999px;
+    font: 400 18px/1 "Lilita One", sans-serif; letter-spacing: .02em; color: #fff;
+    background: linear-gradient(180deg, #ff5a4e, var(--sauce)); border: 3px solid var(--ink);
+    box-shadow: inset 0 3px 0 rgba(255,255,255,.3), 0 5px 0 var(--ink);
+  }
+  .btn svg { width: 20px; height: 20px; flex: none; }
+  .btn-soon { cursor: default; background: rgba(255,248,231,.7); color: var(--ink); box-shadow: 0 5px 0 var(--ink); }
+  .btn-soon small { font: 600 12px/1 "Fredoka", sans-serif; color: var(--sauce); letter-spacing: .04em; text-transform: uppercase; }
+
+  .phone { justify-self: center; width: min(100%, 300px); position: relative; padding-bottom: 40px; }
+  .phone::after { /* the Primordial Ragù rising behind the phone */
+    content: ""; position: absolute; left: -22%; right: -22%; bottom: 0; height: 46%; z-index: 0; pointer-events: none;
+    border: 4px solid var(--ink); border-radius: 46% 54% 18px 18px / 26px 30px 18px 18px;
+    background: radial-gradient(circle at 30% 38%, #fff 0 9px, var(--ink) 9px 11px, transparent 11px),
+      radial-gradient(circle at 32% 36%, var(--ink) 0 4px, transparent 4px),
+      radial-gradient(circle at 40% 38%, #fff 0 9px, var(--ink) 9px 11px, transparent 11px),
+      radial-gradient(circle at 42% 36%, var(--ink) 0 4px, transparent 4px),
+      linear-gradient(180deg, var(--sauce), var(--sauce2));
+    box-shadow: 0 26px 50px rgba(120,40,10,.3);
+  }
+  .phone img { position: relative; z-index: 1; width: 100%; height: auto; display: block; border: 4px solid var(--ink); border-radius: 26px;
+    box-shadow: 0 8px 0 var(--ink), 0 26px 60px rgba(120,40,10,.35); transform: rotate(2deg); }
+
+  section { padding-block: 48px; }
+  h2 { font: 400 clamp(28px, 4vw, 40px)/1.1 "Lilita One", sans-serif; margin: 0 0 28px; color: #fff; text-wrap: balance; }
+
+  .how { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .card { background: var(--cream); color: var(--text); border: 3px solid var(--ink); border-radius: 20px; box-shadow: 0 6px 0 var(--ink); padding: 18px; min-width: 0; }
+  .card .n { font: 400 24px/1 "Lilita One", sans-serif; display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+    border: 3px solid var(--ink); color: #fff; text-shadow: 2px 2px 0 var(--ink); }
+  .card:nth-child(1) .n { background: #a0522d; } .card:nth-child(2) .n { background: var(--sauce); }
+  .card:nth-child(3) .n { background: var(--teal); } .card:nth-child(4) .n { background: var(--pink); }
+  .card h3 { margin: 14px 0 6px; font: 400 21px/1.2 "Lilita One", sans-serif; color: var(--ink); }
+  .card p { margin: 0; font-size: 15px; }
+  .card .hi { color: var(--sauce); font-weight: 700; }
+
+  .shots-scroll { overflow-x: auto; padding-bottom: 16px; scroll-snap-type: x mandatory; }
+  .shots { display: grid; grid-template-columns: repeat(6, minmax(140px, 1fr)); gap: 16px; }
+  .shots img { width: 100%; height: auto; aspect-ratio: 9 / 16; display: block; scroll-snap-align: start; background: var(--top);
+    border: 3px solid var(--ink); border-radius: 16px; box-shadow: 0 6px 0 var(--ink), 0 16px 30px rgba(120,40,10,.25); }
+
+  .events { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .event { background: var(--ink); color: var(--cream); border-radius: 16px; padding: 14px 16px; border: 3px solid var(--ink); box-shadow: 0 5px 0 rgba(29,29,43,.4); }
+  .event b { display: block; font: 400 19px/1.2 "Lilita One", sans-serif; color: var(--gold); margin-bottom: 4px; letter-spacing: .02em; }
+  .event span { font-size: 15px; color: #e4dccb; }
+
+  ul.feat { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px 32px; }
+  ul.feat li { padding-left: 32px; position: relative; }
+  ul.feat li::before { /* tiny golden tortellini */
+    content: ""; position: absolute; left: 0; top: 4px; width: 20px; height: 20px; border-radius: 50%; border: 3px solid var(--ink); box-sizing: border-box;
+    background: radial-gradient(circle, transparent 0 3px, var(--gold) 3.5px);
+  }
+
+  @media (max-width: 860px) { .how { grid-template-columns: 1fr 1fr; } .events { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; padding-top: 8px; gap: 48px; }
+    .phone { width: min(64%, 240px); }
+    .shots { grid-template-columns: repeat(6, 62%); }
+  }
+  @media (max-width: 480px) { .how, .events { grid-template-columns: 1fr; } }
+</style>
+<script src="/site.js"></script>
+</head>
+<body>
+<site-header></site-header>
+<div class="wrap">
+  <main>
+    <div class="hero">
+      <div>
+        <h1 class="logo">Polpetta<br><span class="up">Up!</span></h1>
+        <p class="sub ink">The impossible climb</p>
+        <p class="tag">Hold to stretch. <em>Let go to grab.</em></p>
+        <p class="lede">You're a meatball with a noodle for an arm. Hold your finger down and the arm stretches toward it; let go over the next meatball and you snap up to it. Hold too long and you sail right past. Below you, the Primordial Ragù keeps rising.</p>
+        <div class="cta">
+          <span class="btn btn-soon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 2.6c-.3.3-.5.8-.5 1.4v16c0 .6.2 1.1.5 1.4l9.2-9.4L4 2.6Zm10.6 10.8 2.6 2.6-11 6.3 8.4-8.9Zm4-4.2 2.7 1.5c.9.5.9 1.9 0 2.4l-2.8 1.6-2.8-2.9 2.9-2.6ZM6.2 1.7l11 6.3-2.6 2.6-8.4-8.9Z"/></svg>
+            Google Play <small>coming soon</small>
+          </span>
+        </div>
+      </div>
+      <div class="phone">
+        <img src="img/1-hold-to-stretch.jpg" alt="Spaghettino Elasticino stretching his noodle arm toward a meatball, with a PERFECT! label" width="405" height="720">
+      </div>
+    </div>
+
+    <section>
+      <h2 class="ink">How to play</h2>
+      <div class="how">
+        <div class="card"><div class="n">1</div><h3>Hold</h3><p>Your arm stretches toward your finger. The longer you hold, the farther it reaches.</p></div>
+        <div class="card"><div class="n">2</div><h3>Let go</h3><p>Release with the hand over a meatball to snap up to it. Overshoot and you <span class="hi">miss</span>.</p></div>
+        <div class="card"><div class="n">3</div><h3>Mind the arm</h3><p>Pizza cutters, flying slippers and espresso beams can cut a stretched arm in half.</p></div>
+        <div class="card"><div class="n">4</div><h3>Keep moving</h3><p>The ragù never stops rising. Falling? Stretch again and grab something on the way down.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="ink">An endless tower of food</h2>
+      <div class="shots-scroll">
+        <div class="shots">
+          <img src="img/1-hold-to-stretch.jpg" alt="Stretching the arm toward the next meatball in the Cosmic Kitchen" loading="lazy" width="405" height="720">
+          <img src="img/2-ragu-rising.jpg" alt="Mozzarellone Stirabile climbing just above the rising ragù" loading="lazy" width="405" height="720">
+          <img src="img/3-hazards.jpg" alt="A pizza cutter, a flying slipper, a pigeon warning and an espresso beam on the Floating Beach" loading="lazy" width="405" height="720">
+          <img src="img/4-events.jpg" alt="The Mandolin Night event being announced in the Moon Disco" loading="lazy" width="405" height="720">
+          <img src="img/5-mid-air.jpg" alt="Squalo Lavatrice grabbing a hold mid-air after a fall" loading="lazy" width="405" height="720">
+          <img src="img/6-characters.jpg" alt="Six of the seven characters, plus a secret one" loading="lazy" width="405" height="720">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="ink">Six events that change the rules</h2>
+      <div class="events">
+        <div class="event"><b>Espresso Mode</b><span>Everything speeds up, style points double.</span></div>
+        <div class="event"><b>Cursed Mirror</b><span>Your aim flips left to right.</span></div>
+        <div class="event"><b>Mandolin Night</b><span>The lights go out. Only the meatballs glow.</span></div>
+        <div class="event"><b>Slipper Storm</b><span>Slippers fall from the sky. Watch their shadows.</span></div>
+        <div class="event"><b>Rubber Everything</b><span>Your arm reaches 50% farther, and coins rain down.</span></div>
+        <div class="event"><b>Pandoro Quake</b><span>Every hold starts swaying.</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="ink">What's inside</h2>
+      <ul class="feat">
+        <li>One finger, portrait mode, runs of 30 seconds to 3 minutes</li>
+        <li>Seven characters that play differently, one of them secret</li>
+        <li>Crumbling biscuits, electric mozzarella, spinning pizzas, jelly launch pads</li>
+        <li>Five zones, from the Cosmic Kitchen to the Quantum Void</li>
+        <li>Three daily missions and 20 trophies</li>
+        <li>Daily Challenge: the same tower for every player</li>
+        <li>World rankings for score and height with Google Play Games</li>
+        <li>Every hold reachable, every hazard announced</li>
+        <li>English and Italian</li>
+        <li>No ads, no in-app purchases, plays offline</li>
+      </ul>
+    </section>
+    <section>
+      <h2 class="ink">More games</h2>
+      <div class="more-games" data-current="polpetta-up"><a href="../">See all our games &rarr;</a></div>
+    </section>
+  </main>
+</div>
+<site-footer game="polpetta-up"></site-footer>
+<script src="../more-games.js" defer></script>
+</body>
+</html>
