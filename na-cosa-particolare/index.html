@@ -526,7 +526,7 @@ function drawChef(x, y, o = {}) {
   // braccia in alto: maniche nere arrotolate, avambracci tatuati, bracciali d'oro, guanti neri
   const sh = ty + 14;
   for (const side of [-1, 1]) {
-    const sx = x + side * 35, hx = x + side * 48, hy = TRAY + 4 - (y - GROUND), ex = sx + (hx - sx) * .5, ey = sh + (hy + 16 - sh) * .5;
+    const sx = x + side * 35, hx = x + side * 48, hy = y - 222, ex = sx + (hx - sx) * .5, ey = sh + (hy + 16 - sh) * .5;
     ctx.lineCap = 'round';
     ctx.strokeStyle = OUT; ctx.lineWidth = 20; ctx.beginPath(); ctx.moveTo(sx, sh); ctx.lineTo(hx, hy + 16); ctx.stroke();
     ctx.strokeStyle = SKIN; ctx.lineWidth = 14; ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(hx, hy + 16); ctx.stroke();
