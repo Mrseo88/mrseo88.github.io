@@ -1,0 +1,676 @@
+{
+  "id": "ch7",
+  "startScene": "library",
+  "next": "ch8",
+  "typos": [
+    "t_lib",
+    "t_spine"
+  ],
+  "tools": [
+    "rotate",
+    "scale",
+    "dup"
+  ],
+  "onToolWrong": "tool_wrong",
+  "words": {},
+  "rules": {},
+  "derivedFlags": [],
+  "ruleReactions": [],
+  "items": {
+    "note3": {
+      "art": "note3",
+      "artWhen": [
+        {
+          "when": "note_big",
+          "art": "note3_big"
+        }
+      ],
+      "onTool": {
+        "scale": "resize_note"
+      }
+    },
+    "eraser_item": {
+      "art": "eraser_item"
+    }
+  },
+  "pages": [
+    {
+      "id": "p23",
+      "num": 23,
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p23.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p23.body"
+        },
+        {
+          "t": "text",
+          "k": "page.p23.n1",
+          "style": "note"
+        },
+        {
+          "t": "text",
+          "k": "page.p23.n2",
+          "style": "note"
+        },
+        {
+          "t": "item",
+          "item": "note3",
+          "caption": "page.p23.n3",
+          "when": "!note_open"
+        },
+        {
+          "t": "text",
+          "k": "page.p23.n3open",
+          "style": "note",
+          "when": "note_open"
+        },
+        {
+          "t": "margin",
+          "k": "page.p23.margin"
+        }
+      ]
+    },
+    {
+      "id": "p24",
+      "num": 24,
+      "accepts": {
+        "asterisk": "asterisk_home"
+      },
+      "onDropWrong": "page_wrong",
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p24.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p24.list"
+        },
+        {
+          "t": "text",
+          "k": "page.p24.missing",
+          "style": "note",
+          "when": "!asterisk_home"
+        },
+        {
+          "t": "deco",
+          "art": "asterisk",
+          "caption": "page.p24.home",
+          "when": "asterisk_home"
+        },
+        {
+          "t": "margin",
+          "k": "page.p24.margin"
+        }
+      ]
+    },
+    {
+      "id": "p25",
+      "num": 25,
+      "accepts": {
+        "eraser": "eraser_home"
+      },
+      "onDropWrong": "page_wrong",
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p25.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p25.intro"
+        },
+        {
+          "t": "blank",
+          "k": "page.p25.empty",
+          "when": "!eraser_found"
+        },
+        {
+          "t": "item",
+          "item": "eraser_item",
+          "caption": "page.p25.eraser",
+          "when": "eraser_found"
+        },
+        {
+          "t": "margin",
+          "k": "page.p25.margin",
+          "when": "eraser_found"
+        }
+      ]
+    }
+  ],
+  "scenes": {
+    "library": {
+      "art": "library",
+      "onEnter": "library_enter",
+      "onTapEmpty": "library_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        {
+          "id": "poster",
+          "rect": [
+            640,
+            230,
+            220,
+            140
+          ],
+          "onTap": "typo_lib"
+        },
+        {
+          "id": "spine",
+          "rect": [
+            270,
+            370,
+            50,
+            170
+          ],
+          "onTap": "typo_spine"
+        },
+        {
+          "id": "shelves",
+          "rect": [
+            40,
+            120,
+            520,
+            640
+          ],
+          "onTap": "tap_shelves"
+        },
+        {
+          "id": "door",
+          "rect": [
+            630,
+            520,
+            250,
+            650
+          ],
+          "accepts": {
+            "eraser_item": "erase_tag"
+          },
+          "onTap": "tap_door"
+        },
+        {
+          "id": "hatch",
+          "rect": [
+            230,
+            1240,
+            440,
+            220
+          ],
+          "accepts": {
+            "note3": "enter_note"
+          },
+          "onTap": "tap_hatch"
+        },
+        {
+          "id": "lectern",
+          "rect": [
+            290,
+            870,
+            290,
+            300
+          ],
+          "onTap": "tap_lectern"
+        }
+      ]
+    },
+    "footnote": {
+      "art": "footnote",
+      "onEnter": "footnote_enter",
+      "onTapEmpty": "footnote_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        {
+          "id": "back",
+          "rect": [
+            590,
+            190,
+            280,
+            130
+          ],
+          "onTap": "back_to_text"
+        },
+        {
+          "id": "asterisk",
+          "rect": [
+            300,
+            910,
+            300,
+            300
+          ],
+          "pickup": "asterisk",
+          "pickupWhen": "!asterisk_home",
+          "onTap": "tap_asterisk"
+        },
+        {
+          "id": "eraser",
+          "rect": [
+            365,
+            1140,
+            170,
+            100
+          ],
+          "pickup": "eraser",
+          "pickupWhen": {
+            "all": [
+              "asterisk_home"
+            ],
+            "none": [
+              "eraser_found"
+            ]
+          },
+          "onTap": "tap_eraser"
+        },
+        {
+          "id": "letters",
+          "rect": [
+            0,
+            500,
+            900,
+            800
+          ],
+          "onTap": "tap_letters"
+        }
+      ]
+    }
+  },
+  "puzzles": [
+    {
+      "id": "pz_enter",
+      "scene": "library",
+      "hints": [
+        "h.enter.1",
+        "h.enter.2",
+        "h.enter.3"
+      ]
+    },
+    {
+      "id": "pz_eraser",
+      "scene": "footnote",
+      "hints": [
+        "h.eraser.1",
+        "h.eraser.2",
+        "h.eraser.3"
+      ]
+    },
+    {
+      "id": "pz_exit",
+      "scene": "library",
+      "when": "eraser_found",
+      "hints": [
+        "h.exit.1",
+        "h.exit.2",
+        "h.exit.3"
+      ]
+    }
+  ],
+  "scripts": {
+    "library_enter": [
+      {
+        "once": "intro",
+        "do": [
+          {
+            "card": "ch7"
+          },
+          {
+            "say": "n.i1"
+          },
+          {
+            "say": "p.i1",
+            "who": "pencil"
+          },
+          {
+            "say": "n.i2",
+            "mood": "nervous"
+          },
+          {
+            "say": "p.i2",
+            "who": "pencil"
+          },
+          {
+            "say": "n.i3",
+            "mood": "smug"
+          },
+          {
+            "manual": "open",
+            "page": "p23"
+          },
+          {
+            "say": "n.i4"
+          }
+        ]
+      }
+    ],
+    "library_empty": [
+      {
+        "cycle": [
+          "n.empty1",
+          "n.empty2"
+        ]
+      }
+    ],
+    "footnote_empty": [
+      {
+        "cycle": [
+          "n.fempty1",
+          "n.fempty2"
+        ]
+      }
+    ],
+    "drop_wrong": [
+      {
+        "sfx": "deny"
+      },
+      {
+        "cycle": [
+          "n.dropwrong1",
+          "n.dropwrong2",
+          "n.dropwrong3"
+        ]
+      }
+    ],
+    "page_wrong": [
+      {
+        "sfx": "deny"
+      },
+      {
+        "say": "n.page_wrong"
+      }
+    ],
+    "tool_wrong": [
+      {
+        "say": "n.tool1"
+      }
+    ],
+    "typo_lib": [
+      {
+        "if": "typo:t_lib",
+        "then": [
+          {
+            "say": "n.typo_done"
+          }
+        ],
+        "else": [
+          {
+            "typo": "t_lib"
+          },
+          {
+            "say": "n.typo_lib",
+            "mood": "smug"
+          }
+        ]
+      }
+    ],
+    "typo_spine": [
+      {
+        "if": "typo:t_spine",
+        "then": [
+          {
+            "say": "n.typo_done"
+          }
+        ],
+        "else": [
+          {
+            "typo": "t_spine"
+          },
+          {
+            "say": "n.typo_spine",
+            "mood": "nervous"
+          }
+        ]
+      }
+    ],
+    "tap_shelves": [
+      {
+        "cycle": [
+          "n.shelves1",
+          "n.shelves2"
+        ]
+      }
+    ],
+    "tap_lectern": [
+      {
+        "say": "n.lectern"
+      }
+    ],
+    "tap_door": [
+      {
+        "if": "tag_erased",
+        "then": [
+          {
+            "say": "n.door_open"
+          }
+        ],
+        "else": [
+          {
+            "say": "n.door_tag",
+            "mood": "nervous"
+          }
+        ]
+      }
+    ],
+    "tap_hatch": [
+      {
+        "if": "note_open",
+        "then": [
+          {
+            "run": "go_down"
+          }
+        ],
+        "else": [
+          {
+            "say": "n.hatch"
+          }
+        ]
+      }
+    ],
+    "resize_note": [
+      {
+        "if": "note_big",
+        "then": [
+          {
+            "unset": "note_big"
+          },
+          {
+            "say": "n.note_small"
+          }
+        ],
+        "else": [
+          {
+            "set": "note_big"
+          },
+          {
+            "say": "n.note_big",
+            "mood": "nervous"
+          }
+        ]
+      }
+    ],
+    "enter_note": [
+      {
+        "if": "!note_big",
+        "then": [
+          {
+            "sfx": "deny"
+          },
+          {
+            "say": "n.note_tiny",
+            "mood": "smug"
+          }
+        ],
+        "else": [
+          {
+            "take": "note3"
+          },
+          {
+            "set": "note_open"
+          },
+          {
+            "solve": "pz_enter"
+          },
+          {
+            "sfx": "paper_drop"
+          },
+          {
+            "say": "n.down1",
+            "mood": "nervous"
+          },
+          {
+            "run": "go_down"
+          }
+        ]
+      }
+    ],
+    "go_down": [
+      {
+        "sfx": "tumble"
+      },
+      {
+        "scene": "footnote"
+      }
+    ],
+    "footnote_enter": [
+      {
+        "once": "fn_intro",
+        "do": [
+          {
+            "say": "n.f1",
+            "mood": "nervous"
+          },
+          {
+            "say": "n.f2"
+          },
+          {
+            "say": "p.f1",
+            "who": "pencil"
+          }
+        ]
+      }
+    ],
+    "back_to_text": [
+      {
+        "sfx": "page_turn0"
+      },
+      {
+        "scene": "library"
+      }
+    ],
+    "tap_letters": [
+      {
+        "cycle": [
+          "n.letters1",
+          "n.letters2"
+        ]
+      }
+    ],
+    "tap_asterisk": [
+      {
+        "if": "asterisk_home",
+        "then": [
+          {
+            "say": "n.letters1"
+          }
+        ],
+        "else": [
+          {
+            "say": "n.asterisk"
+          }
+        ]
+      }
+    ],
+    "tap_eraser": [
+      {
+        "say": "p.eraser",
+        "who": "pencil"
+      }
+    ],
+    "asterisk_home": [
+      {
+        "set": "asterisk_home"
+      },
+      {
+        "sfx": "paper_drop"
+      },
+      {
+        "say": "n.ast1"
+      },
+      {
+        "say": "p.ast",
+        "who": "pencil"
+      }
+    ],
+    "eraser_home": [
+      {
+        "set": "eraser_found"
+      },
+      {
+        "solve": "pz_eraser"
+      },
+      {
+        "sfx": "collect"
+      },
+      {
+        "say": "p.er1",
+        "who": "pencil"
+      },
+      {
+        "say": "n.er1",
+        "mood": "nervous"
+      },
+      {
+        "say": "p.er2",
+        "who": "pencil"
+      }
+    ],
+    "erase_tag": [
+      {
+        "take": "eraser_item"
+      },
+      {
+        "sfx": "tape"
+      },
+      {
+        "set": "tag_erased"
+      },
+      {
+        "solve": "pz_exit"
+      },
+      {
+        "sfx": "unlock"
+      },
+      {
+        "say": "n.x1"
+      },
+      {
+        "say": "n.x2",
+        "mood": "smug"
+      },
+      {
+        "sfx": "pop"
+      },
+      {
+        "say": "fn.1",
+        "who": "footnote"
+      },
+      {
+        "say": "n.x3",
+        "mood": "angry"
+      },
+      {
+        "say": "p.x1",
+        "who": "pencil"
+      },
+      {
+        "say": "n.x4",
+        "mood": "nervous"
+      },
+      {
+        "end": "ch7"
+      }
+    ]
+  }
+}

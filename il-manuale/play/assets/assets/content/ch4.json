@@ -1,0 +1,229 @@
+{
+  "id": "ch4",
+  "startScene": "archive",
+  "next": "ch5",
+  "typos": ["t_portrait", "t_cab"],
+  "tools": ["rotate", "scale", "dup"],
+  "onToolWrong": "tool_wrong",
+
+  "words": {
+    "w_forbidden": "word.forbidden",
+    "w_allowed": "word.allowed",
+    "w_infallible": "word.infallible"
+  },
+  "rules": {
+    "r_ch4": "w_forbidden",
+    "r_pass": "w_allowed",
+    "r_narr": "w_infallible"
+  },
+  "derivedFlags": [
+    { "flag": "cabinet_open", "rule": "r_ch4", "word": "w_allowed" }
+  ],
+  "ruleReactions": [
+    { "rule": "r_ch4", "word": "w_allowed", "script": "rx_open" },
+    { "rule": "r_ch4", "word": "w_infallible", "script": "rx_ch4_inf" },
+    { "rule": "r_narr", "word": "w_forbidden", "script": "rx_narr_forbidden" },
+    { "rule": "r_narr", "word": "w_allowed", "script": "rx_narr_allowed" },
+    { "rule": "r_pass", "word": "w_forbidden", "script": "rx_pass_forbidden" }
+  ],
+
+  "items": {
+    "lamp": { "art": "lamp" },
+    "scissors": {
+      "art": "scissors",
+      "artWhen": [ { "when": "scissors_turned", "art": "scissors_turned" } ],
+      "onTool": { "rotate": "turn_scissors" }
+    }
+  },
+
+  "pages": [
+    {
+      "id": "p13",
+      "num": 13,
+      "blocks": [
+        { "t": "heading", "k": "page.p13.title" },
+        { "t": "text", "k": "page.p13.intro" },
+        {
+          "t": "row",
+          "blocks": [
+            { "t": "item", "item": "lamp", "caption": "page.p13.lamp" },
+            { "t": "item", "item": "scissors", "caption": "page.p13.scissors" }
+          ]
+        },
+        { "t": "tap", "art": "dogear", "artAlt": "dogear_open", "altWhen": "tape_cut", "caption": "page.p13.fold", "script": "fold_corner" },
+        { "t": "margin", "k": "page.p13.margin" }
+      ]
+    },
+    {
+      "id": "p14",
+      "num": 14,
+      "blocks": [
+        { "t": "heading", "k": "page.p14.title" },
+        { "t": "deco", "art": "tape", "caption": "page.sealed", "when": "!tape_cut" },
+        { "t": "text", "k": "page.p14.intro", "when": "tape_cut" },
+        { "t": "text", "k": "page.p14.index", "style": "index", "when": "tape_cut" },
+        { "t": "margin", "k": "page.p14.margin", "when": "tape_cut" }
+      ]
+    },
+    {
+      "id": "p15",
+      "num": 15,
+      "blocks": [
+        { "t": "heading", "k": "page.p15.title" },
+        { "t": "deco", "art": "tape", "caption": "page.sealed", "when": "!tape_cut" },
+        { "t": "text", "k": "page.p15.back", "mirror": null, "when": "tape_cut" },
+        { "t": "text", "k": "page.p15.reading", "style": "note", "when": { "all": ["tape_cut", "lamp_on"] } },
+        { "t": "rule", "rule": "r_pass", "k": "rule.pass", "when": { "all": ["tape_cut", "lamp_on"] } },
+        { "t": "margin", "k": "page.p15.margin", "when": { "all": ["tape_cut", "!lamp_on"] } }
+      ]
+    },
+    {
+      "id": "p16",
+      "num": 16,
+      "blocks": [
+        { "t": "heading", "k": "page.p16.title" },
+        { "t": "deco", "art": "tape", "caption": "page.sealed", "when": "!tape_cut" },
+        { "t": "rule", "rule": "r_ch4", "k": "rule.ch4", "when": "tape_cut" },
+        { "t": "rule", "rule": "r_narr", "k": "rule.narr", "when": "tape_cut" },
+        { "t": "deco", "art": "narrator_ink", "caption": "page.p16.narrator", "when": "narrator_flat" },
+        { "t": "margin", "k": "page.p16.margin", "when": "tape_cut" }
+      ]
+    }
+  ],
+
+  "scenes": {
+    "archive": {
+      "art": "archive",
+      "onEnter": "archive_enter",
+      "onTapEmpty": "archive_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        { "id": "plaque", "rect": [125, 400, 200, 50], "onTap": "typo_portrait" },
+        { "id": "portrait", "rect": [80, 90, 290, 310], "onTap": "tap_portrait" },
+        { "id": "sign", "rect": [480, 470, 340, 60], "onTap": "typo_cab" },
+        { "id": "cabinet", "rect": [450, 420, 400, 730], "onTap": "tap_cabinet" },
+        { "id": "desk", "rect": [60, 820, 340, 200], "accepts": { "lamp": "drop_lamp" }, "onTap": "tap_desk" }
+      ]
+    }
+  },
+
+  "puzzles": [
+    { "id": "pz_tape", "scene": "archive", "hints": ["h.tape.1", "h.tape.2", "h.tape.3"] },
+    { "id": "pz_lamp", "scene": "archive", "hints": ["h.lamp.1", "h.lamp.2", "h.lamp.3"] },
+    { "id": "pz_open", "scene": "archive", "hints": ["h.open.1", "h.open.2", "h.open.3"] },
+    { "id": "pz_flat", "scene": "archive", "when": "cabinet_open", "hints": ["h.flat.1", "h.flat.2", "h.flat.3"] }
+  ],
+
+  "scripts": {
+    "archive_enter": [
+      { "once": "intro", "do": [
+        { "card": "ch4" },
+        { "say": "n.a1", "mood": "nervous" },
+        { "say": "n.a2", "mood": "smug" },
+        { "say": "n.a3" },
+        { "say": "n.a4", "mood": "nervous" }
+      ] }
+    ],
+    "archive_empty": [ { "cycle": ["n.empty1", "n.empty2", "n.empty3"] } ],
+    "drop_wrong": [ { "sfx": "deny" }, { "cycle": ["n.dropwrong1", "n.dropwrong2", "n.dropwrong3"] } ],
+    "tool_wrong": [ { "cycle": ["n.tool1", "n.tool2"] } ],
+
+    "typo_portrait": [
+      { "if": "typo:t_portrait",
+        "then": [ { "say": "n.typo_done" } ],
+        "else": [ { "typo": "t_portrait" }, { "say": "n.typo_portrait", "mood": "angry" } ] }
+    ],
+    "typo_cab": [
+      { "if": "typo:t_cab",
+        "then": [ { "say": "n.typo_done" } ],
+        "else": [ { "typo": "t_cab" }, { "say": "n.typo_cab", "mood": "nervous" } ] }
+    ],
+    "tap_portrait": [ { "cycle": ["n.portrait1", "n.portrait2"], "mood": "smug" } ],
+    "tap_desk": [
+      { "if": "lamp_on",
+        "then": [ { "say": "n.desk_lit" } ],
+        "else": [ { "say": "n.desk_dark" } ] }
+    ],
+    "tap_cabinet": [
+      { "if": "narrator_flat",
+        "then": [ { "say": "n.cab_after", "who": "narrator_flat" } ],
+        "else": [
+          { "if": "cabinet_open",
+            "then": [ { "run": "rant" } ],
+            "else": [ { "sfx": "deny" }, { "cycle": ["n.cab1", "n.cab2"], "mood": "smug" } ] }
+        ] }
+    ],
+
+    "turn_scissors": [
+      { "if": "scissors_turned",
+        "then": [ { "unset": "scissors_turned" }, { "say": "n.sc_back" } ],
+        "else": [ { "set": "scissors_turned" }, { "say": "n.sc_turn", "mood": "nervous" } ] }
+    ],
+    "fold_corner": [
+      { "if": "tape_cut",
+        "then": [ { "say": "n.fold_done" } ],
+        "else": [
+          { "if": "scissors_turned",
+            "then": [
+              { "sfx": "paper_peel" },
+              { "set": "tape_cut" },
+              { "solve": "pz_tape" },
+              { "sfx": "tape" },
+              { "manual": "open", "page": "p14" },
+              { "say": "n.cut1", "mood": "angry" },
+              { "say": "n.cut2", "mood": "nervous" }
+            ],
+            "else": [ { "sfx": "paper_peel" }, { "say": "n.fold_wrong", "mood": "smug" } ] }
+        ] }
+    ],
+
+    "drop_lamp": [
+      { "take": "lamp" },
+      { "sfx": "click" },
+      { "set": "lamp_on" },
+      { "solve": "pz_lamp" },
+      { "say": "n.lamp1" },
+      { "say": "n.lamp2", "mood": "nervous" }
+    ],
+
+    "rx_ch4_inf": [ { "say": "n.ch4_inf", "mood": "smug" } ],
+    "rx_narr_forbidden": [ { "say": "n.narr_forbidden", "mood": "angry" } ],
+    "rx_narr_allowed": [ { "say": "n.narr_allowed", "mood": "smug" } ],
+    "rx_pass_forbidden": [ { "say": "n.pass_forbidden" } ],
+
+    "rx_open": [
+      { "once": "opened", "do": [
+        { "manual": "close" },
+        { "sfx": "unlock" },
+        { "anim": "cabinet_open" },
+        { "solve": "pz_open" },
+        { "say": "n.o1", "mood": "angry" },
+        { "say": "note.1", "who": "note" },
+        { "say": "note.2", "who": "pencil" },
+        { "say": "n.o2", "mood": "nervous" },
+        { "say": "n.o3", "mood": "nervous" },
+        { "manual": "open", "page": "p16" },
+        { "run": "rant" }
+      ] }
+    ],
+    "rant": [
+      { "say": "n.r1", "mood": "angry", "grab": "flatten" },
+      { "say": "n.r2", "mood": "angry", "grab": "flatten" },
+      { "say": "n.r3", "mood": "nervous", "grab": "flatten" },
+      { "say": "n.r4", "mood": "smug" }
+    ],
+    "flatten": [
+      { "sfx": "paper_drop" },
+      { "set": "narrator_flat" },
+      { "solve": "pz_flat" },
+      { "manual": "open", "page": "p16" },
+      { "say": "nf.1", "who": "narrator_flat" },
+      { "say": "nf.2", "who": "narrator_flat" },
+      { "say": "nf.3", "who": "narrator_flat" },
+      { "say": "nf.4", "who": "narrator_flat" },
+      { "say": "p.flat", "who": "pencil" },
+      { "say": "nf.5", "who": "narrator_flat" },
+      { "end": "ch4" }
+    ]
+  }
+}

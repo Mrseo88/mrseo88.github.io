@@ -1,0 +1,588 @@
+{
+  "id": "ch12",
+  "startScene": "booth",
+  "next": "ch13",
+  "typos": [
+    "t_rec",
+    "t_mic"
+  ],
+  "tools": [
+    "rotate",
+    "scale",
+    "dup"
+  ],
+  "onToolWrong": "tool_wrong",
+  "words": {
+    "w_off": "word.off",
+    "w_on": "word.on"
+  },
+  "rules": {
+    "r_mic": "w_off",
+    "r_kettle": "w_on"
+  },
+  "derivedFlags": [
+    {
+      "flag": "mic_on",
+      "rule": "r_mic",
+      "word": "w_on"
+    },
+    {
+      "flag": "kettle_on",
+      "rule": "r_kettle",
+      "word": "w_on"
+    }
+  ],
+  "ruleReactions": [
+    {
+      "rule": "r_mic",
+      "word": "w_on",
+      "script": "rx_mic"
+    }
+  ],
+  "items": {},
+  "pages": [
+    {
+      "id": "p36",
+      "num": 36,
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p36.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p36.intro"
+        },
+        {
+          "t": "rule",
+          "rule": "r_mic",
+          "k": "rule.mic"
+        },
+        {
+          "t": "margin",
+          "k": "page.p36.margin"
+        }
+      ]
+    },
+    {
+      "id": "p37",
+      "num": 37,
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p37.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p37.intro"
+        },
+        {
+          "t": "rule",
+          "rule": "r_kettle",
+          "k": "rule.kettle"
+        },
+        {
+          "t": "margin",
+          "k": "page.p37.margin"
+        }
+      ]
+    },
+    {
+      "id": "p38",
+      "num": 38,
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p38.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p38.list",
+          "style": "note"
+        },
+        {
+          "t": "margin",
+          "k": "page.p38.margin"
+        }
+      ]
+    }
+  ],
+  "scenes": {
+    "booth": {
+      "art": "booth",
+      "onEnter": "booth_enter",
+      "onTapEmpty": "booth_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        {
+          "id": "onair",
+          "rect": [
+            270,
+            175,
+            360,
+            110
+          ],
+          "onTap": "typo_rec"
+        },
+        {
+          "id": "plate",
+          "rect": [
+            330,
+            1038,
+            220,
+            44
+          ],
+          "onTap": "typo_mic"
+        },
+        {
+          "id": "mic",
+          "rect": [
+            370,
+            800,
+            140,
+            230
+          ],
+          "onTap": "tap_mic"
+        },
+        {
+          "id": "kettle",
+          "rect": [
+            60,
+            900,
+            210,
+            200
+          ],
+          "onTap": "tap_kettle"
+        },
+        {
+          "id": "corrector",
+          "rect": [
+            600,
+            620,
+            280,
+            580
+          ],
+          "onTap": "tap_corr"
+        }
+      ]
+    }
+  },
+  "puzzles": [
+    {
+      "id": "pz_quiz",
+      "scene": "booth",
+      "hints": [
+        "h.quiz.1",
+        "h.quiz.2",
+        "h.quiz.3"
+      ]
+    },
+    {
+      "id": "pz_mic",
+      "scene": "booth",
+      "when": "quiz_passed",
+      "hints": [
+        "h.mic.1",
+        "h.mic.2",
+        "h.mic.3"
+      ]
+    },
+    {
+      "id": "pz_voice",
+      "scene": "booth",
+      "when": "mic_on",
+      "hints": [
+        "h.voice.1",
+        "h.voice.2",
+        "h.voice.3"
+      ]
+    }
+  ],
+  "scripts": {
+    "booth_enter": [
+      {
+        "once": "intro",
+        "do": [
+          {
+            "card": "ch12"
+          },
+          {
+            "say": "c.i1",
+            "who": "corrector"
+          },
+          {
+            "say": "n.mute1"
+          },
+          {
+            "say": "p.i1",
+            "who": "pencil"
+          },
+          {
+            "say": "c.i2",
+            "who": "corrector"
+          },
+          {
+            "say": "n.mute2",
+            "mood": "angry"
+          },
+          {
+            "say": "p.i2",
+            "who": "pencil"
+          }
+        ]
+      }
+    ],
+    "booth_empty": [
+      {
+        "cycle": [
+          "p.empty1",
+          "p.empty2"
+        ],
+        "who": "pencil"
+      }
+    ],
+    "drop_wrong": [
+      {
+        "sfx": "deny"
+      },
+      {
+        "say": "p.dropwrong",
+        "who": "pencil"
+      }
+    ],
+    "tool_wrong": [
+      {
+        "say": "p.tool",
+        "who": "pencil"
+      }
+    ],
+    "typo_rec": [
+      {
+        "if": "typo:t_rec",
+        "then": [
+          {
+            "say": "p.typo_done",
+            "who": "pencil"
+          }
+        ],
+        "else": [
+          {
+            "typo": "t_rec"
+          },
+          {
+            "say": "p.typo_rec",
+            "who": "pencil"
+          }
+        ]
+      }
+    ],
+    "typo_mic": [
+      {
+        "if": "typo:t_mic",
+        "then": [
+          {
+            "say": "p.typo_done",
+            "who": "pencil"
+          }
+        ],
+        "else": [
+          {
+            "typo": "t_mic"
+          },
+          {
+            "say": "p.typo_mic",
+            "who": "pencil"
+          }
+        ]
+      }
+    ],
+    "tap_kettle": [
+      {
+        "if": "kettle_on",
+        "then": [
+          {
+            "say": "p.kettle_on",
+            "who": "pencil"
+          }
+        ],
+        "else": [
+          {
+            "say": "c.kettle_off",
+            "who": "corrector"
+          }
+        ]
+      }
+    ],
+    "tap_corr": [
+      {
+        "if": "quiz_passed",
+        "then": [
+          {
+            "say": "c.after",
+            "who": "corrector"
+          }
+        ],
+        "else": [
+          {
+            "say": "c.quiz0",
+            "who": "corrector"
+          },
+          {
+            "say": "c.q1",
+            "who": "corrector"
+          },
+          {
+            "choose": [
+              {
+                "k": "q1.a",
+                "do": [
+                  {
+                    "run": "quiz_wrong"
+                  }
+                ]
+              },
+              {
+                "k": "q1.b",
+                "do": [
+                  {
+                    "say": "c.ok1",
+                    "who": "corrector"
+                  },
+                  {
+                    "say": "c.q2",
+                    "who": "corrector"
+                  },
+                  {
+                    "choose": [
+                      {
+                        "k": "q2.a",
+                        "do": [
+                          {
+                            "say": "c.dog",
+                            "who": "corrector"
+                          },
+                          {
+                            "run": "quiz_wrong"
+                          }
+                        ]
+                      },
+                      {
+                        "k": "q2.b",
+                        "do": [
+                          {
+                            "say": "c.ok2",
+                            "who": "corrector"
+                          },
+                          {
+                            "say": "c.q3",
+                            "who": "corrector"
+                          },
+                          {
+                            "choose": [
+                              {
+                                "k": "q3.a",
+                                "do": [
+                                  {
+                                    "run": "quiz_wrong"
+                                  }
+                                ]
+                              },
+                              {
+                                "k": "q3.b",
+                                "do": [
+                                  {
+                                    "run": "quiz_pass"
+                                  }
+                                ]
+                              },
+                              {
+                                "k": "q3.c",
+                                "do": [
+                                  {
+                                    "run": "quiz_wrong"
+                                  }
+                                ]
+                              }
+                            ],
+                            "prompt": "q3.prompt"
+                          }
+                        ]
+                      },
+                      {
+                        "k": "q2.c",
+                        "do": [
+                          {
+                            "run": "quiz_wrong"
+                          }
+                        ]
+                      }
+                    ],
+                    "prompt": "q2.prompt"
+                  }
+                ]
+              },
+              {
+                "k": "q1.c",
+                "do": [
+                  {
+                    "run": "quiz_wrong"
+                  }
+                ]
+              }
+            ],
+            "prompt": "q1.prompt"
+          }
+        ]
+      }
+    ],
+    "quiz_wrong": [
+      {
+        "sfx": "deny"
+      },
+      {
+        "say": "c.wrong",
+        "who": "corrector"
+      }
+    ],
+    "quiz_pass": [
+      {
+        "set": "quiz_passed"
+      },
+      {
+        "solve": "pz_quiz"
+      },
+      {
+        "sfx": "collect"
+      },
+      {
+        "say": "c.pass1",
+        "who": "corrector"
+      },
+      {
+        "say": "c.pass2",
+        "who": "corrector"
+      },
+      {
+        "say": "p.pass",
+        "who": "pencil"
+      }
+    ],
+    "tap_mic": [
+      {
+        "if": "!quiz_passed",
+        "then": [
+          {
+            "say": "c.block",
+            "who": "corrector"
+          }
+        ],
+        "else": [
+          {
+            "if": "mic_on",
+            "then": [
+              {
+                "run": "voice_back"
+              }
+            ],
+            "else": [
+              {
+                "say": "n.mute1"
+              },
+              {
+                "say": "p.mic_off",
+                "who": "pencil"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "rx_mic": [
+      {
+        "say": "c.coffee",
+        "who": "corrector"
+      },
+      {
+        "say": "p.mic_on",
+        "who": "pencil"
+      }
+    ],
+    "voice_back": [
+      {
+        "once": "voice",
+        "do": [
+          {
+            "solve": "pz_mic"
+          },
+          {
+            "say": "p.v0",
+            "who": "pencil"
+          },
+          {
+            "choose": [
+              {
+                "k": "v.a",
+                "do": [
+                  {
+                    "say": "n.v_a"
+                  },
+                  {
+                    "say": "p.v_a",
+                    "who": "pencil"
+                  }
+                ]
+              },
+              {
+                "k": "v.b",
+                "do": [
+                  {
+                    "say": "n.v_b"
+                  },
+                  {
+                    "say": "p.v_b",
+                    "who": "pencil"
+                  }
+                ]
+              },
+              {
+                "k": "v.c",
+                "do": [
+                  {
+                    "say": "n.v_c"
+                  },
+                  {
+                    "say": "p.v_c",
+                    "who": "pencil"
+                  }
+                ]
+              }
+            ],
+            "prompt": "v.prompt"
+          },
+          {
+            "solve": "pz_voice"
+          },
+          {
+            "say": "n.v_end",
+            "mood": "nervous"
+          },
+          {
+            "say": "c.end1",
+            "who": "corrector"
+          },
+          {
+            "say": "c.end2",
+            "who": "corrector"
+          },
+          {
+            "say": "hero.2",
+            "who": "hero"
+          },
+          {
+            "end": "ch12"
+          }
+        ]
+      }
+    ]
+  }
+}

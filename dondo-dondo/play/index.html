@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#f4efe3">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Dondo Dondo</title>
+  <style>
+    @font-face { font-family: "Space Mono"; font-weight: 400; font-display: swap; src: url(fonts/SpaceMono-Regular.woff2) format("woff2"); }
+    @font-face { font-family: "Space Mono"; font-weight: 700; font-display: swap; src: url(fonts/SpaceMono-Bold.woff2) format("woff2"); }
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #f4efe3;
+      touch-action: none;
+      overscroll-behavior: none;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    canvas { display: block; }
+    /* schermata di avvio: stesso disegno della splash nativa, poi la sfera fa un giro e arriva sul segno */
+    #splash {
+      position: fixed; inset: 0; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #f4efe3;
+      transition: opacity .3s ease-out;
+    }
+    #splash.out { opacity: 0; pointer-events: none; }
+    #splash svg { width: min(42vw, 22vh, 240px); height: auto; overflow: visible; }
+    #splash .arm { transform-box: view-box; transform-origin: 54px 60px; animation: dondo-spin 1s cubic-bezier(.45,0,.25,1) .15s forwards; }
+    #splash .hit { transform-box: view-box; transform-origin: 54px 32px; opacity: 0; animation: dondo-hit .45s ease-out 1.15s forwards; }
+    #splash .name {
+      position: absolute; top: calc(50% + min(21vw, 11vh, 120px) + 28px);
+      display: flex; flex-direction: column; align-items: center;
+      font: 700 clamp(26px, 9vw, 44px) "Space Mono", ui-monospace, Menlo, monospace; color: #211f1b;
+      opacity: 0; transform: translateY(8px);
+      animation: dondo-name .4s ease-out .3s forwards;
+    }
+    #splash .name i { display: block; width: 36px; height: 3px; margin-top: 6px; background: #e03a2a; }
+    @keyframes dondo-spin { to { transform: rotate(-398deg); } }
+    @keyframes dondo-hit { 0% { opacity: .9; transform: scale(.3); } 100% { opacity: 0; transform: scale(1.6); } }
+    @keyframes dondo-name { to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { #splash * { animation-duration: 1ms !important; animation-delay: 0s !important; } }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div id="splash" aria-label="Dondo Dondo">
+    <svg viewBox="0 0 108 108">
+      <circle cx="54" cy="60" r="28" fill="none" stroke="#211f1b" stroke-opacity="0.28" stroke-width="1.6" stroke-dasharray="3 4"/>
+      <path d="M 58.86 32.43 A 28 28 0 0 0 49.14 32.43" fill="none" stroke="#e03a2a" stroke-width="3" stroke-linecap="round"/>
+      <circle class="hit" cx="54" cy="32" r="12" fill="none" stroke="#e03a2a" stroke-width="2"/>
+      <g class="arm">
+        <path d="M 81.57 64.86 A 28 28 0 0 0 73.80 40.20" fill="none" stroke="#e03a2a" stroke-opacity="0.25" stroke-width="9" stroke-linecap="round"/>
+        <line x1="54" y1="60" x2="71.24" y2="37.94" stroke="#211f1b" stroke-width="3.2" stroke-linecap="round"/>
+        <circle cx="71.24" cy="37.94" r="9" fill="#e03a2a"/>
+        <circle cx="68.54" cy="35.24" r="2.7" fill="#fff" fill-opacity="0.45"/>
+      </g>
+      <circle cx="54" cy="60" r="9" fill="#211f1b"/>
+      <circle cx="54" cy="60" r="3.2" fill="#f4efe3"/>
+    </svg>
+    <div class="name">DONDO DONDO<i></i></div>
+  </div>
+  <script>
+    (function () {
+      var el = document.getElementById('splash');
+      var gone = false, done;
+      // platform.js aspetta la fine della splash prima di mostrare il modulo di consenso
+      window.splashDone = new Promise(function (r) { done = r; });
+      function hide() {
+        if (gone) return;
+        gone = true;
+        el.classList.add('out');
+        setTimeout(function () { el.remove(); done(); }, 350);
+      }
+      setTimeout(hide, 1700);
+      el.addEventListener('pointerdown', function (e) { e.preventDefault(); hide(); });
+    })();
+  </script>
+  <script src="src/game.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>

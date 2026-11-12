@@ -1,0 +1,664 @@
+{
+  "id": "ch13",
+  "startScene": "room",
+  "next": "ch14",
+  "typos": [
+    "t_index",
+    "t_souv"
+  ],
+  "tools": [
+    "rotate",
+    "scale",
+    "dup"
+  ],
+  "onToolWrong": "tool_wrong",
+  "words": {
+    "w_eight": "word.eight"
+  },
+  "rules": {
+    "r_bridge": "w_eight"
+  },
+  "derivedFlags": [
+    {
+      "flag": "bridge_long",
+      "rule": "r_bridge",
+      "word": "w_eight"
+    }
+  ],
+  "ruleReactions": [],
+  "items": {},
+  "pages": [
+    {
+      "id": "p39",
+      "num": 39,
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p39.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p39.intro"
+        },
+        {
+          "t": "link",
+          "k": "page.p39.room",
+          "script": "go_room"
+        },
+        {
+          "t": "link",
+          "k": "page.p39.ravine",
+          "script": "go_ravine"
+        },
+        {
+          "t": "link",
+          "k": "page.p39.workshop",
+          "script": "go_workshop"
+        },
+        {
+          "t": "tap",
+          "art": "manual_icon",
+          "caption": "page.p39.typo",
+          "script": "typo_index"
+        },
+        {
+          "t": "margin",
+          "k": "page.p39.margin"
+        }
+      ]
+    },
+    {
+      "id": "p40",
+      "num": 40,
+      "accepts": {
+        "leaf": "put_leaf",
+        "tag8": "put_tag",
+        "letter_o": "put_o"
+      },
+      "onDropWrong": "page_wrong",
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p40.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p40.intro"
+        },
+        {
+          "t": "text",
+          "k": "page.p40.leaf",
+          "style": "index",
+          "when": "leaf_taken"
+        },
+        {
+          "t": "text",
+          "k": "page.p40.tag",
+          "style": "index",
+          "when": "tag_taken"
+        },
+        {
+          "t": "text",
+          "k": "page.p40.o",
+          "style": "index",
+          "when": "o_taken"
+        },
+        {
+          "t": "blank",
+          "k": "page.p40.empty",
+          "when": {
+            "none": [
+              "leaf_taken",
+              "tag_taken",
+              "o_taken"
+            ]
+          }
+        },
+        {
+          "t": "tap",
+          "art": "tape",
+          "caption": "page.p40.typo",
+          "script": "typo_souv"
+        }
+      ]
+    }
+  ],
+  "scenes": {
+    "room": {
+      "art": "room",
+      "onEnter": "room_enter",
+      "onTapEmpty": "room_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        {
+          "id": "plant",
+          "rect": [
+            90,
+            980,
+            220,
+            380
+          ],
+          "pickup": "leaf",
+          "pickupWhen": {
+            "all": [
+              "plant_happy"
+            ],
+            "none": [
+              "leaf_taken"
+            ]
+          },
+          "onTap": "tap_plant"
+        },
+        {
+          "id": "door",
+          "rect": [
+            430,
+            560,
+            300,
+            620
+          ],
+          "onTap": "tap_hole"
+        }
+      ]
+    },
+    "ravine": {
+      "art": "ravine",
+      "onEnter": "ravine_enter",
+      "onTapEmpty": "ravine_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        {
+          "id": "tag",
+          "rect": [
+            690,
+            990,
+            150,
+            90
+          ],
+          "pickup": "tag8",
+          "pickupWhen": "!tag_taken",
+          "onTap": "tap_tag"
+        },
+        {
+          "id": "bridge",
+          "rect": [
+            300,
+            930,
+            460,
+            170
+          ],
+          "onTap": "tap_bridge"
+        }
+      ]
+    },
+    "workshop": {
+      "art": "workshop",
+      "onEnter": "workshop_enter",
+      "onTapEmpty": "workshop_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        {
+          "id": "o",
+          "rect": [
+            385,
+            1020,
+            120,
+            120
+          ],
+          "pickup": "letter_o",
+          "pickupWhen": "!o_taken",
+          "onTap": "tap_o"
+        },
+        {
+          "id": "poster",
+          "rect": [
+            290,
+            160,
+            300,
+            180
+          ],
+          "onTap": "tap_poster"
+        },
+        {
+          "id": "platform",
+          "rect": [
+            240,
+            1270,
+            420,
+            150
+          ],
+          "onTap": "tap_platform"
+        }
+      ]
+    }
+  },
+  "puzzles": [
+    {
+      "id": "pz_leaf",
+      "hints": [
+        "h.leaf.1",
+        "h.leaf.2",
+        "h.leaf.3"
+      ]
+    },
+    {
+      "id": "pz_tag",
+      "hints": [
+        "h.tag.1",
+        "h.tag.2",
+        "h.tag.3"
+      ]
+    },
+    {
+      "id": "pz_o",
+      "hints": [
+        "h.o.1",
+        "h.o.2",
+        "h.o.3"
+      ]
+    }
+  ],
+  "scripts": {
+    "room_enter": [
+      {
+        "once": "intro",
+        "do": [
+          {
+            "set": "door_erased"
+          },
+          {
+            "set": "plant_offended"
+          },
+          {
+            "set": "page7_done"
+          },
+          {
+            "set": "frag_a"
+          },
+          {
+            "set": "l1"
+          },
+          {
+            "set": "l2"
+          },
+          {
+            "set": "l3"
+          },
+          {
+            "set": "l4"
+          },
+          {
+            "set": "ladder_done"
+          },
+          {
+            "set": "body_out"
+          },
+          {
+            "set": "apple_in_manual"
+          },
+          {
+            "set": "head_in_manual"
+          },
+          {
+            "set": "torso_in_manual"
+          },
+          {
+            "set": "o_on_floor"
+          },
+          {
+            "card": "ch13"
+          },
+          {
+            "say": "n.i1",
+            "mood": "nervous"
+          },
+          {
+            "say": "p.i1",
+            "who": "pencil"
+          },
+          {
+            "say": "n.i2",
+            "mood": "smug"
+          },
+          {
+            "manual": "open",
+            "page": "p39"
+          },
+          {
+            "say": "n.i3"
+          }
+        ]
+      }
+    ],
+    "ravine_enter": [
+      {
+        "once": "ravine_back",
+        "do": [
+          {
+            "say": "n.ravine1"
+          },
+          {
+            "say": "p.ravine",
+            "who": "pencil"
+          }
+        ]
+      }
+    ],
+    "workshop_enter": [
+      {
+        "once": "workshop_back",
+        "do": [
+          {
+            "say": "n.ws1"
+          },
+          {
+            "say": "hero.1",
+            "who": "hero"
+          },
+          {
+            "say": "n.ws2"
+          }
+        ]
+      }
+    ],
+    "go_room": [
+      {
+        "sfx": "page_turn0"
+      },
+      {
+        "scene": "room"
+      }
+    ],
+    "go_ravine": [
+      {
+        "sfx": "page_turn1"
+      },
+      {
+        "scene": "ravine"
+      }
+    ],
+    "go_workshop": [
+      {
+        "sfx": "page_turn2"
+      },
+      {
+        "scene": "workshop"
+      }
+    ],
+    "room_empty": [
+      {
+        "say": "n.room_empty"
+      }
+    ],
+    "ravine_empty": [
+      {
+        "say": "n.ravine_empty"
+      }
+    ],
+    "workshop_empty": [
+      {
+        "say": "n.ws_empty"
+      }
+    ],
+    "drop_wrong": [
+      {
+        "sfx": "deny"
+      },
+      {
+        "cycle": [
+          "n.dropwrong1",
+          "n.dropwrong2",
+          "n.dropwrong3"
+        ]
+      }
+    ],
+    "page_wrong": [
+      {
+        "sfx": "deny"
+      },
+      {
+        "say": "n.page_wrong"
+      }
+    ],
+    "tool_wrong": [
+      {
+        "say": "n.tool1"
+      }
+    ],
+    "typo_index": [
+      {
+        "if": "typo:t_index",
+        "then": [
+          {
+            "say": "n.typo_done"
+          }
+        ],
+        "else": [
+          {
+            "typo": "t_index"
+          },
+          {
+            "say": "n.typo_index",
+            "mood": "nervous"
+          }
+        ]
+      }
+    ],
+    "typo_souv": [
+      {
+        "if": "typo:t_souv",
+        "then": [
+          {
+            "say": "n.typo_done"
+          }
+        ],
+        "else": [
+          {
+            "typo": "t_souv"
+          },
+          {
+            "say": "n.typo_souv",
+            "mood": "smug"
+          }
+        ]
+      }
+    ],
+    "tap_hole": [
+      {
+        "say": "n.hole"
+      }
+    ],
+    "tap_plant": [
+      {
+        "if": "plant_happy",
+        "then": [
+          {
+            "if": "leaf_taken",
+            "then": [
+              {
+                "say": "n.plant_bye"
+              }
+            ],
+            "else": [
+              {
+                "say": "n.plant_leaf"
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "say": "n.plant_still"
+          },
+          {
+            "choose": [
+              {
+                "k": "plant.a",
+                "do": [
+                  {
+                    "set": "plant_happy"
+                  },
+                  {
+                    "unset": "plant_offended"
+                  },
+                  {
+                    "sfx": "pop"
+                  },
+                  {
+                    "say": "n.plant_ok"
+                  }
+                ]
+              },
+              {
+                "k": "plant.b",
+                "do": [
+                  {
+                    "say": "n.plant_no",
+                    "mood": "nervous"
+                  }
+                ]
+              }
+            ],
+            "prompt": "plant.prompt"
+          }
+        ]
+      }
+    ],
+    "tap_tag": [
+      {
+        "say": "n.tag"
+      }
+    ],
+    "tap_bridge": [
+      {
+        "say": "n.bridge"
+      }
+    ],
+    "tap_o": [
+      {
+        "say": "n.o"
+      }
+    ],
+    "tap_poster": [
+      {
+        "if": "o_taken",
+        "then": [
+          {
+            "say": "n.poster_after"
+          }
+        ],
+        "else": [
+          {
+            "say": "n.poster"
+          }
+        ]
+      }
+    ],
+    "tap_platform": [
+      {
+        "say": "n.platform"
+      }
+    ],
+    "put_leaf": [
+      {
+        "solve": "pz_leaf"
+      },
+      {
+        "set": "leaf_taken"
+      },
+      {
+        "sfx": "collect"
+      },
+      {
+        "say": "n.put_leaf"
+      },
+      {
+        "run": "check_souvenirs"
+      }
+    ],
+    "put_tag": [
+      {
+        "solve": "pz_tag"
+      },
+      {
+        "set": "tag_taken"
+      },
+      {
+        "sfx": "collect"
+      },
+      {
+        "say": "n.put_tag"
+      },
+      {
+        "run": "check_souvenirs"
+      }
+    ],
+    "put_o": [
+      {
+        "solve": "pz_o"
+      },
+      {
+        "set": "o_taken"
+      },
+      {
+        "sfx": "collect"
+      },
+      {
+        "say": "n.put_o"
+      },
+      {
+        "run": "check_souvenirs"
+      }
+    ],
+    "check_souvenirs": [
+      {
+        "if": {
+          "all": [
+            "leaf_taken",
+            "tag_taken",
+            "o_taken"
+          ]
+        },
+        "then": [
+          {
+            "run": "finale"
+          }
+        ],
+        "else": [
+          {
+            "say": "p.more",
+            "who": "pencil"
+          }
+        ]
+      }
+    ],
+    "finale": [
+      {
+        "say": "n.x1"
+      },
+      {
+        "say": "p.x1",
+        "who": "pencil"
+      },
+      {
+        "say": "c.x1",
+        "who": "corrector"
+      },
+      {
+        "say": "c.x2",
+        "who": "corrector"
+      },
+      {
+        "say": "n.x2",
+        "mood": "nervous"
+      },
+      {
+        "say": "hero.2",
+        "who": "hero"
+      },
+      {
+        "end": "ch13"
+      }
+    ]
+  }
+}

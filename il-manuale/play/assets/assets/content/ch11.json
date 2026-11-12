@@ -1,0 +1,480 @@
+{
+  "id": "ch11",
+  "startScene": "typecase",
+  "next": "ch12",
+  "typos": [
+    "t_case",
+    "t_type"
+  ],
+  "tools": [
+    "rotate",
+    "scale",
+    "dup"
+  ],
+  "onToolWrong": "tool_wrong",
+  "words": {},
+  "rules": {},
+  "derivedFlags": [],
+  "ruleReactions": [],
+  "items": {},
+  "pages": [
+    {
+      "id": "p33",
+      "num": 33,
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p33.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p33.intro"
+        },
+        {
+          "t": "anagram",
+          "id": "a_lock",
+          "k": "ana.lock",
+          "target": "ana.lock_target",
+          "script": "lock_open",
+          "caption": "page.p33.cap"
+        },
+        {
+          "t": "margin",
+          "k": "page.p33.margin"
+        }
+      ]
+    },
+    {
+      "id": "p34",
+      "num": 34,
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p34.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p34.intro"
+        },
+        {
+          "t": "text",
+          "k": "page.p34.list",
+          "style": "index"
+        },
+        {
+          "t": "text",
+          "k": "page.p34.locked",
+          "style": "note",
+          "when": "!ana_ok:a_lock"
+        },
+        {
+          "t": "anagram",
+          "id": "a_label",
+          "k": "ana.label",
+          "target": "ana.label_target",
+          "script": "label_fixed",
+          "caption": "page.p34.cap",
+          "when": "ana_ok:a_lock"
+        },
+        {
+          "t": "margin",
+          "k": "page.p34.margin"
+        }
+      ]
+    },
+    {
+      "id": "p35",
+      "num": 35,
+      "accepts": {
+        "pencil": "pencil_safe"
+      },
+      "onDropWrong": "page_wrong",
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p35.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p35.intro"
+        },
+        {
+          "t": "blank",
+          "k": "page.p35.empty",
+          "when": "!pencil_safe"
+        },
+        {
+          "t": "margin",
+          "k": "page.p35.pencil",
+          "when": "pencil_safe"
+        }
+      ]
+    }
+  ],
+  "scenes": {
+    "typecase": {
+      "art": "typecase",
+      "onEnter": "tc_enter",
+      "onTapEmpty": "tc_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        {
+          "id": "title",
+          "rect": [
+            190,
+            170,
+            520,
+            100
+          ],
+          "onTap": "typo_case"
+        },
+        {
+          "id": "plate",
+          "rect": [
+            280,
+            1165,
+            340,
+            50
+          ],
+          "onTap": "typo_type"
+        },
+        {
+          "id": "drawer",
+          "rect": [
+            460,
+            850,
+            240,
+            130
+          ],
+          "pickup": "pencil",
+          "pickupWhen": {
+            "all": [
+              "drawer_open"
+            ],
+            "none": [
+              "pencil_safe"
+            ]
+          },
+          "onTap": "tap_drawer"
+        },
+        {
+          "id": "lock",
+          "rect": [
+            340,
+            300,
+            220,
+            90
+          ],
+          "onTap": "tap_lock"
+        },
+        {
+          "id": "cabinet",
+          "rect": [
+            70,
+            330,
+            760,
+            900
+          ],
+          "onTap": "tap_cabinet"
+        }
+      ]
+    }
+  },
+  "puzzles": [
+    {
+      "id": "pz_lock",
+      "scene": "typecase",
+      "hints": [
+        "h.lock.1",
+        "h.lock.2",
+        "h.lock.3"
+      ]
+    },
+    {
+      "id": "pz_label",
+      "scene": "typecase",
+      "when": "ana_ok:a_lock",
+      "hints": [
+        "h.label.1",
+        "h.label.2",
+        "h.label.3"
+      ]
+    },
+    {
+      "id": "pz_rescue",
+      "scene": "typecase",
+      "when": "drawer_open",
+      "hints": [
+        "h.rescue.1",
+        "h.rescue.2",
+        "h.rescue.3"
+      ]
+    }
+  ],
+  "scripts": {
+    "tc_enter": [
+      {
+        "once": "intro",
+        "do": [
+          {
+            "card": "ch11"
+          },
+          {
+            "say": "n.i1",
+            "mood": "nervous"
+          },
+          {
+            "say": "hero.2",
+            "who": "hero"
+          },
+          {
+            "say": "n.i2"
+          },
+          {
+            "say": "p.i1",
+            "who": "pencil"
+          },
+          {
+            "say": "n.i3",
+            "mood": "nervous"
+          },
+          {
+            "manual": "open",
+            "page": "p33"
+          },
+          {
+            "say": "n.i4"
+          }
+        ]
+      }
+    ],
+    "tc_empty": [
+      {
+        "cycle": [
+          "n.empty1",
+          "n.empty2"
+        ]
+      }
+    ],
+    "drop_wrong": [
+      {
+        "sfx": "deny"
+      },
+      {
+        "cycle": [
+          "n.dropwrong1",
+          "n.dropwrong2",
+          "n.dropwrong3"
+        ]
+      }
+    ],
+    "page_wrong": [
+      {
+        "sfx": "deny"
+      },
+      {
+        "say": "n.page_wrong"
+      }
+    ],
+    "tool_wrong": [
+      {
+        "say": "n.tool1"
+      }
+    ],
+    "typo_case": [
+      {
+        "if": "typo:t_case",
+        "then": [
+          {
+            "say": "n.typo_done"
+          }
+        ],
+        "else": [
+          {
+            "typo": "t_case"
+          },
+          {
+            "say": "n.typo_case",
+            "mood": "smug"
+          }
+        ]
+      }
+    ],
+    "typo_type": [
+      {
+        "if": "typo:t_type",
+        "then": [
+          {
+            "say": "n.typo_done"
+          }
+        ],
+        "else": [
+          {
+            "typo": "t_type"
+          },
+          {
+            "say": "n.typo_type",
+            "mood": "nervous"
+          }
+        ]
+      }
+    ],
+    "tap_lock": [
+      {
+        "if": "ana_ok:a_lock",
+        "then": [
+          {
+            "say": "n.lock_open"
+          }
+        ],
+        "else": [
+          {
+            "say": "n.lock"
+          }
+        ]
+      }
+    ],
+    "tap_cabinet": [
+      {
+        "if": "ana_ok:a_lock",
+        "then": [
+          {
+            "say": "n.cabinet_open"
+          }
+        ],
+        "else": [
+          {
+            "say": "n.cabinet"
+          }
+        ]
+      }
+    ],
+    "tap_drawer": [
+      {
+        "if": "drawer_open",
+        "then": [
+          {
+            "if": "pencil_safe",
+            "then": [
+              {
+                "say": "n.drawer_empty"
+              }
+            ],
+            "else": [
+              {
+                "say": "p.drawer",
+                "who": "pencil"
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "if": "ana_ok:a_lock",
+            "then": [
+              {
+                "say": "p.knock",
+                "who": "pencil"
+              }
+            ],
+            "else": [
+              {
+                "say": "n.glass"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "lock_open": [
+      {
+        "solve": "pz_lock"
+      },
+      {
+        "sfx": "unlock"
+      },
+      {
+        "say": "n.lock1"
+      },
+      {
+        "say": "p.lock",
+        "who": "pencil"
+      },
+      {
+        "manual": "open",
+        "page": "p34"
+      },
+      {
+        "say": "n.lock2",
+        "mood": "smug"
+      }
+    ],
+    "label_fixed": [
+      {
+        "solve": "pz_label"
+      },
+      {
+        "set": "drawer_open"
+      },
+      {
+        "sfx": "door_creak"
+      },
+      {
+        "manual": "close"
+      },
+      {
+        "say": "n.label1"
+      },
+      {
+        "say": "p.label",
+        "who": "pencil"
+      },
+      {
+        "say": "n.label2",
+        "mood": "nervous"
+      }
+    ],
+    "pencil_safe": [
+      {
+        "set": "pencil_safe"
+      },
+      {
+        "solve": "pz_rescue"
+      },
+      {
+        "sfx": "collect"
+      },
+      {
+        "say": "p.x1",
+        "who": "pencil"
+      },
+      {
+        "say": "n.x1",
+        "mood": "nervous"
+      },
+      {
+        "say": "p.x2",
+        "who": "pencil"
+      },
+      {
+        "say": "n.x2",
+        "mood": "angry"
+      },
+      {
+        "say": "p.x3",
+        "who": "pencil"
+      },
+      {
+        "say": "c.x1",
+        "who": "corrector"
+      },
+      {
+        "say": "hero.2",
+        "who": "hero"
+      },
+      {
+        "end": "ch11"
+      }
+    ]
+  }
+}

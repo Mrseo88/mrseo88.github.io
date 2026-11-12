@@ -1,0 +1,293 @@
+{
+  "id": "ch3",
+  "startScene": "workshop",
+  "next": "ch4",
+  "typos": ["t_poster3", "t_machine"],
+  "tools": ["rotate", "scale", "dup"],
+  "onToolWrong": "tool_wrong",
+
+  "words": {},
+  "rules": {},
+  "derivedFlags": [],
+  "ruleReactions": [],
+
+  "items": {
+    "ladder1": { "art": "ladder1" },
+    "ladder2": { "art": "ladder2", "onTool": { "dup": "make_piece4" } },
+    "ladder3": { "art": "ladder3_flip", "artWhen": [ { "when": "p3_fixed", "art": "ladder3" } ], "onTool": { "rotate": "turn_piece3" } },
+    "ladder4": { "art": "ladder4" },
+    "apple": {
+      "art": "apple",
+      "artWhen": [ { "when": "apple_small", "art": "apple_small" } ],
+      "onTool": { "scale": "resize_apple", "dup": "dup_apple", "rotate": "rotate_apple" }
+    },
+    "hero": { "art": "hero" }
+  },
+
+  "pages": [
+    {
+      "id": "p9",
+      "num": 9,
+      "onDropWrong": "world_wrong",
+      "blocks": [
+        { "t": "heading", "k": "page.p9.title" },
+        { "t": "text", "k": "page.p9.intro" },
+        {
+          "t": "row",
+          "blocks": [
+            { "t": "item", "item": "ladder1", "caption": "page.p9.l1" },
+            { "t": "item", "item": "ladder2", "caption": "page.p9.l2" },
+            { "t": "item", "item": "ladder3", "caption": "page.p9.l3" }
+          ]
+        },
+        { "t": "text", "k": "page.p9.l4note", "style": "note", "when": "!piece4_made" },
+        { "t": "item", "item": "ladder4", "caption": "page.p9.l4", "when": "piece4_made" },
+        { "t": "margin", "k": "page.p9.margin" }
+      ]
+    },
+    {
+      "id": "p10",
+      "num": 10,
+      "onDropWrong": "world_wrong",
+      "blocks": [
+        { "t": "heading", "k": "page.p10.title" },
+        { "t": "text", "k": "page.p10.intro" },
+        { "t": "text", "k": "page.p10.list", "style": "index" },
+        { "t": "text", "k": "page.p10.note", "style": "note" },
+        { "t": "margin", "k": "page.p10.margin" }
+      ]
+    },
+    {
+      "id": "p11",
+      "num": 11,
+      "accepts": { "apple": "put_apple" },
+      "onDropWrong": "world_wrong",
+      "blocks": [
+        { "t": "heading", "k": "page.p11.title" },
+        { "t": "text", "k": "page.p11.intro" },
+        { "t": "blank", "k": "page.p11.empty", "when": "!apple_in_manual" },
+        { "t": "item", "item": "apple", "caption": "page.p11.apple", "when": "apple_in_manual" },
+        { "t": "margin", "k": "page.p11.margin", "when": "apple_in_manual" }
+      ]
+    },
+    {
+      "id": "p12",
+      "num": 12,
+      "accepts": { "head": "put_head", "torso": "put_torso" },
+      "onDropWrong": "sheet_wrong",
+      "blocks": [
+        { "t": "heading", "k": "page.p12.title" },
+        { "t": "text", "k": "page.p12.intro" },
+        { "t": "sheet", "caption": "page.p12.cap", "head": "head_on_sheet", "torso": "torso_on_sheet", "legs": "legs_drawn", "when": "!hero_ready" },
+        { "t": "item", "item": "hero", "caption": "page.p12.hero", "when": "hero_ready" },
+        { "t": "margin", "k": "page.p12.margin" }
+      ]
+    }
+  ],
+
+  "scenes": {
+    "workshop": {
+      "art": "workshop",
+      "onEnter": "workshop_enter",
+      "onTapEmpty": "workshop_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        { "id": "poster", "rect": [290, 160, 300, 180], "onTap": "typo_poster" },
+        { "id": "head", "rect": [650, 240, 160, 150], "pickup": "head", "pickupWhen": { "all": ["ladder_done"], "none": ["head_in_manual"] }, "onTap": "tap_head" },
+        { "id": "ladder", "rect": [640, 390, 160, 730], "accepts": { "ladder1": "drop_l1", "ladder2": "drop_l2", "ladder3": "drop_l3", "ladder4": "drop_l4" }, "onTap": "tap_ladder" },
+        { "id": "sign", "rect": [58, 452, 224, 70], "onTap": "typo_machine" },
+        { "id": "slot", "rect": [100, 710, 140, 120], "accepts": { "apple": "drop_apple" }, "onTap": "tap_slot" },
+        { "id": "tray", "rect": [70, 960, 200, 120], "pickup": "torso", "pickupWhen": { "all": ["body_out"], "none": ["torso_in_manual"] }, "onTap": "tap_tray" },
+        { "id": "machine", "rect": [40, 430, 260, 690], "onTap": "tap_machine" },
+        { "id": "apple", "rect": [385, 905, 120, 115], "pickup": "apple", "pickupWhen": "!apple_in_manual", "onTap": "tap_apple" },
+        { "id": "platform", "rect": [240, 1270, 420, 150], "accepts": { "hero": "drop_hero" }, "onTap": "tap_platform" }
+      ]
+    }
+  },
+
+  "puzzles": [
+    { "id": "pz_ladder", "scene": "workshop", "hints": ["h.ladder.1", "h.ladder.2", "h.ladder.3"] },
+    { "id": "pz_apple", "scene": "workshop", "hints": ["h.apple.1", "h.apple.2", "h.apple.3"] },
+    { "id": "pz_hero", "scene": "workshop", "hints": ["h.hero.1", "h.hero.2", "h.hero.3"] }
+  ],
+
+  "scripts": {
+    "workshop_enter": [
+      { "once": "intro", "do": [
+        { "card": "ch3" },
+        { "say": "n.w1" },
+        { "say": "n.w2", "mood": "smug" },
+        { "say": "n.w3" },
+        { "manual": "open", "page": "p12" },
+        { "wait": 900 },
+        { "say": "n.w4", "mood": "smug" },
+        { "manual": "close" },
+        { "say": "n.w5", "mood": "nervous" }
+      ] }
+    ],
+    "workshop_empty": [ { "cycle": ["n.empty1", "n.empty2", "n.empty3"] } ],
+    "drop_wrong": [ { "sfx": "deny" }, { "cycle": ["n.dropwrong1", "n.dropwrong2", "n.dropwrong3"] } ],
+    "world_wrong": [ { "sfx": "deny" }, { "cycle": ["n.ww1", "n.ww2"] } ],
+    "sheet_wrong": [ { "sfx": "deny" }, { "say": "n.sheet_wrong", "mood": "smug" } ],
+    "tool_wrong": [ { "cycle": ["n.tool1", "n.tool2", "n.tool3"] } ],
+
+    "typo_poster": [
+      { "if": "typo:t_poster3",
+        "then": [ { "say": "n.typo_done" } ],
+        "else": [ { "typo": "t_poster3" }, { "say": "n.typo_poster", "mood": "nervous" } ] }
+    ],
+    "typo_machine": [
+      { "if": "typo:t_machine",
+        "then": [ { "say": "n.typo_done" } ],
+        "else": [ { "typo": "t_machine" }, { "say": "n.typo_machine", "mood": "nervous" } ] }
+    ],
+
+    "tap_machine": [ { "cycle": ["n.machine1", "n.machine2"] } ],
+    "tap_slot": [ { "say": "n.slot" } ],
+    "tap_tray": [
+      { "if": { "all": ["body_out"], "none": ["torso_in_manual"] },
+        "then": [ { "say": "n.tray_body" } ],
+        "else": [ { "say": "n.tray_empty" } ] }
+    ],
+    "tap_apple": [ { "cycle": ["n.apple1", "n.apple2"] } ],
+    "tap_head": [
+      { "if": "ladder_done",
+        "then": [ { "say": "n.head_reach" } ],
+        "else": [ { "cycle": ["n.head_high1", "n.head_high2"] } ] }
+    ],
+    "tap_ladder": [
+      { "if": "ladder_done",
+        "then": [ { "say": "n.ladder_done" } ],
+        "else": [ { "say": "n.ladder_empty" } ] }
+    ],
+    "tap_platform": [
+      { "if": "hero_alive",
+        "then": [ { "say": "hero.1", "who": "hero" } ],
+        "else": [ { "say": "n.platform" } ] }
+    ],
+
+    "make_piece4": [
+      { "if": "piece4_made",
+        "then": [ { "say": "n.piece4_again" } ],
+        "else": [ { "set": "piece4_made" }, { "sfx": "collect" }, { "say": "n.piece4", "mood": "smug" } ] }
+    ],
+    "turn_piece3": [
+      { "if": "p3_fixed",
+        "then": [ { "unset": "p3_fixed" }, { "say": "n.p3_undo", "mood": "nervous" } ],
+        "else": [ { "set": "p3_fixed" }, { "say": "n.p3_fixed" } ] }
+    ],
+    "drop_l1": [
+      { "if": "l1",
+        "then": [ { "say": "n.l_have" } ],
+        "else": [ { "take": "ladder1" }, { "set": "l1" }, { "sfx": "paper_drop" }, { "say": "n.l1" } ] }
+    ],
+    "drop_l2": [
+      { "if": "!l1",
+        "then": [ { "sfx": "deny" }, { "say": "n.l_order", "mood": "smug" } ],
+        "else": [
+          { "if": "!piece4_made",
+            "then": [ { "sfx": "deny" }, { "say": "n.l2_wait", "mood": "nervous" } ],
+            "else": [ { "take": "ladder2" }, { "set": "l2" }, { "sfx": "paper_drop" }, { "say": "n.l2" } ] }
+        ] }
+    ],
+    "drop_l3": [
+      { "if": "!l2",
+        "then": [ { "sfx": "deny" }, { "say": "n.l_order", "mood": "smug" } ],
+        "else": [
+          { "if": "!p3_fixed",
+            "then": [ { "sfx": "deny" }, { "say": "n.l3_flip", "mood": "angry" } ],
+            "else": [ { "take": "ladder3" }, { "set": "l3" }, { "sfx": "paper_drop" }, { "say": "n.l3" } ] }
+        ] }
+    ],
+    "drop_l4": [
+      { "if": "!l3",
+        "then": [ { "sfx": "deny" }, { "say": "n.l_order", "mood": "smug" } ],
+        "else": [
+          { "take": "ladder4" },
+          { "set": "l4" },
+          { "set": "ladder_done" },
+          { "solve": "pz_ladder" },
+          { "sfx": "collect" },
+          { "say": "n.l4a" },
+          { "say": "n.l4b", "mood": "smug" }
+        ] }
+    ],
+
+    "put_apple": [
+      { "set": "apple_in_manual" },
+      { "sfx": "paper_drop" },
+      { "say": "n.apple_in1", "mood": "angry" },
+      { "say": "n.apple_in2", "mood": "nervous" }
+    ],
+    "resize_apple": [
+      { "if": "apple_small",
+        "then": [ { "unset": "apple_small" }, { "say": "n.apple_grow" } ],
+        "else": [ { "set": "apple_small" }, { "say": "n.apple_shrink", "mood": "smug" } ] }
+    ],
+    "dup_apple": [ { "say": "n.apple_dup" } ],
+    "rotate_apple": [ { "say": "n.apple_rot" } ],
+    "drop_apple": [
+      { "if": "!apple_small",
+        "then": [ { "sfx": "deny" }, { "say": "n.apple_big", "mood": "smug" } ],
+        "else": [
+          { "take": "apple" },
+          { "sfx": "click" },
+          { "sfx": "tumble" },
+          { "anim": "dispense" },
+          { "set": "body_out" },
+          { "solve": "pz_apple" },
+          { "say": "n.dispense1" },
+          { "say": "n.dispense2", "mood": "smug" }
+        ] }
+    ],
+
+    "put_head": [
+      { "set": "head_in_manual" },
+      { "set": "head_on_sheet" },
+      { "sfx": "paper_drop" },
+      { "say": "n.sheet_head" },
+      { "run": "check_sheet" }
+    ],
+    "put_torso": [
+      { "set": "torso_in_manual" },
+      { "set": "torso_on_sheet" },
+      { "sfx": "paper_drop" },
+      { "say": "n.sheet_torso" },
+      { "run": "check_sheet" }
+    ],
+    "check_sheet": [
+      { "if": { "all": ["head_on_sheet", "torso_on_sheet"] },
+        "then": [ { "run": "pencil_legs" } ],
+        "else": [ { "say": "n.sheet_more" } ] }
+    ],
+    "pencil_legs": [
+      { "say": "p.legs1", "who": "pencil" },
+      { "sfx": "hint" },
+      { "set": "legs_drawn" },
+      { "wait": 700 },
+      { "say": "p.legs2", "who": "pencil" },
+      { "say": "n.legs", "mood": "angry" },
+      { "set": "hero_ready" },
+      { "say": "n.hero_ready" }
+    ],
+
+    "drop_hero": [
+      { "take": "hero" },
+      { "sfx": "tumble" },
+      { "anim": "hero_alive" },
+      { "set": "hero_alive" },
+      { "solve": "pz_hero" },
+      { "wait": 400 },
+      { "say": "n.alive1", "mood": "nervous" },
+      { "say": "n.alive2", "mood": "nervous" },
+      { "sfx": "pop" },
+      { "say": "hero.1", "who": "hero" },
+      { "say": "n.alive3" },
+      { "say": "hero.1", "who": "hero" },
+      { "say": "n.alive4", "mood": "angry" },
+      { "say": "p.end", "who": "pencil" },
+      { "say": "n.alive5", "mood": "nervous" },
+      { "end": "ch3" }
+    ]
+  }
+}

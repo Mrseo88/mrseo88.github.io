@@ -1,0 +1,258 @@
+{
+  "id": "ch1",
+  "startScene": "title",
+  "next": "ch2",
+  "typos": ["t_tagline", "t_poster"],
+
+  "words": {
+    "w_forbidden": "word.forbidden",
+    "w_recommended": "word.recommended",
+    "w_notincluded": "word.notincluded"
+  },
+  "rules": {
+    "r_extract": "w_forbidden",
+    "r_seated": "w_recommended",
+    "r_batteries": "w_notincluded"
+  },
+  "derivedFlags": [
+    { "flag": "extraction_allowed", "rule": "r_extract", "word": "w_recommended" }
+  ],
+  "ruleReactions": [
+    { "rule": "r_extract", "word": "w_recommended", "script": "rx_allowed" },
+    { "rule": "r_extract", "word": "w_notincluded", "script": "rx_notincluded" },
+    { "rule": "r_seated", "word": "w_forbidden", "script": "rx_seated" },
+    { "rule": "r_batteries", "word": "w_forbidden", "script": "rx_batteries" },
+    { "rule": "r_extract", "word": "w_forbidden", "script": "rx_back" }
+  ],
+
+  "items": {
+    "start_button": { "art": "start_button" },
+    "key": {
+      "art": "key",
+      "lockedWhen": { "all": ["avviso_shown"], "none": ["extraction_allowed"] },
+      "onLocked": "locked_item"
+    }
+  },
+
+  "pages": [
+    {
+      "id": "p1",
+      "blocks": [
+        { "t": "heading", "k": "page.p1.title" },
+        { "t": "text", "k": "page.p1.intro" },
+        { "t": "item", "item": "start_button", "caption": "page.p1.cap" },
+        { "t": "text", "k": "page.p1.note", "style": "note" },
+        { "t": "margin", "k": "page.p1.margin" }
+      ]
+    },
+    {
+      "id": "p2",
+      "blocks": [
+        { "t": "heading", "k": "page.p2.title" },
+        { "t": "text", "k": "page.p2.intro" },
+        {
+          "t": "row",
+          "blocks": [
+            { "t": "deco", "art": "manual_icon", "caption": "page.p2.manual" },
+            { "t": "item", "item": "key", "caption": "page.p2.key" },
+            { "t": "deco", "art": "zero", "caption": "page.p2.zero" }
+          ]
+        },
+        { "t": "text", "k": "page.p2.note", "style": "note" },
+        { "t": "margin", "k": "page.p2.margin" }
+      ]
+    },
+    {
+      "id": "p3",
+      "blocks": [
+        { "t": "blank", "k": "page.p3.blank", "when": { "none": ["avviso_shown"] } },
+        { "t": "heading", "k": "page.p3.title", "when": "avviso_shown", "style": "warn" },
+        { "t": "rule", "rule": "r_extract", "k": "rule.extract", "when": "avviso_shown" },
+        { "t": "rule", "rule": "r_seated", "k": "rule.seated", "when": "avviso_shown" },
+        { "t": "rule", "rule": "r_batteries", "k": "rule.batteries", "when": "avviso_shown" },
+        { "t": "text", "k": "page.p3.fine", "style": "note", "when": "avviso_shown" },
+        { "t": "margin", "k": "page.p3.margin", "when": "avviso_shown" }
+      ]
+    },
+    {
+      "id": "p4",
+      "blocks": [
+        { "t": "heading", "k": "page.p4.title" },
+        { "t": "text", "k": "page.p4.index", "style": "index" },
+        { "t": "margin", "k": "page.p4.margin" }
+      ]
+    }
+  ],
+
+  "scenes": {
+    "title": {
+      "art": "title",
+      "onEnter": "title_enter",
+      "onTapEmpty": "title_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        { "id": "start_slot", "rect": [290, 1180, 320, 120], "accepts": { "start_button": "drop_start" }, "onTap": "tap_start" },
+        { "id": "tagline", "rect": [110, 605, 680, 70], "onTap": "typo_tagline" },
+        { "id": "logo", "rect": [70, 170, 760, 380], "onTap": "tap_logo" }
+      ]
+    },
+    "room": {
+      "art": "room",
+      "onEnter": "room_enter",
+      "onTapEmpty": "room_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        { "id": "door", "rect": [430, 560, 300, 620], "accepts": { "key": "drop_key" }, "onTap": "tap_door" },
+        { "id": "poster", "rect": [495, 230, 290, 210], "onTap": "typo_poster" },
+        { "id": "plant", "rect": [90, 980, 220, 380], "onTap": "tap_plant" },
+        { "id": "window", "rect": [90, 210, 240, 300], "onTap": "tap_window" }
+      ]
+    }
+  },
+
+  "puzzles": [
+    { "id": "pz_start", "scene": "title", "hints": ["h.start.1", "h.start.2", "h.start.3"] },
+    { "id": "pz_key", "scene": "room", "when": { "none": ["avviso_shown"] }, "hints": ["h.key.1", "h.key.2", "h.key.3"] },
+    { "id": "pz_rule", "scene": "room", "when": "avviso_shown", "hints": ["h.rule.1", "h.rule.2", "h.rule.3"] }
+  ],
+
+  "scripts": {
+    "title_enter": [
+      { "once": "intro", "do": [
+        { "card": "ch1" },
+        { "say": "n.welcome1" },
+        { "say": "n.welcome2" },
+        { "wait": 600 },
+        { "say": "n.welcome3", "mood": "smug" }
+      ] }
+    ],
+    "tap_start": [
+      { "if": "start_placed",
+        "then": [ { "run": "press_start" } ],
+        "else": [ { "sfx": "deny" }, { "cycle": ["n.nostart1", "n.nostart2", "n.nostart3"] } ] }
+    ],
+    "drop_start": [
+      { "take": "start_button" },
+      { "set": "start_placed" },
+      { "sfx": "paper_drop" },
+      { "say": "n.startplaced1" },
+      { "say": "n.startplaced2", "mood": "nervous" }
+    ],
+    "press_start": [
+      { "sfx": "click" },
+      { "solve": "pz_start" },
+      { "manual": "close" },
+      { "sfx": "tumble" },
+      { "anim": "title_collapse" },
+      { "say": "n.collapse1", "mood": "angry" },
+      { "say": "n.collapse2" },
+      { "scene": "room" }
+    ],
+    "tap_logo": [ { "cycle": ["n.logo1", "n.logo2"] } ],
+    "typo_tagline": [
+      { "if": "typo:t_tagline",
+        "then": [ { "say": "n.typo_done" } ],
+        "else": [ { "typo": "t_tagline" }, { "say": "n.typo_tagline", "mood": "nervous" } ] }
+    ],
+    "title_empty": [ { "cycle": ["n.tempty1", "n.tempty2"] } ],
+    "drop_wrong": [ { "sfx": "deny" }, { "cycle": ["n.dropwrong1", "n.dropwrong2", "n.dropwrong3"] } ],
+
+    "room_enter": [
+      { "once": "room_intro", "do": [
+        { "say": "n.room1" },
+        { "say": "n.room2" },
+        { "say": "n.room3", "mood": "smug" }
+      ] }
+    ],
+    "tap_door": [
+      { "if": "door_erased",
+        "then": [ { "say": "n.hole" }, { "end": "ch1" } ],
+        "else": [
+          { "if": "door_open",
+            "then": [ { "if": "extraction_allowed", "then": [ { "run": "corrector" } ], "else": [ { "run": "confiscate" } ] } ],
+            "else": [ { "sfx": "deny" }, { "cycle": ["n.door1", "n.door2", "n.door3"] } ] }
+        ] }
+    ],
+    "room_empty": [ { "cycle": ["n.rempty1", "n.rempty2", "n.rempty3", "n.rempty4"] } ],
+    "tap_plant": [
+      { "if": "plant_offended",
+        "then": [ { "say": "n.plant4" } ],
+        "else": [
+          { "if": "plant_touched",
+            "then": [ { "set": "plant_offended" }, { "say": "n.plant2" }, { "say": "n.plant3", "mood": "smug" } ],
+            "else": [ { "set": "plant_touched" }, { "say": "n.plant1" } ] }
+        ] }
+    ],
+    "tap_window": [ { "cycle": ["n.window1", "n.window2"] } ],
+    "typo_poster": [
+      { "if": "typo:t_poster",
+        "then": [ { "say": "n.typo_done" } ],
+        "else": [ { "typo": "t_poster" }, { "say": "n.typo_poster", "mood": "nervous" } ] }
+    ],
+
+    "drop_key": [
+      { "take": "key" },
+      { "manual": "close" },
+      { "sfx": "unlock" },
+      { "set": "door_open" },
+      { "sfx": "door_creak" },
+      { "anim": "door_open" },
+      { "if": "extraction_allowed",
+        "then": [ { "solve": "pz_rule" }, { "run": "door_final" } ],
+        "else": [ { "solve": "pz_key" }, { "run": "confiscate" } ] }
+    ],
+    "confiscate": [
+      { "say": "n.stop1", "mood": "angry" },
+      { "say": "n.stop2", "mood": "angry" },
+      { "unset": "door_open" },
+      { "sfx": "door_close" },
+      { "anim": "door_close" },
+      { "restore": "key" },
+      { "set": "avviso_shown" },
+      { "manual": "slam", "page": "p3" },
+      { "say": "n.stop3", "mood": "smug" },
+      { "say": "n.stop4", "mood": "smug" }
+    ],
+    "locked_item": [ { "sfx": "deny" }, { "cycle": ["n.locked1", "n.locked2", "n.locked3"], "mood": "smug" } ],
+
+    "rx_allowed": [ { "once": "rx_allowed_said", "do": [
+      { "say": "n.rx_allowed1", "mood": "angry" },
+      { "say": "n.rx_allowed2" }
+    ] } ],
+    "rx_notincluded": [ { "say": "n.rx_notincluded" } ],
+    "rx_seated": [ { "once": "rx_seated_said", "do": [ { "say": "n.rx_seated", "mood": "smug" } ] } ],
+    "rx_batteries": [ { "once": "rx_batteries_said", "do": [ { "say": "n.rx_batteries" } ] } ],
+    "rx_back": [ { "say": "n.rx_back", "mood": "smug" } ],
+
+    "door_final": [
+      { "say": "n.allowed1", "mood": "nervous" },
+      { "say": "n.allowed2", "mood": "angry" },
+      { "say": "n.allowed3" },
+      { "run": "corrector" }
+    ],
+    "corrector": [
+      { "wait": 500 },
+      { "sfx": "tape" },
+      { "anim": "corrector_enter" },
+      { "say": "c.1", "who": "corrector" },
+      { "say": "n.who1", "mood": "nervous" },
+      { "say": "c.2", "who": "corrector" },
+      { "sfx": "tape" },
+      { "anim": "corrector_erase" },
+      { "set": "door_erased" },
+      { "unset": "door_open" },
+      { "say": "c.3", "who": "corrector" },
+      { "anim": "corrector_exit" },
+      { "say": "n.after1", "mood": "nervous" },
+      { "say": "n.after2", "mood": "nervous" },
+      { "say": "n.after3" },
+      { "end": "ch1" }
+    ],
+
+    "hint_jealous": [ { "once": "hint_jealous_said", "do": [
+      { "say": "n.jealous1", "mood": "angry" },
+      { "say": "p.jealous", "who": "pencil" },
+      { "say": "n.jealous2", "mood": "nervous" }
+    ] } ]
+  }
+}

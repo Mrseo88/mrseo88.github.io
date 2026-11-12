@@ -1,0 +1,561 @@
+{
+  "id": "ch14",
+  "startScene": "study",
+  "next": "ch15",
+  "typos": [
+    "t_plate14",
+    "t_diploma"
+  ],
+  "tools": [
+    "rotate",
+    "scale",
+    "dup",
+    "erase"
+  ],
+  "onToolWrong": "tool_wrong",
+  "onErase": {
+    "r_photo": "erase_photo",
+    "r_drawer": "erase_drawer"
+  },
+  "words": {
+    "w_nobody": "word.nobody",
+    "w_designer": "word.designer",
+    "w_empty": "word.empty",
+    "w_full": "word.full",
+    "w_strict": "word.strict",
+    "w_kind": "word.kind"
+  },
+  "rules": {
+    "r_photo": "w_nobody",
+    "r_drawer": "w_empty",
+    "r_corr": "w_strict",
+    "r_designer": "w_kind"
+  },
+  "derivedFlags": [
+    {
+      "flag": "corr_kind",
+      "rule": "r_corr",
+      "word": "w_kind"
+    }
+  ],
+  "ruleReactions": [
+    {
+      "rule": "r_corr",
+      "word": "w_kind",
+      "script": "rx_kind"
+    }
+  ],
+  "items": {},
+  "pages": [
+    {
+      "id": "p41",
+      "num": 41,
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p41.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p41.intro"
+        },
+        {
+          "t": "rule",
+          "rule": "r_photo",
+          "k": "rule.photo"
+        },
+        {
+          "t": "rule",
+          "rule": "r_drawer",
+          "k": "rule.drawer"
+        },
+        {
+          "t": "rule",
+          "rule": "r_corr",
+          "k": "rule.corr"
+        },
+        {
+          "t": "rule",
+          "rule": "r_designer",
+          "k": "rule.designer",
+          "when": "photo_seen"
+        },
+        {
+          "t": "margin",
+          "k": "page.p41.margin"
+        }
+      ]
+    },
+    {
+      "id": "p42",
+      "num": 42,
+      "accepts": {
+        "draft": "save_draft"
+      },
+      "onDropWrong": "page_wrong",
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p42.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p42.intro"
+        },
+        {
+          "t": "blank",
+          "k": "page.p42.empty",
+          "when": "!draft_saved"
+        },
+        {
+          "t": "text",
+          "k": "page.p42.draft",
+          "style": "note",
+          "when": "draft_saved"
+        },
+        {
+          "t": "margin",
+          "k": "page.p42.margin",
+          "when": "draft_saved"
+        }
+      ]
+    }
+  ],
+  "scenes": {
+    "study": {
+      "art": "study",
+      "onEnter": "study_enter",
+      "onTapEmpty": "study_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        {
+          "id": "plate",
+          "rect": [
+            360,
+            845,
+            220,
+            50
+          ],
+          "onTap": "typo_plate"
+        },
+        {
+          "id": "diploma",
+          "rect": [
+            470,
+            220,
+            340,
+            220
+          ],
+          "onTap": "typo_diploma"
+        },
+        {
+          "id": "photo",
+          "rect": [
+            80,
+            210,
+            300,
+            340
+          ],
+          "onTap": "tap_photo"
+        },
+        {
+          "id": "drawer",
+          "rect": [
+            110,
+            950,
+            240,
+            150
+          ],
+          "pickup": "draft",
+          "pickupWhen": {
+            "all": [
+              "drawer14_open"
+            ],
+            "none": [
+              "draft_saved"
+            ]
+          },
+          "onTap": "tap_drawer"
+        },
+        {
+          "id": "pen",
+          "rect": [
+            380,
+            540,
+            180,
+            320
+          ],
+          "onTap": "tap_pen"
+        },
+        {
+          "id": "corrector",
+          "rect": [
+            680,
+            620,
+            170,
+            580
+          ],
+          "onTap": "tap_corr"
+        }
+      ]
+    }
+  },
+  "puzzles": [
+    {
+      "id": "pz_photo",
+      "scene": "study",
+      "hints": [
+        "h.photo.1",
+        "h.photo.2",
+        "h.photo.3"
+      ]
+    },
+    {
+      "id": "pz_draft",
+      "scene": "study",
+      "hints": [
+        "h.draft.1",
+        "h.draft.2",
+        "h.draft.3"
+      ]
+    },
+    {
+      "id": "pz_kind",
+      "scene": "study",
+      "when": "photo_seen",
+      "hints": [
+        "h.kind.1",
+        "h.kind.2",
+        "h.kind.3"
+      ]
+    }
+  ],
+  "scripts": {
+    "study_enter": [
+      {
+        "once": "intro",
+        "do": [
+          {
+            "set": "red:r_photo"
+          },
+          {
+            "set": "red:r_drawer"
+          },
+          {
+            "card": "ch14"
+          },
+          {
+            "say": "c.i1",
+            "who": "corrector"
+          },
+          {
+            "say": "n.i1",
+            "mood": "nervous"
+          },
+          {
+            "say": "p.i1",
+            "who": "pencil"
+          },
+          {
+            "manual": "open",
+            "page": "p41"
+          },
+          {
+            "say": "n.i2"
+          }
+        ]
+      }
+    ],
+    "study_empty": [
+      {
+        "cycle": [
+          "n.empty1",
+          "n.empty2"
+        ]
+      }
+    ],
+    "drop_wrong": [
+      {
+        "sfx": "deny"
+      },
+      {
+        "cycle": [
+          "n.dropwrong1",
+          "n.dropwrong2",
+          "n.dropwrong3"
+        ]
+      }
+    ],
+    "page_wrong": [
+      {
+        "sfx": "deny"
+      },
+      {
+        "say": "n.page_wrong"
+      }
+    ],
+    "tool_wrong": [
+      {
+        "cycle": [
+          "n.tool1",
+          "n.tool2"
+        ]
+      }
+    ],
+    "typo_plate": [
+      {
+        "if": "typo:t_plate14",
+        "then": [
+          {
+            "say": "n.typo_done"
+          }
+        ],
+        "else": [
+          {
+            "typo": "t_plate14"
+          },
+          {
+            "say": "n.typo_plate",
+            "mood": "smug"
+          }
+        ]
+      }
+    ],
+    "typo_diploma": [
+      {
+        "if": "typo:t_diploma",
+        "then": [
+          {
+            "say": "n.typo_done"
+          }
+        ],
+        "else": [
+          {
+            "typo": "t_diploma"
+          },
+          {
+            "say": "n.typo_diploma",
+            "mood": "smug"
+          }
+        ]
+      }
+    ],
+    "tap_photo": [
+      {
+        "if": "photo_seen",
+        "then": [
+          {
+            "say": "c.photo_after",
+            "who": "corrector"
+          }
+        ],
+        "else": [
+          {
+            "say": "n.photo"
+          }
+        ]
+      }
+    ],
+    "tap_drawer": [
+      {
+        "if": "drawer14_open",
+        "then": [
+          {
+            "if": "draft_saved",
+            "then": [
+              {
+                "say": "n.drawer_done"
+              }
+            ],
+            "else": [
+              {
+                "say": "n.drawer_draft"
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "say": "n.drawer"
+          }
+        ]
+      }
+    ],
+    "tap_pen": [
+      {
+        "say": "n.pen"
+      }
+    ],
+    "tap_corr": [
+      {
+        "if": "corr_kind",
+        "then": [
+          {
+            "say": "c.kind_tap",
+            "who": "corrector"
+          }
+        ],
+        "else": [
+          {
+            "cycle": [
+              "c.t1",
+              "c.t2"
+            ],
+            "who": "corrector"
+          }
+        ]
+      }
+    ],
+    "erase_photo": [
+      {
+        "setRule": "r_photo",
+        "word": "w_designer"
+      },
+      {
+        "set": "photo_seen"
+      },
+      {
+        "solve": "pz_photo"
+      },
+      {
+        "manual": "close"
+      },
+      {
+        "say": "n.ph1",
+        "mood": "nervous"
+      },
+      {
+        "say": "c.ph1",
+        "who": "corrector"
+      },
+      {
+        "say": "c.ph2",
+        "who": "corrector"
+      },
+      {
+        "say": "p.ph1",
+        "who": "pencil"
+      },
+      {
+        "say": "c.ph3",
+        "who": "corrector"
+      }
+    ],
+    "erase_drawer": [
+      {
+        "setRule": "r_drawer",
+        "word": "w_full"
+      },
+      {
+        "set": "drawer14_open"
+      },
+      {
+        "sfx": "door_creak"
+      },
+      {
+        "manual": "close"
+      },
+      {
+        "say": "n.dr1"
+      },
+      {
+        "say": "c.dr1",
+        "who": "corrector"
+      }
+    ],
+    "save_draft": [
+      {
+        "set": "draft_saved"
+      },
+      {
+        "solve": "pz_draft"
+      },
+      {
+        "sfx": "collect"
+      },
+      {
+        "say": "n.draft1"
+      },
+      {
+        "say": "p.draft",
+        "who": "pencil"
+      },
+      {
+        "run": "check_end"
+      }
+    ],
+    "rx_kind": [
+      {
+        "say": "c.kind1",
+        "who": "corrector"
+      },
+      {
+        "run": "check_end"
+      }
+    ],
+    "check_end": [
+      {
+        "if": {
+          "all": [
+            "draft_saved",
+            "corr_kind"
+          ]
+        },
+        "then": [
+          {
+            "run": "finale"
+          }
+        ],
+        "else": [
+          {
+            "if": "corr_kind",
+            "then": [
+              {
+                "say": "p.need_draft",
+                "who": "pencil"
+              }
+            ],
+            "else": [
+              {
+                "say": "p.need_kind",
+                "who": "pencil"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "finale": [
+      {
+        "solve": "pz_kind"
+      },
+      {
+        "say": "c.x1",
+        "who": "corrector"
+      },
+      {
+        "say": "c.x2",
+        "who": "corrector"
+      },
+      {
+        "say": "n.x1",
+        "mood": "nervous"
+      },
+      {
+        "say": "p.x1",
+        "who": "pencil"
+      },
+      {
+        "say": "c.x3",
+        "who": "corrector"
+      },
+      {
+        "say": "hero.2",
+        "who": "hero"
+      },
+      {
+        "end": "ch14"
+      }
+    ]
+  }
+}

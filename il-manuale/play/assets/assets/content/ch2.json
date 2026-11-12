@@ -1,0 +1,281 @@
+{
+  "id": "ch2",
+  "startScene": "ravine",
+  "next": "ch3",
+  "typos": ["t_sign", "t_exit"],
+
+  "words": {
+    "w_three": "word.three",
+    "w_eight": "word.eight",
+    "w_wow": "word.wow"
+  },
+  "rules": {
+    "r_bridge": "w_three",
+    "r_pagenum": "w_eight",
+    "r_view": "w_wow"
+  },
+  "derivedFlags": [
+    { "flag": "bridge_long", "rule": "r_bridge", "word": "w_eight" }
+  ],
+  "ruleReactions": [
+    { "rule": "r_bridge", "word": "w_eight", "script": "rx_long" },
+    { "rule": "r_bridge", "word": "w_wow", "script": "rx_wow" },
+    { "rule": "r_bridge", "word": "w_three", "script": "rx_short" },
+    { "rule": "r_pagenum", "word": "w_wow", "script": "rx_page_wow" },
+    { "rule": "r_view", "word": "w_eight", "script": "rx_view_eight" },
+    { "rule": "r_view", "word": "w_three", "script": "rx_view_three" }
+  ],
+
+  "items": {
+    "fan": { "art": "fan" }
+  },
+
+  "pages": [
+    {
+      "id": "p4",
+      "num": 4,
+      "blocks": [
+        { "t": "heading", "k": "page.p4.title" },
+        { "t": "text", "k": "page.p4.index", "style": "index" },
+        { "t": "margin", "k": "page.p4.margin" }
+      ]
+    },
+    {
+      "id": "p5",
+      "num": 5,
+      "blocks": [
+        { "t": "heading", "k": "page.p5.title" },
+        { "t": "text", "k": "page.p5.intro" },
+        { "t": "item", "item": "fan", "caption": "page.p5.cap" },
+        { "t": "text", "k": "page.p5.note", "style": "note" },
+        { "t": "margin", "k": "page.p5.margin" }
+      ]
+    },
+    {
+      "id": "p6",
+      "num": 6,
+      "blocks": [
+        {
+          "t": "row",
+          "blocks": [
+            { "t": "heading", "k": "page.p6.title" },
+            { "t": "tap", "art": "dogear", "artAlt": "dogear_open", "altWhen": "frag_c", "caption": "page.p6.ear", "script": "tap_dogear" }
+          ]
+        },
+        { "t": "text", "k": "page.p6.intro" },
+        { "t": "deco", "art": "ravine", "caption": "page.p6.cap" },
+        { "t": "rule", "rule": "r_view", "k": "rule.view" },
+        { "t": "margin", "k": "page.p6.margin" }
+      ]
+    },
+    {
+      "id": "p7",
+      "num": 7,
+      "blocks": [
+        { "t": "heading", "k": "page.p7.title" },
+        { "t": "text", "k": "page.p7.torn", "style": "note", "when": "!page7_done" },
+        {
+          "t": "torn",
+          "pieces": [
+            { "flag": "frag_a", "k": "page.p7.a" },
+            { "flag": "frag_b", "k": "page.p7.b" },
+            { "flag": "frag_c", "k": "page.p7.c" }
+          ]
+        },
+        { "t": "rule", "rule": "r_bridge", "k": "rule.bridge", "when": "page7_done" },
+        { "t": "text", "k": "page.p7.note", "style": "note", "when": "page7_done" },
+        { "t": "margin", "k": "page.p7.margin", "when": "page7_done" }
+      ]
+    },
+    {
+      "id": "p8",
+      "num": 8,
+      "footerRule": "r_pagenum",
+      "blocks": [
+        { "t": "heading", "k": "page.p8.title" },
+        { "t": "text", "k": "page.p8.intro" },
+        { "t": "text", "k": "page.p8.lines", "style": "index" },
+        { "t": "margin", "k": "page.p8.margin" }
+      ]
+    }
+  ],
+
+  "scenes": {
+    "ravine": {
+      "art": "ravine",
+      "onEnter": "ravine_enter",
+      "onTapEmpty": "ravine_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        { "id": "tree", "rect": [0, 260, 320, 420], "accepts": { "fan": "drop_fan" }, "onTap": "tap_tree" },
+        { "id": "sign", "rect": [170, 800, 190, 120], "onTap": "typo_sign" },
+        { "id": "exit", "rect": [720, 780, 160, 100], "onTap": "typo_exit" },
+        { "id": "bridge", "rect": [300, 930, 460, 170], "onTap": "tap_bridge" },
+        { "id": "plaque", "rect": [80, 1160, 320, 190], "onTap": "tap_plaque" }
+      ]
+    }
+  },
+
+  "puzzles": [
+    { "id": "pz_plane", "scene": "ravine", "hints": ["h.plane.1", "h.plane.2", "h.plane.3"] },
+    { "id": "pz_lecture", "scene": "ravine", "hints": ["h.lecture.1", "h.lecture.2", "h.lecture.3"] },
+    { "id": "pz_ear", "scene": "ravine", "hints": ["h.ear.1", "h.ear.2", "h.ear.3"] },
+    { "id": "pz_bridge", "scene": "ravine", "when": "page7_done", "hints": ["h.bridge.1", "h.bridge.2", "h.bridge.3"] }
+  ],
+
+  "scripts": {
+    "ravine_enter": [
+      { "once": "intro", "do": [
+        { "card": "ch2" },
+        { "say": "n.r1" },
+        { "say": "n.r2", "mood": "nervous" },
+        { "say": "n.r3", "mood": "smug" },
+        { "manual": "open", "page": "p7" },
+        { "wait": 900 },
+        { "say": "n.r4", "mood": "angry" },
+        { "manual": "close" },
+        { "say": "n.r5" },
+        { "wait": 500 },
+        { "say": "n.r6", "mood": "nervous" }
+      ] }
+    ],
+    "ravine_empty": [ { "cycle": ["n.empty1", "n.empty2", "n.empty3"] } ],
+    "drop_wrong": [ { "sfx": "deny" }, { "cycle": ["n.dropwrong1", "n.dropwrong2", "n.dropwrong3"] } ],
+
+    "tap_tree": [
+      { "if": "frag_a",
+        "then": [ { "say": "n.tree_done" } ],
+        "else": [ { "cycle": ["n.tree1", "n.tree2", "n.tree3"] } ] }
+    ],
+    "drop_fan": [
+      { "take": "fan" },
+      { "sfx": "page_flip" },
+      { "anim": "plane_fall" },
+      { "set": "frag_a" },
+      { "solve": "pz_plane" },
+      { "sfx": "collect" },
+      { "say": "n.fan1" },
+      { "say": "n.fan2", "mood": "nervous" },
+      { "run": "check_page" }
+    ],
+
+    "tap_plaque": [
+      { "if": "frag_b",
+        "then": [ { "cycle": ["n.plaque_done1", "n.plaque_done2"] } ],
+        "else": [ { "run": "lecture" } ] }
+    ],
+    "lecture": [
+      { "say": "n.lec1", "mood": "smug", "peek": "grab_fragment" },
+      { "say": "n.lec2", "peek": "grab_fragment" },
+      { "say": "n.lec3", "mood": "smug", "peek": "grab_fragment" },
+      { "say": "n.lec4", "peek": "grab_fragment" },
+      { "say": "n.lec5", "mood": "nervous", "peek": "grab_fragment" },
+      { "say": "n.lec_end", "mood": "smug" }
+    ],
+    "grab_fragment": [
+      { "sfx": "paper_peel" },
+      { "say": "n.grab1", "mood": "angry" },
+      { "set": "frag_b" },
+      { "solve": "pz_lecture" },
+      { "sfx": "collect" },
+      { "say": "n.grab2", "mood": "nervous" },
+      { "say": "n.grab3" },
+      { "run": "check_page" }
+    ],
+
+    "tap_dogear": [
+      { "if": "frag_c",
+        "then": [ { "say": "n.ear_done" } ],
+        "else": [
+          { "if": "ear_warned",
+            "then": [
+              { "set": "frag_c" },
+              { "solve": "pz_ear" },
+              { "sfx": "paper_peel" },
+              { "sfx": "collect" },
+              { "say": "n.ear2", "mood": "nervous" },
+              { "run": "check_page" }
+            ],
+            "else": [ { "set": "ear_warned" }, { "say": "n.ear1", "mood": "smug" } ] }
+        ] }
+    ],
+
+    "check_page": [
+      { "if": { "all": ["frag_a", "frag_b", "frag_c"], "none": ["page7_done"] },
+        "then": [ { "run": "page_restored" } ],
+        "else": [ { "if": "!page7_done", "then": [ { "say": "n.more" } ] } ] }
+    ],
+    "page_restored": [
+      { "set": "page7_done" },
+      { "manual": "slam", "page": "p7" },
+      { "say": "n.pg1" },
+      { "say": "n.pg2", "mood": "smug" },
+      { "manual": "close" },
+      { "sfx": "tape" },
+      { "anim": "bridge_draw" },
+      { "say": "n.pg3", "mood": "nervous" },
+      { "anim": "bridge_wobble" },
+      { "say": "n.pg4", "mood": "nervous" },
+      { "say": "n.pg5", "mood": "smug" }
+    ],
+
+    "tap_bridge": [
+      { "if": "!page7_done",
+        "then": [ { "cycle": ["n.gap1", "n.gap2"] } ],
+        "else": [
+          { "if": "bridge_long",
+            "then": [ { "run": "cross" } ],
+            "else": [ { "sfx": "deny" }, { "anim": "bridge_wobble" }, { "cycle": ["n.short1", "n.short2"] } ] }
+        ] }
+    ],
+
+    "rx_long": [
+      { "manual": "close" },
+      { "anim": "bridge_extend" },
+      { "solve": "pz_bridge" },
+      { "say": "n.long1", "mood": "angry" },
+      { "say": "n.long2", "mood": "nervous" },
+      { "say": "n.long3" }
+    ],
+    "rx_wow": [ { "say": "n.wow" } ],
+    "rx_short": [ { "say": "n.rshort", "mood": "smug" } ],
+    "rx_page_wow": [ { "say": "n.page_wow", "mood": "smug" } ],
+    "rx_view_eight": [ { "say": "n.view_eight" } ],
+    "rx_view_three": [ { "say": "n.view_three", "mood": "nervous" } ],
+
+    "cross": [
+      { "say": "n.cross1" },
+      { "wait": 400 },
+      { "sfx": "hint" },
+      { "anim": "pencil_enter" },
+      { "set": "pencil_here" },
+      { "say": "p.1", "who": "pencil" },
+      { "say": "n.p1", "mood": "nervous" },
+      { "say": "p.2", "who": "pencil" },
+      { "say": "p.3", "who": "pencil" },
+      { "say": "n.p2" },
+      { "say": "p.4", "who": "pencil" },
+      { "say": "n.p3", "mood": "angry" },
+      { "say": "n.p4" },
+      { "end": "ch2" }
+    ],
+
+    "hint_flee": [
+      { "set": "hint_moved" },
+      { "sfx": "swap" },
+      { "say": "n.flee1", "mood": "smug" },
+      { "say": "n.flee2", "mood": "smug" }
+    ],
+
+    "typo_sign": [
+      { "if": "typo:t_sign",
+        "then": [ { "say": "n.typo_done" } ],
+        "else": [ { "typo": "t_sign" }, { "say": "n.typo_sign", "mood": "nervous" } ] }
+    ],
+    "typo_exit": [
+      { "if": "typo:t_exit",
+        "then": [ { "say": "n.typo_done" } ],
+        "else": [ { "typo": "t_exit" }, { "say": "n.typo_exit", "mood": "nervous" } ] }
+    ]
+  }
+}

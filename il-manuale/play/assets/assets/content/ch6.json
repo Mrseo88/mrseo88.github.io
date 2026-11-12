@@ -1,0 +1,634 @@
+{
+  "id": "ch6",
+  "startScene": "corridor",
+  "next": "ch7",
+  "typos": [
+    "t_level",
+    "t_door6"
+  ],
+  "tools": [
+    "rotate",
+    "scale",
+    "dup"
+  ],
+  "onToolWrong": "tool_wrong",
+  "words": {
+    "w_back": "word.back",
+    "w_forward": "word.forward",
+    "w_off": "word.off",
+    "w_on": "word.on",
+    "w_mute": "word.mute",
+    "w_loud": "word.loud"
+  },
+  "rules": {
+    "r_dir": "w_back",
+    "r_courage": "w_off",
+    "r_voice": "w_mute",
+    "r_cmd": "w_forward",
+    "r_light": "w_on",
+    "r_sign": "w_loud"
+  },
+  "derivedFlags": [
+    {
+      "flag": "hero_forward",
+      "rule": "r_dir",
+      "word": "w_forward"
+    },
+    {
+      "flag": "brave",
+      "rule": "r_courage",
+      "word": "w_on"
+    },
+    {
+      "flag": "loud",
+      "rule": "r_voice",
+      "word": "w_loud"
+    },
+    {
+      "flag": "lights_on",
+      "rule": "r_light",
+      "word": "w_on"
+    }
+  ],
+  "ruleReactions": [
+    {
+      "rule": "r_dir",
+      "word": "w_forward",
+      "script": "rx_forward"
+    },
+    {
+      "rule": "r_courage",
+      "word": "w_on",
+      "script": "rx_brave"
+    },
+    {
+      "rule": "r_voice",
+      "word": "w_loud",
+      "script": "rx_loud"
+    },
+    {
+      "rule": "r_cmd",
+      "word": "w_back",
+      "script": "rx_cmd_back"
+    },
+    {
+      "rule": "r_dir",
+      "word": "w_on",
+      "script": "rx_odd"
+    },
+    {
+      "rule": "r_voice",
+      "word": "w_off",
+      "script": "rx_odd"
+    }
+  ],
+  "items": {},
+  "pages": [
+    {
+      "id": "p20",
+      "num": 20,
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p20.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p20.intro"
+        },
+        {
+          "t": "rule",
+          "rule": "r_dir",
+          "k": "rule.dir"
+        },
+        {
+          "t": "rule",
+          "rule": "r_courage",
+          "k": "rule.courage"
+        },
+        {
+          "t": "rule",
+          "rule": "r_voice",
+          "k": "rule.voice"
+        },
+        {
+          "t": "margin",
+          "k": "page.p20.margin"
+        }
+      ]
+    },
+    {
+      "id": "p21",
+      "num": 21,
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p21.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p21.intro"
+        },
+        {
+          "t": "rule",
+          "rule": "r_cmd",
+          "k": "rule.cmd"
+        },
+        {
+          "t": "rule",
+          "rule": "r_light",
+          "k": "rule.light"
+        },
+        {
+          "t": "margin",
+          "k": "page.p21.margin"
+        }
+      ]
+    },
+    {
+      "id": "p22",
+      "num": 22,
+      "blocks": [
+        {
+          "t": "heading",
+          "k": "page.p22.title"
+        },
+        {
+          "t": "text",
+          "k": "page.p22.intro"
+        },
+        {
+          "t": "text",
+          "k": "page.p22.pass",
+          "style": "note"
+        },
+        {
+          "t": "rule",
+          "rule": "r_sign",
+          "k": "rule.sign"
+        },
+        {
+          "t": "margin",
+          "k": "page.p22.margin"
+        }
+      ]
+    }
+  ],
+  "scenes": {
+    "corridor": {
+      "art": "corridor",
+      "onEnter": "corridor_enter",
+      "onTapEmpty": "corridor_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        {
+          "id": "sign",
+          "rect": [
+            100,
+            520,
+            300,
+            80
+          ],
+          "onTap": "typo_level"
+        },
+        {
+          "id": "plate",
+          "rect": [
+            515,
+            483,
+            250,
+            54
+          ],
+          "onTap": "typo_door6"
+        },
+        {
+          "id": "door",
+          "rect": [
+            660,
+            470,
+            230,
+            730
+          ],
+          "onTap": "tap_door"
+        },
+        {
+          "id": "lamp",
+          "rect": [
+            360,
+            140,
+            180,
+            100
+          ],
+          "onTap": "tap_lamp"
+        },
+        {
+          "id": "frames",
+          "rect": [
+            50,
+            320,
+            560,
+            140
+          ],
+          "onTap": "tap_frames"
+        },
+        {
+          "id": "hero",
+          "rect": [
+            40,
+            840,
+            610,
+            440
+          ],
+          "onTap": "tap_hero"
+        }
+      ]
+    }
+  },
+  "puzzles": [
+    {
+      "id": "pz_walk",
+      "scene": "corridor",
+      "hints": [
+        "h.walk.1",
+        "h.walk.2",
+        "h.walk.3"
+      ]
+    },
+    {
+      "id": "pz_courage",
+      "scene": "corridor",
+      "when": "at_puddle",
+      "hints": [
+        "h.courage.1",
+        "h.courage.2",
+        "h.courage.3"
+      ]
+    },
+    {
+      "id": "pz_shout",
+      "scene": "corridor",
+      "when": "at_door",
+      "hints": [
+        "h.shout.1",
+        "h.shout.2",
+        "h.shout.3"
+      ]
+    }
+  ],
+  "scripts": {
+    "corridor_enter": [
+      {
+        "once": "intro",
+        "do": [
+          {
+            "card": "ch6"
+          },
+          {
+            "say": "n.i1"
+          },
+          {
+            "say": "n.i2",
+            "mood": "nervous"
+          },
+          {
+            "say": "hero.1",
+            "who": "hero"
+          },
+          {
+            "say": "n.i3",
+            "mood": "smug"
+          },
+          {
+            "manual": "open",
+            "page": "p20"
+          },
+          {
+            "say": "n.i4"
+          },
+          {
+            "manual": "close"
+          }
+        ]
+      }
+    ],
+    "corridor_empty": [
+      {
+        "cycle": [
+          "n.empty1",
+          "n.empty2"
+        ]
+      }
+    ],
+    "drop_wrong": [
+      {
+        "sfx": "deny"
+      },
+      {
+        "cycle": [
+          "n.dropwrong1",
+          "n.dropwrong2",
+          "n.dropwrong3"
+        ]
+      }
+    ],
+    "tool_wrong": [
+      {
+        "say": "n.tool1"
+      }
+    ],
+    "typo_level": [
+      {
+        "if": "typo:t_level",
+        "then": [
+          {
+            "say": "n.typo_done"
+          }
+        ],
+        "else": [
+          {
+            "typo": "t_level"
+          },
+          {
+            "say": "n.typo_level",
+            "mood": "nervous"
+          }
+        ]
+      }
+    ],
+    "typo_door6": [
+      {
+        "if": "typo:t_door6",
+        "then": [
+          {
+            "say": "n.typo_done"
+          }
+        ],
+        "else": [
+          {
+            "typo": "t_door6"
+          },
+          {
+            "say": "n.typo_door6",
+            "mood": "smug"
+          }
+        ]
+      }
+    ],
+    "tap_lamp": [
+      {
+        "if": "lights_on",
+        "then": [
+          {
+            "say": "n.lamp_on"
+          }
+        ],
+        "else": [
+          {
+            "say": "n.lamp_off"
+          }
+        ]
+      }
+    ],
+    "tap_frames": [
+      {
+        "say": "n.frames"
+      }
+    ],
+    "tap_hero": [
+      {
+        "if": "at_door",
+        "then": [
+          {
+            "say": "hero.1",
+            "who": "hero"
+          },
+          {
+            "say": "n.at_door"
+          }
+        ],
+        "else": [
+          {
+            "if": "at_puddle",
+            "then": [
+              {
+                "if": "brave",
+                "then": [
+                  {
+                    "run": "walk_to_door"
+                  }
+                ],
+                "else": [
+                  {
+                    "run": "scared"
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "if": "hero_forward",
+                "then": [
+                  {
+                    "run": "walk_to_puddle"
+                  }
+                ],
+                "else": [
+                  {
+                    "run": "bump"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "bump": [
+      {
+        "anim": "hero_bump"
+      },
+      {
+        "sfx": "deny"
+      },
+      {
+        "say": "hero.1",
+        "who": "hero"
+      },
+      {
+        "cycle": [
+          "n.bump1",
+          "n.bump2"
+        ]
+      }
+    ],
+    "scared": [
+      {
+        "anim": "hero_scared"
+      },
+      {
+        "say": "hero.1",
+        "who": "hero"
+      },
+      {
+        "say": "n.scared2",
+        "mood": "nervous"
+      }
+    ],
+    "walk_to_puddle": [
+      {
+        "set": "at_puddle"
+      },
+      {
+        "solve": "pz_walk"
+      },
+      {
+        "anim": "hero_walk"
+      },
+      {
+        "say": "n.walk1"
+      },
+      {
+        "anim": "hero_scared"
+      },
+      {
+        "say": "hero.1",
+        "who": "hero"
+      },
+      {
+        "say": "n.scared",
+        "mood": "nervous"
+      }
+    ],
+    "walk_to_door": [
+      {
+        "set": "at_door"
+      },
+      {
+        "solve": "pz_courage"
+      },
+      {
+        "anim": "hero_walk"
+      },
+      {
+        "say": "n.walk2",
+        "mood": "smug"
+      }
+    ],
+    "tap_door": [
+      {
+        "if": "door6_open",
+        "then": [
+          {
+            "say": "n.door_open"
+          }
+        ],
+        "else": [
+          {
+            "if": "at_door",
+            "then": [
+              {
+                "if": "loud",
+                "then": [
+                  {
+                    "run": "shout"
+                  }
+                ],
+                "else": [
+                  {
+                    "say": "hero.whisper",
+                    "who": "hero"
+                  },
+                  {
+                    "say": "n.whisper",
+                    "mood": "nervous"
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "say": "n.door_far"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "shout": [
+      {
+        "anim": "hero_shout"
+      },
+      {
+        "sfx": "pop"
+      },
+      {
+        "say": "hero.shout",
+        "who": "hero",
+        "mood": "angry"
+      },
+      {
+        "set": "door6_open"
+      },
+      {
+        "sfx": "unlock"
+      },
+      {
+        "solve": "pz_shout"
+      },
+      {
+        "say": "n.s1"
+      },
+      {
+        "say": "hero.2",
+        "who": "hero"
+      },
+      {
+        "say": "n.s2",
+        "mood": "nervous"
+      },
+      {
+        "say": "p.6",
+        "who": "pencil"
+      },
+      {
+        "say": "n.s3"
+      },
+      {
+        "end": "ch6"
+      }
+    ],
+    "rx_forward": [
+      {
+        "say": "n.rx_forward"
+      }
+    ],
+    "rx_brave": [
+      {
+        "say": "n.rx_brave",
+        "mood": "smug"
+      }
+    ],
+    "rx_loud": [
+      {
+        "say": "hero.loud",
+        "who": "hero",
+        "mood": "angry"
+      },
+      {
+        "say": "n.rx_loud",
+        "mood": "nervous"
+      }
+    ],
+    "rx_cmd_back": [
+      {
+        "say": "n.rx_cmd_back",
+        "mood": "smug"
+      }
+    ],
+    "rx_odd": [
+      {
+        "say": "n.rx_odd"
+      }
+    ]
+  }
+}

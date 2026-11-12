@@ -1,0 +1,271 @@
+{
+  "id": "ch5",
+  "startScene": "proofroom",
+  "next": "ch6",
+  "typos": ["t_sign5", "t_proof"],
+  "tools": ["rotate", "scale", "dup"],
+  "onToolWrong": "tool_wrong",
+  "onAction": "corrector_turn",
+  "erasedWord": "w_erased",
+
+  "words": {
+    "w_closed": "word.closed",
+    "w_open": "word.open",
+    "w_awake": "word.awake",
+    "w_asleep": "word.asleep",
+    "w_hope": "word.hope",
+    "w_erased": "word.erased"
+  },
+  "rules": {
+    "r_door": "w_closed",
+    "r_window": "w_open",
+    "r_corr": "w_awake",
+    "r_cat": "w_asleep",
+    "r_hope": "w_hope"
+  },
+  "derivedFlags": [
+    { "flag": "door_open", "rule": "r_door", "word": "w_open" },
+    { "flag": "window_open", "rule": "r_window", "word": "w_open" },
+    { "flag": "corr_asleep", "rule": "r_corr", "word": "w_asleep" },
+    { "flag": "cat_awake", "rule": "r_cat", "word": "w_awake" }
+  ],
+  "ruleReactions": [
+    { "rule": "r_door", "word": "w_open", "script": "rx_door" },
+    { "rule": "r_corr", "word": "w_asleep", "script": "rx_sleep" },
+    { "rule": "r_corr", "word": "w_open", "script": "rx_corr_open" },
+    { "rule": "r_window", "word": "w_closed", "script": "rx_window_closed" }
+  ],
+
+  "items": {
+    "loose_page": { "art": "loose_page" }
+  },
+
+  "pages": [
+    {
+      "id": "p17",
+      "num": 17,
+      "blocks": [
+        { "t": "heading", "k": "page.p17.title" },
+        { "t": "rule", "rule": "r_door", "k": "rule.door" },
+        { "t": "rule", "rule": "r_window", "k": "rule.window" },
+        { "t": "rule", "rule": "r_corr", "k": "rule.corr" },
+        { "t": "rule", "rule": "r_cat", "k": "rule.cat" },
+        { "t": "tap", "art": "reprint", "caption": "page.reprint", "script": "reprint17" },
+        { "t": "margin", "k": "page.p17.margin" }
+      ]
+    },
+    {
+      "id": "p18",
+      "num": 18,
+      "blocks": [
+        { "t": "heading", "k": "page.p18.title" },
+        { "t": "text", "k": "page.p18.intro", "when": "!page_torn" },
+        { "t": "rule", "rule": "r_hope", "k": "rule.hope", "when": "!page_torn" },
+        { "t": "tap", "art": "tear_line", "caption": "page.p18.tear", "script": "tear", "when": "!page_torn" },
+        { "t": "tap", "art": "reprint", "caption": "page.reprint", "script": "reprint18", "when": "!page_torn" },
+        { "t": "blank", "k": "page.p18.gone", "when": "page_torn" }
+      ]
+    },
+    {
+      "id": "p19",
+      "num": 19,
+      "blocks": [
+        { "t": "heading", "k": "page.p19.title" },
+        { "t": "text", "k": "page.p19.intro" },
+        { "t": "item", "item": "loose_page", "caption": "page.p19.page", "when": "page_torn" },
+        { "t": "blank", "k": "page.p19.empty", "when": "!page_torn" }
+      ]
+    }
+  ],
+
+  "scenes": {
+    "proofroom": {
+      "art": "proofroom",
+      "onEnter": "proofroom_enter",
+      "onTapEmpty": "proof_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        { "id": "poster", "rect": [350, 220, 200, 160], "onTap": "typo_sign5" },
+        { "id": "proof", "rect": [330, 800, 200, 60], "onTap": "typo_proof" },
+        { "id": "corrector", "rect": [500, 560, 160, 600], "onTap": "tap_corr" },
+        { "id": "door", "rect": [600, 460, 270, 710], "onTap": "tap_door" },
+        { "id": "window", "rect": [60, 180, 290, 320], "onTap": "tap_window" },
+        { "id": "cat", "rect": [100, 1170, 260, 190], "onTap": "tap_cat" },
+        { "id": "lectern", "rect": [300, 860, 260, 300], "onTap": "tap_lectern" }
+      ]
+    },
+    "crash": {
+      "art": "crash",
+      "onEnter": "crash_enter",
+      "onTapEmpty": "crash_empty",
+      "onDropWrong": "drop_wrong",
+      "hotspots": [
+        { "id": "slot", "rect": [170, 1000, 560, 230], "accepts": { "loose_page": "put_back" }, "onTap": "tap_slot" }
+      ]
+    }
+  },
+
+  "puzzles": [
+    { "id": "pz_door", "scene": "proofroom", "hints": ["h.door.1", "h.door.2", "h.door.3"] },
+    { "id": "pz_tear", "scene": "proofroom", "when": "door_opened", "hints": ["h.tear.1", "h.tear.2", "h.tear.3"] },
+    { "id": "pz_crash", "scene": "crash", "hints": ["h.crash.1", "h.crash.2", "h.crash.3"] }
+  ],
+
+  "scripts": {
+    "proofroom_enter": [
+      { "once": "intro", "do": [
+        { "card": "ch5" },
+        { "set": "target:w_open" },
+        { "say": "n.i1" },
+        { "say": "n.i2" },
+        { "say": "c.i1", "who": "corrector" },
+        { "manual": "open", "page": "p17" },
+        { "say": "n.i3", "mood": "nervous" },
+        { "say": "n.i4" }
+      ] }
+    ],
+    "proof_empty": [ { "cycle": ["n.empty1", "n.empty2"] } ],
+    "drop_wrong": [ { "sfx": "deny" }, { "cycle": ["n.dropwrong1", "n.dropwrong2", "n.dropwrong3"] } ],
+    "tool_wrong": [ { "say": "n.tool1" } ],
+
+    "corrector_turn": [
+      { "if": "skip_turn",
+        "then": [ { "unset": "skip_turn" } ],
+        "else": [
+          { "if": { "any": ["page_back", "corr_asleep"] },
+            "then": [ { "if": "corr_asleep", "then": [ { "cycle": ["c.zzz1", "c.zzz2"], "who": "corrector" } ] } ],
+            "else": [
+              { "if": "door_opened",
+                "then": [
+                  { "if": "page_torn",
+                    "then": [ { "say": "c.cant", "who": "corrector" } ],
+                    "else": [ { "sfx": "tape" }, { "erase": "w_hope" }, { "set": "hope_erased" }, { "say": "c.hope", "who": "corrector" } ] }
+                ],
+                "else": [
+                  { "if": "open_erased",
+                    "then": [ { "say": "c.nothing", "who": "corrector" } ],
+                    "else": [ { "sfx": "tape" }, { "erase": "w_open" }, { "set": "open_erased" }, { "unset": "target:w_open" }, { "cycle": ["c.e1", "c.e2"], "who": "corrector" } ] }
+                ] }
+            ] }
+        ] }
+    ],
+
+    "reprint17": [
+      { "if": "door_opened",
+        "then": [ { "say": "n.reprint_no" } ],
+        "else": [
+          { "setRule": "r_door", "word": "w_closed" },
+          { "setRule": "r_window", "word": "w_open" },
+          { "setRule": "r_corr", "word": "w_awake" },
+          { "setRule": "r_cat", "word": "w_asleep" },
+          { "unset": "open_erased" },
+          { "set": "target:w_open" },
+          { "sfx": "click" },
+          { "say": "n.reprint", "mood": "smug" }
+        ] }
+    ],
+    "reprint18": [
+      { "setRule": "r_hope", "word": "w_hope" },
+      { "unset": "hope_erased" },
+      { "sfx": "click" },
+      { "say": "n.reprint18" }
+    ],
+
+    "rx_door": [
+      { "if": "corr_asleep",
+        "then": [ { "run": "door_opens" } ],
+        "else": [ { "say": "n.door_risky", "mood": "nervous" } ] }
+    ],
+    "rx_sleep": [ { "say": "c.yawn", "who": "corrector" }, { "say": "n.cat_awake" } ],
+    "rx_corr_open": [ { "say": "n.corr_open", "mood": "smug" } ],
+    "rx_window_closed": [ { "say": "n.window_closed" } ],
+
+    "door_opens": [
+      { "once": "door_opened_once", "do": [
+        { "sfx": "door_creak" },
+        { "set": "door_opened" },
+        { "set": "skip_turn" },
+        { "solve": "pz_door" },
+        { "manual": "close" },
+        { "say": "n.d1" },
+        { "sfx": "book_slam" },
+        { "setRule": "r_corr", "word": "w_awake" },
+        { "setRule": "r_cat", "word": "w_asleep" },
+        { "say": "c.w1", "who": "corrector" },
+        { "say": "c.w2", "who": "corrector" },
+        { "set": "target:w_hope" },
+        { "manual": "open", "page": "p18" },
+        { "say": "n.d2", "mood": "nervous" },
+        { "say": "n.d3", "mood": "nervous" }
+      ] }
+    ],
+
+    "tap_corr": [
+      { "if": "corr_asleep",
+        "then": [ { "cycle": ["c.zzz1", "c.zzz2"], "who": "corrector" } ],
+        "else": [ { "cycle": ["c.talk1", "c.talk2"], "who": "corrector" } ] }
+    ],
+    "tap_door": [
+      { "if": "door_opened",
+        "then": [ { "say": "c.block", "who": "corrector" } ],
+        "else": [ { "say": "n.door_closed" } ] }
+    ],
+    "tap_window": [ { "say": "n.window" } ],
+    "tap_cat": [
+      { "if": "cat_awake",
+        "then": [ { "say": "n.cat_up" } ],
+        "else": [ { "say": "n.cat" } ] }
+    ],
+    "tap_lectern": [ { "say": "n.lectern" } ],
+    "typo_sign5": [
+      { "if": "typo:t_sign5",
+        "then": [ { "say": "n.typo_done" } ],
+        "else": [ { "typo": "t_sign5" }, { "say": "n.typo_sign5", "mood": "smug" } ] }
+    ],
+    "typo_proof": [
+      { "if": "typo:t_proof",
+        "then": [ { "say": "n.typo_done" } ],
+        "else": [ { "typo": "t_proof" }, { "say": "n.typo_proof", "mood": "smug" } ] }
+    ],
+
+    "tear": [
+      { "if": "hope_erased",
+        "then": [ { "sfx": "deny" }, { "say": "n.tear_erased", "mood": "nervous" } ],
+        "else": [
+          { "sfx": "paper_peel" },
+          { "set": "page_torn" },
+          { "unset": "target:w_hope" },
+          { "solve": "pz_tear" },
+          { "manual": "close" },
+          { "say": "n.t1", "mood": "angry" },
+          { "say": "c.t1", "who": "corrector" },
+          { "say": "p.c1", "who": "pencil" },
+          { "say": "n.t2", "mood": "nervous" },
+          { "say": "p.c2", "who": "pencil" },
+          { "say": "c.t2", "who": "corrector" },
+          { "sfx": "tumble" },
+          { "scene": "crash" }
+        ] }
+    ],
+
+    "crash_enter": [
+      { "once": "crash_intro", "do": [
+        { "say": "n.c1", "mood": "nervous" },
+        { "say": "n.c2" }
+      ] }
+    ],
+    "crash_empty": [ { "say": "n.crash_empty" } ],
+    "tap_slot": [ { "say": "n.slot" } ],
+    "put_back": [
+      { "take": "loose_page" },
+      { "set": "page_back" },
+      { "solve": "pz_crash" },
+      { "sfx": "collect" },
+      { "say": "n.b1" },
+      { "say": "c.b1", "who": "corrector" },
+      { "say": "p.b1", "who": "pencil" },
+      { "say": "n.b2", "mood": "nervous" },
+      { "end": "ch5" }
+    ]
+  }
+}
